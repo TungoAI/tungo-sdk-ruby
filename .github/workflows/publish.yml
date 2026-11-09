@@ -1,0 +1,46 @@
+name: Publish to RubyGems
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Sync version from tag
+        run: |
+          if [[ "${GITHUB_REF_NAME}" == v* ]]; then
+            VER="${GITHUB_REF_NAME#v}"
+            sed -i "s/spec.version       = .*/spec.version       = '${VER}'/" tungo-sdk.gemspec
+          fi
+
+      - name: Run Conformance Tests & Build Gem
+        run: |
+          ruby test/conformance_test.rb
+          gem build tungo-sdk.gemspec
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" *.gem --generate-notes --title "${GITHUB_REF_NAME}" || true
+
+      - name: Publish to RubyGems.org
+        if: env.GEM_HOST_API_KEY != ''
+        env:
+          GEM_HOST_API_KEY: ${{ secrets.GEM_HOST_API_KEY }}
+        run: gem push *.gem
