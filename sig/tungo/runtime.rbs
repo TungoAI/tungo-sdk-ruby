@@ -1,0 +1,392 @@
+# Signatures of the hand-written runtime of the Tungo SDK.
+
+module Tungo
+  # Marks an argument that was not given (nil is sent as JSON null).
+  OMIT: Object
+
+  # What a model-typed argument accepts: the model itself or a Hash with its properties.
+  type input[T] = T | Hash[Symbol, untyped] | Hash[String, untyped]
+
+  # Per-request overrides: a RequestOptions or a Hash with its members.
+  type request_options = RequestOptions | Hash[Symbol, untyped]
+
+  type headers = Hash[String, String]
+
+  class Error < StandardError
+  end
+
+  class ConfigError < Error
+  end
+
+  class ValidationError < Error
+  end
+
+  class MoneyError < ValidationError
+  end
+
+  class ConnectionError < Error
+  end
+
+  class TimeoutError < Error
+  end
+
+  class WaitTimeoutError < TimeoutError
+  end
+
+  class PaginationError < Error
+  end
+
+  class DecodeError < Error
+    attr_reader api_response: APIResponse?
+    attr_reader body: String?
+
+    def initialize: (String message, ?api_response: APIResponse?, ?body: String?) -> void
+  end
+
+  class StreamError < Error
+    attr_reader code: String?
+    attr_reader data: Hash[String, untyped]?
+
+    def initialize: (String message, ?code: String?, ?data: Hash[String, untyped]?) -> void
+  end
+
+  class WebhookVerificationError < Error
+    attr_reader reason: Symbol
+
+    def initialize: (String message, reason: Symbol) -> void
+  end
+
+  class APIError < Error
+    RETRYABLE_STATUSES: Array[Integer]
+    ERROR_CLASSES: Hash[String, singleton(APIError)]
+
+    attr_reader status: Integer?
+    attr_reader type: String
+    attr_reader code: String?
+    attr_reader api_message: String?
+    attr_reader request_id: String?
+    attr_reader fields: Array[Tungo::Models::FieldError]
+    attr_reader retry_after: Float?
+    attr_reader headers: headers
+    attr_reader body: String?
+    attr_reader extra: Hash[String, untyped]
+
+    def initialize: (type: String, ?status: Integer?, ?api_message: String?, ?code: String?, ?request_id: String?,
+                     ?fields: Array[untyped], ?retry_after: Numeric?, ?headers: Hash[untyped, untyped], ?body: String?,
+                     ?extra: Hash[String, untyped], ?envelope: bool) -> void
+    def envelope?: () -> bool
+    def rate_limit: () -> RateLimit?
+    def self.from_response: (status: Integer, headers: Hash[untyped, untyped], body: String?, ?now: Time) -> APIError
+    def self.from_event: (untyped event, ?headers: Hash[untyped, untyped]) -> APIError
+    def self.status_fallback: (Integer? status) -> String
+  end
+
+  class InvalidRequestError < APIError
+  end
+
+  class AuthenticationError < APIError
+  end
+
+  class PaymentRequiredError < APIError
+  end
+
+  class PermissionError < APIError
+  end
+
+  class NotFoundError < APIError
+  end
+
+  class ConflictError < APIError
+  end
+
+  class GoneError < APIError
+  end
+
+  class LimitError < APIError
+  end
+
+  class ServerError < APIError
+  end
+
+  class UnavailableError < APIError
+  end
+
+  class RateLimit < Data
+    attr_reader limit: Integer?
+    attr_reader remaining: Integer?
+    attr_reader reset: Integer?
+
+    def self.new: (limit: Integer?, remaining: Integer?, reset: Integer?) -> RateLimit
+    def self.from_headers: (Hash[String, String] headers) -> RateLimit?
+  end
+
+  class APIResponse < Data
+    attr_reader status: Integer
+    attr_reader headers: headers
+
+    def self.new: (status: Integer, headers: Hash[String, String]) -> APIResponse
+    def []: (String | Symbol name) -> String?
+    def request_id: () -> String?
+    def rate_limit: () -> RateLimit?
+    def idempotent_replayed?: () -> bool
+  end
+
+  class RequestOptions < Data
+    attr_reader timeout: Numeric?
+    attr_reader max_retries: Integer?
+    attr_reader idempotency_key: String?
+    attr_reader extra_headers: Hash[String, untyped]?
+    attr_reader connect_timeout: Numeric?
+    attr_reader idle_timeout: Numeric?
+
+    def self.new: (?timeout: Numeric?, ?max_retries: Integer?, ?idempotency_key: String?,
+                   ?extra_headers: Hash[untyped, untyped]?, ?connect_timeout: Numeric?, ?idle_timeout: Numeric?) -> RequestOptions
+    def self.coerce: (request_options? value) -> RequestOptions
+  end
+
+  class ServerSentEvent < Data
+    attr_reader event: String
+    attr_reader data: String
+    attr_reader id: String?
+    attr_reader retry: Integer?
+
+    def self.new: (event: String, data: String, id: String?, retry: Integer?) -> ServerSentEvent
+    def json: () -> untyped
+  end
+
+  # Base class of every model: an immutable value object.
+  class Model
+    attr_reader api_response: APIResponse?
+
+    def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: APIResponse?) -> instance
+    def self.coerce: (untyped value) -> untyped
+    def self.fields: () -> Hash[String, untyped]
+    def self.required_api_names: () -> Array[String]
+    def self.extra_type: () -> untyped
+    def self.sensitive_api_names: () -> Array[String]
+    def self.api_name_for: (String | Symbol key) -> String
+
+    def initialize: (**untyped attributes) -> void
+    def []: (String | Symbol name) -> untyped
+    def key?: (String | Symbol name) -> bool
+    def to_h: () -> Hash[Symbol, untyped]
+    def to_wire: () -> Hash[String, untyped]
+    def to_json: (*untyped) -> String
+    def with: (**untyped changes) -> instance
+    def ==: (untyped other) -> bool
+    def eql?: (untyped other) -> bool
+    def hash: () -> Integer
+    def deconstruct_keys: (untyped keys) -> Hash[Symbol, untyped]
+    def inspect: () -> String
+    def to_s: () -> String
+    def with_api_response: (APIResponse? api_response) -> instance
+  end
+
+  # A union variant this SDK version does not know.
+  class UnknownVariant < Model
+  end
+
+  class Page[T, B]
+    include Enumerable[T]
+
+    attr_reader data: Array[T]
+    attr_reader next_cursor: String?
+    attr_reader body: B
+    attr_reader api_response: APIResponse?
+
+    def initialize: (body: B, cursor: String?, fetch: ^(String?, Array[String]) -> Page[T, B], ?seen: Array[String]?) -> void
+    def each: () { (T) -> void } -> self
+            | () -> Enumerator[T, self]
+    def next_page?: () -> bool
+    def next_page: () -> Page[T, B]
+    def auto_paging_each: () { (T) -> void } -> void
+                        | () -> Enumerator[T, void]
+    def self.auto_paging: [T] () { () -> Page[T, untyped] } -> Enumerator[T, void]
+  end
+
+  class Stream[T]
+    include Enumerable[T]
+
+    SKIP: Object
+
+    attr_reader api_response: APIResponse
+    attr_reader last_event_id: String?
+
+    def initialize: (response: Transport::Response, decode: ^(ServerSentEvent) -> untyped) -> void
+    def each: () { (T) -> void } -> self
+            | () -> Enumerator[T, self]
+    def each_sse: () { (ServerSentEvent) -> void } -> self
+                | () -> Enumerator[ServerSentEvent, self]
+    def close: () -> nil
+    def closed?: () -> bool
+  end
+
+  class ChatTurn < Data
+    attr_reader dialog_id: String?
+    attr_reader turn_no: Integer?
+    attr_reader text: String
+    attr_reader stop_reason: String?
+    attr_reader cost_tiyn: Integer?
+    attr_reader usage: untyped
+    attr_reader choice_id: String?
+    attr_reader error: untyped
+    attr_reader events: Array[Tungo::Models::ChatEvent::t]
+
+    def self.new: (dialog_id: String?, turn_no: Integer?, text: String, stop_reason: String?, cost_tiyn: Integer?,
+                   usage: untyped, choice_id: String?, error: untyped, events: Array[untyped]) -> ChatTurn
+  end
+
+  class ChatStream < Stream[Tungo::Models::ChatEvent::t]
+    def dialog_id: () -> String?
+    def turn_no: () -> Integer?
+    def each_text: () { (String) -> void } -> ChatTurn
+    def accumulate: (?raise_on_error: bool) ?{ (Tungo::Models::ChatEvent::t) -> void } -> ChatTurn
+  end
+
+  module Money
+    def self.to_tiyn: (String | Integer | BigDecimal | Float | Rational amount) -> Integer
+    def self.to_tenge: (Integer tiyn) -> BigDecimal
+    def self.format_tiyn: (Integer tiyn, ?String currency) -> String
+    def self.valid_bin_iin?: (untyped value) -> bool
+  end
+
+  module Webhooks
+    DEFAULT_TOLERANCE: Integer
+    SECRET_PREFIX: String
+    HOOK_SIGNATURE_PREFIX: String
+
+    def self.verify_webhook: (String payload, untyped headers, String? secret, ?tolerance: Numeric, ?now: (Time | Numeric)?) -> Tungo::Models::WebhookEvent::t
+    def self.sign_hook_payload: (String body, String secret) -> String
+    def self.hook_signature: (String body, String secret) -> String
+    def self.verify_hook_signature: (String body, String? signature, String secret) -> bool
+  end
+
+  module Helpers
+    RUN_TERMINAL_STATES: Array[String]
+
+    def ask: (String message, ?dialog_id: String, ?company_id: String?, ?raise_on_error: bool, ?request_options: request_options?) -> Tungo::Models::ChatTurnResult
+    def send_hook: (String token, ?untyped payload, ?secret: String?, **untyped options) -> Tungo::Models::AutomationHookAccepted
+    def verify_webhook: (String payload, untyped headers, ?secret: String?, ?tolerance: Numeric, ?now: (Time | Numeric)?) -> Tungo::Models::WebhookEvent::t
+    def run_scenario_and_wait: (String scenario_id, ?event_id: String, ?company_id: String?, ?timeout: Numeric, ?poll_interval: Numeric, ?max_poll_interval: Numeric, ?request_options: request_options?) -> Tungo::Models::AutomationRunDetail
+    def wait_for_run: (String run_id, ?company_id: String?, ?timeout: Numeric, ?poll_interval: Numeric, ?max_poll_interval: Numeric, ?request_options: request_options?) -> Tungo::Models::AutomationRunDetail
+    def wait_for_batch: (String batch_id, ?company_id: String?, ?timeout: Numeric, ?poll_interval: Numeric, ?max_poll_interval: Numeric, ?request_options: request_options?) -> Tungo::Models::BatchJob
+    def upload_bank_statement: (String | Pathname | IO file, ?file_name: String, ?limit: Integer, ?company_id: String?, ?request_options: request_options?) -> Tungo::Models::BatchJob
+  end
+
+  class Client
+    include Resources::Accessors
+    include Helpers
+
+    DEFAULT_TIMEOUT: Integer
+    DEFAULT_CHAT_TIMEOUT: Integer
+    DEFAULT_CONNECT_TIMEOUT: Integer
+    DEFAULT_STREAM_IDLE_TIMEOUT: Integer
+    DEFAULT_MAX_RETRIES: Integer
+    USER_AGENT: String
+
+    attr_reader base_url: String
+    attr_reader workspace_id: String?
+    attr_reader company_id: String?
+    attr_reader timeout: Numeric
+    attr_reader chat_timeout: Numeric
+    attr_reader connect_timeout: Numeric
+    attr_reader stream_idle_timeout: Numeric
+    attr_reader max_retries: Integer
+    attr_reader default_headers: headers
+    attr_reader transport: Transport::_Transport
+
+    def initialize: (?api_key: String?, ?base_url: String?, ?webhook_secret: String?, ?workspace_id: String?,
+                     ?company_id: String?, ?timeout: Numeric, ?chat_timeout: Numeric, ?connect_timeout: Numeric,
+                     ?stream_idle_timeout: Numeric, ?max_retries: Integer, ?default_headers: Hash[untyped, untyped],
+                     ?transport: Transport::_Transport?) -> void
+    def with_options: (**untyped overrides) -> Client
+    def close: () -> nil
+    def inspect: () -> String
+    def to_s: () -> String
+    def resolve_company_id: (?String? explicit) -> String
+    def resolve_workspace_id: (?String? explicit) -> String
+    def webhook_secret: () -> String?
+    def request: (?model: untyped, ?models: Hash[Integer, untyped]?, ?long_running: bool, ?options: request_options?, **untyped spec) -> untyped
+    def page: (?query: Hash[String, untyped], **untyped spec) -> Page[untyped, untyped]
+    def stream: (event: Symbol, ?stream_class: singleton(Stream), ?last_event_id: String?, ?options: request_options?, **untyped spec) -> Stream[untyped]
+  end
+
+  module Transport
+    CREDENTIAL_HEADERS: Array[String]
+
+    # Anything that can send a request: replace the default transport with your own.
+    interface _Transport
+      def execute: (Request request) -> Response
+    end
+
+    class Request < Data
+      attr_reader verb: String
+      attr_reader url: URI::Generic
+      attr_reader headers: Hash[String, String]
+      attr_reader body: String?
+      attr_reader timeout: Numeric?
+      attr_reader connect_timeout: Numeric
+      attr_reader idle_timeout: Numeric
+      attr_reader route: String?
+
+      def self.new: (verb: String, url: URI::Generic, headers: Hash[String, String], body: String?, timeout: Numeric?,
+                     connect_timeout: Numeric, idle_timeout: Numeric, ?route: String?) -> Request
+
+      def label: () -> String
+      def inspect: () -> String
+      def to_s: () -> String
+    end
+
+    class Response
+      attr_reader status: Integer
+      attr_reader headers: Hash[String, String]
+
+      def initialize: (status: Integer, headers: Hash[untyped, untyped], chunks: Enumerable[String] | ^() -> String?, ?on_close: (^() -> void)?) -> void
+      def each_chunk: () { (String) -> void } -> void
+      def read: () -> String
+      def close: () -> nil
+      def closed?: () -> bool
+    end
+
+    class NetHTTP
+      include _Transport
+
+      def initialize: (?max_idle_connections: Integer, ?keep_alive_timeout: Numeric, ?proxy: String?) ?{ (Net::HTTP) -> void } -> void
+      def close: () -> nil
+    end
+  end
+
+  module Internal
+    module Specs
+      def self?.array_of: (untyped element) -> Array[untyped]
+      def self?.map_of: (untyped element) -> Array[untyped]
+    end
+
+    # Extended by the enumeration modules under Tungo::Models.
+    module Enum
+      def values: () -> Array[untyped]
+      def known?: (untyped value) -> bool
+      def coerce: (untyped value) -> untyped
+    end
+
+    # Extended by the union modules under Tungo::Models.
+    module Union
+      include Specs
+
+      attr_reader discriminator: String?
+
+      def discriminated_by: (String property, Hash[String, Symbol] mapping) -> void
+      def variants: (*untyped specs) -> Array[untyped]
+      def mapping: () -> Hash[String, untyped]
+      def coerce: (untyped value) -> untyped
+    end
+
+    # Extended by the alias modules under Tungo::Models.
+    module Alias
+      include Specs
+
+      def target: (?untyped spec) -> untyped
+      def coerce: (untyped value) -> untyped
+    end
+  end
+end

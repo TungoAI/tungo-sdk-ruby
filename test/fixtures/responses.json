@@ -1,0 +1,3341 @@
+{
+ "api_keys.get_current": {
+  "result": {
+   "all_companies": true,
+   "allowed_ips": [
+    "text"
+   ],
+   "blocked_reason": "key_revoked",
+   "company_ids": [
+    "text"
+   ],
+   "created_at": "2026-01-02T03:04:05Z",
+   "created_by": "text",
+   "disabled_at": "2026-01-02T03:04:05Z",
+   "expires_at": "2026-01-02T03:04:05Z",
+   "id": "text",
+   "last_used_at": "2026-01-02T03:04:05Z",
+   "last_used_ip": "text",
+   "month": {
+    "cap_tiyn": 9007199254740993,
+    "month": "text",
+    "spent_tiyn": 9007199254740993
+   },
+   "monthly_cap_tiyn": 9007199254740993,
+   "name": "text",
+   "permissions": [
+    "company.read"
+   ],
+   "prefix": "text",
+   "previous_secret_valid_until": "2026-01-02T03:04:05Z",
+   "rate_limit": {
+    "limit_per_minute": 9007199254740993,
+    "remaining": 9007199254740993,
+    "reset_in_sec": 9007199254740993
+   },
+   "revoked_at": "2026-01-02T03:04:05Z",
+   "status": "active",
+   "workspace": {
+    "id": "text",
+    "kind": "personal",
+    "name": "text"
+   },
+   "workspace_id": "text",
+   "write_kinds": [
+    "text"
+   ],
+   "write_max_amount_per_day_tiyn": 9007199254740993,
+   "write_max_amount_per_document_tiyn": 9007199254740993
+  }
+ },
+ "api_keys.get_current_usage": {
+  "result": {
+   "by_company": [
+    {
+     "company_id": "text",
+     "cost_tiyn": 9007199254740993,
+     "requests": 9007199254740993
+    }
+   ],
+   "by_day": [
+    {
+     "cost_tiyn": 9007199254740993,
+     "day": "text",
+     "requests": 9007199254740993
+    }
+   ],
+   "by_model": [
+    {
+     "cost_tiyn": 9007199254740993,
+     "model": "text",
+     "requests": 9007199254740993
+    }
+   ],
+   "from": "2026-01-02T03:04:05Z",
+   "key_id": "text",
+   "month": {
+    "cap_tiyn": 9007199254740993,
+    "month": "text",
+    "spent_tiyn": 9007199254740993
+   },
+   "to": "2026-01-02T03:04:05Z",
+   "totals": {
+    "cache_read_tokens": 9007199254740993,
+    "cache_write_tokens": 9007199254740993,
+    "cost_tiyn": 9007199254740993,
+    "input_tokens": 9007199254740993,
+    "output_tokens": 9007199254740993,
+    "requests": 9007199254740993
+   }
+  }
+ },
+ "api_keys.get_usage": {
+  "result": {
+   "by_company": [
+    {
+     "company_id": "text",
+     "cost_tiyn": 9007199254740993,
+     "requests": 9007199254740993
+    }
+   ],
+   "by_day": [
+    {
+     "cost_tiyn": 9007199254740993,
+     "day": "text",
+     "requests": 9007199254740993
+    }
+   ],
+   "by_model": [
+    {
+     "cost_tiyn": 9007199254740993,
+     "model": "text",
+     "requests": 9007199254740993
+    }
+   ],
+   "from": "2026-01-02T03:04:05Z",
+   "key_id": "text",
+   "month": {
+    "cap_tiyn": 9007199254740993,
+    "month": "text",
+    "spent_tiyn": 9007199254740993
+   },
+   "to": "2026-01-02T03:04:05Z",
+   "totals": {
+    "cache_read_tokens": 9007199254740993,
+    "cache_write_tokens": 9007199254740993,
+    "cost_tiyn": 9007199254740993,
+    "input_tokens": 9007199254740993,
+    "output_tokens": 9007199254740993,
+    "requests": 9007199254740993
+   }
+  }
+ },
+ "automations.cancel_run": {
+  "result": {
+   "answer": "text",
+   "attempt": 9007199254740993,
+   "auto_retries": 9007199254740993,
+   "cancel_requested": true,
+   "cost_tiyn": 9007199254740993,
+   "created_at": "2026-01-02T03:04:05Z",
+   "current_step": 9007199254740993,
+   "error": "text",
+   "error_code": "text",
+   "event_id": "text",
+   "event_type": "text",
+   "external_id": "text",
+   "finished_at": "2026-01-02T03:04:05Z",
+   "id": "text",
+   "output": {
+    "key": 1.5
+   },
+   "output_error": "not_returned",
+   "output_note": "text",
+   "proposals": [
+    {
+     "attempt": 9007199254740993,
+     "id": "text"
+    }
+   ],
+   "requested_by": "text",
+   "retry_at": "2026-01-02T03:04:05Z",
+   "retryable": true,
+   "scenario_id": "text",
+   "slot_at": "2026-01-02T03:04:05Z",
+   "started_at": "2026-01-02T03:04:05Z",
+   "state": "queued",
+   "steps": [
+    {
+     "action": "agent",
+     "answer": "text",
+     "error": "text",
+     "error_code": "text",
+     "findings": 9007199254740993,
+     "output": {
+      "key": 1.5
+     },
+     "output_error": "not_returned",
+     "output_note": "text",
+     "proposals": [
+      "text"
+     ],
+     "skipped_by": "always",
+     "state": "done",
+     "step": 9007199254740993,
+     "stop_reason": "text"
+    }
+   ],
+   "stop_reason": "text",
+   "tools": [
+    "text"
+   ],
+   "trial": true,
+   "trigger": "hook"
+  }
+ },
+ "automations.create_hook": {
+  "result": {
+   "created_at": "2026-01-02T03:04:05Z",
+   "enabled": true,
+   "id": "text",
+   "id_path": "text",
+   "name": "text",
+   "scenarios_url": "text",
+   "signature_header": "text",
+   "signed": true,
+   "token": "text",
+   "token_hint": "text",
+   "token_note": "text",
+   "updated_at": "2026-01-02T03:04:05Z",
+   "url": "text"
+  }
+ },
+ "automations.create_scenario": {
+  "result": {
+   "action": "agent",
+   "auto_approve": {
+    "directbank": true,
+    "kinds": [
+     "sale"
+    ],
+    "max_amount_per_day_tiyn": 9007199254740993,
+    "max_amount_per_document_tiyn": 9007199254740993
+   },
+   "created_at": "2026-01-02T03:04:05Z",
+   "enabled": true,
+   "id": "text",
+   "instruction": "text",
+   "name": "text",
+   "next_run_at": "2026-01-02T03:04:05Z",
+   "output": {
+    "key": {
+     "description": "text",
+     "type": "number"
+    }
+   },
+   "run_as": "text",
+   "steps": [
+    {
+     "action": "agent",
+     "instruction": "text",
+     "output": {
+      "key": {
+       "description": "text",
+       "type": "number"
+      }
+     },
+     "when": "always"
+    }
+   ],
+   "trigger": {
+    "filter": {
+     "all": [
+      {
+       "op": "eq",
+       "path": "text"
+      }
+     ]
+    },
+    "hook_id": "text",
+    "kind": "hook"
+   },
+   "updated_at": "2026-01-02T03:04:05Z",
+   "warnings": [
+    "text"
+   ]
+  }
+ },
+ "automations.delete_hook": {
+  "result": {
+   "deleted": true,
+   "id": "text"
+  }
+ },
+ "automations.delete_scenario": {
+  "result": {
+   "deleted": true,
+   "id": "text"
+  }
+ },
+ "automations.get_autonomy": {
+  "result": {
+   "custom": {
+    "max_amount_per_day_tiyn": true,
+    "max_amount_per_document_tiyn": true
+   },
+   "defaults": {
+    "max_amount_per_day_tiyn": 9007199254740993,
+    "max_amount_per_document_tiyn": 9007199254740993
+   },
+   "levels": {
+    "advance_report": "L1",
+    "bank_payment": "L1",
+    "bank_receipt": "L1",
+    "cash_order_in": "L1",
+    "cash_order_out": "L1",
+    "contract": "L1",
+    "counterparty": "L1",
+    "inventory_writeoff": "L1",
+    "purchase": "L1",
+    "sale": "L1"
+   },
+   "max_amount_per_day_tiyn": 9007199254740993,
+   "max_amount_per_document_tiyn": 9007199254740993,
+   "updated_at": "2026-01-02T03:04:05Z"
+  }
+ },
+ "automations.get_hook": {
+  "result": {
+   "created_at": "2026-01-02T03:04:05Z",
+   "enabled": true,
+   "id": "text",
+   "id_path": "text",
+   "name": "text",
+   "scenarios_url": "text",
+   "signature_header": "text",
+   "signed": true,
+   "token_hint": "text",
+   "updated_at": "2026-01-02T03:04:05Z"
+  }
+ },
+ "automations.get_run": {
+  "result": {
+   "answer": "text",
+   "attempt": 9007199254740993,
+   "auto_retries": 9007199254740993,
+   "cancel_requested": true,
+   "cost_tiyn": 9007199254740993,
+   "created_at": "2026-01-02T03:04:05Z",
+   "current_step": 9007199254740993,
+   "error": "text",
+   "error_code": "text",
+   "event": {
+    "body": "text",
+    "content_type": "text",
+    "encoding": "utf8",
+    "external_id": "text",
+    "hook_id": "text",
+    "id": "text",
+    "received_at": "2026-01-02T03:04:05Z",
+    "size": 9007199254740993,
+    "source": "hook",
+    "type": "text"
+   },
+   "event_id": "text",
+   "event_type": "text",
+   "external_id": "text",
+   "finished_at": "2026-01-02T03:04:05Z",
+   "id": "text",
+   "output": {
+    "key": 1.5
+   },
+   "output_error": "not_returned",
+   "output_note": "text",
+   "proposals": [
+    {
+     "attempt": 9007199254740993,
+     "id": "text"
+    }
+   ],
+   "requested_by": "text",
+   "retry_at": "2026-01-02T03:04:05Z",
+   "retryable": true,
+   "scenario_id": "text",
+   "slot_at": "2026-01-02T03:04:05Z",
+   "started_at": "2026-01-02T03:04:05Z",
+   "state": "queued",
+   "steps": [
+    {
+     "action": "agent",
+     "answer": "text",
+     "error": "text",
+     "error_code": "text",
+     "findings": 9007199254740993,
+     "output": {
+      "key": 1.5
+     },
+     "output_error": "not_returned",
+     "output_note": "text",
+     "proposals": [
+      "text"
+     ],
+     "skipped_by": "always",
+     "state": "done",
+     "step": 9007199254740993,
+     "stop_reason": "text"
+    }
+   ],
+   "stop_reason": "text",
+   "tools": [
+    "text"
+   ],
+   "trial": true,
+   "trigger": "hook"
+  }
+ },
+ "automations.get_scenario": {
+  "result": {
+   "action": "agent",
+   "auto_approve": {
+    "directbank": true,
+    "kinds": [
+     "sale"
+    ],
+    "max_amount_per_day_tiyn": 9007199254740993,
+    "max_amount_per_document_tiyn": 9007199254740993
+   },
+   "created_at": "2026-01-02T03:04:05Z",
+   "enabled": true,
+   "id": "text",
+   "instruction": "text",
+   "name": "text",
+   "next_run_at": "2026-01-02T03:04:05Z",
+   "output": {
+    "key": {
+     "description": "text",
+     "type": "number"
+    }
+   },
+   "run_as": "text",
+   "steps": [
+    {
+     "action": "agent",
+     "instruction": "text",
+     "output": {
+      "key": {
+       "description": "text",
+       "type": "number"
+      }
+     },
+     "when": "always"
+    }
+   ],
+   "trigger": {
+    "filter": {
+     "all": [
+      {
+       "op": "eq",
+       "path": "text"
+      }
+     ]
+    },
+    "hook_id": "text",
+    "kind": "hook"
+   },
+   "updated_at": "2026-01-02T03:04:05Z"
+  }
+ },
+ "automations.get_state": {
+  "result": {
+   "paused": true,
+   "paused_at": "2026-01-02T03:04:05Z",
+   "queued": 9007199254740993,
+   "reason": "text",
+   "running": 9007199254740993
+  }
+ },
+ "automations.list_hooks": {
+  "result": {
+   "data": [
+    {
+     "created_at": "2026-01-02T03:04:05Z",
+     "enabled": true,
+     "id": "text",
+     "id_path": "text",
+     "name": "text",
+     "scenarios_url": "text",
+     "signature_header": "text",
+     "signed": true,
+     "token_hint": "text",
+     "updated_at": "2026-01-02T03:04:05Z"
+    }
+   ]
+  }
+ },
+ "automations.list_runs": {
+  "result": {
+   "data": [
+    {
+     "answer": "text",
+     "attempt": 9007199254740993,
+     "auto_retries": 9007199254740993,
+     "cancel_requested": true,
+     "created_at": "2026-01-02T03:04:05Z",
+     "current_step": 9007199254740993,
+     "error": "text",
+     "error_code": "text",
+     "event_id": "text",
+     "event_type": "text",
+     "external_id": "text",
+     "finished_at": "2026-01-02T03:04:05Z",
+     "id": "text",
+     "output": {
+      "key": 1.5
+     },
+     "output_error": "not_returned",
+     "output_note": "text",
+     "proposals": [
+      {
+       "attempt": 9007199254740993,
+       "id": "text"
+      }
+     ],
+     "requested_by": "text",
+     "retry_at": "2026-01-02T03:04:05Z",
+     "retryable": true,
+     "scenario_id": "text",
+     "slot_at": "2026-01-02T03:04:05Z",
+     "started_at": "2026-01-02T03:04:05Z",
+     "state": "queued",
+     "steps": [
+      {
+       "action": "agent",
+       "answer": "text",
+       "error": "text",
+       "error_code": "text",
+       "findings": 9007199254740993,
+       "output": {
+        "key": 1.5
+       },
+       "output_error": "not_returned",
+       "output_note": "text",
+       "proposals": [
+        "text"
+       ],
+       "skipped_by": "always",
+       "state": "done",
+       "step": 9007199254740993,
+       "stop_reason": "text"
+      }
+     ],
+     "stop_reason": "text",
+     "tools": [
+      "text"
+     ],
+     "trial": true,
+     "trigger": "hook"
+    }
+   ],
+   "next_cursor": "text"
+  }
+ },
+ "automations.list_scenarios": {
+  "result": {
+   "data": [
+    {
+     "action": "agent",
+     "auto_approve": {
+      "kinds": [
+       "sale"
+      ],
+      "max_amount_per_day_tiyn": 9007199254740993,
+      "max_amount_per_document_tiyn": 9007199254740993
+     },
+     "created_at": "2026-01-02T03:04:05Z",
+     "enabled": true,
+     "id": "text",
+     "instruction": "text",
+     "name": "text",
+     "next_run_at": "2026-01-02T03:04:05Z",
+     "output": {
+      "key": {
+       "description": "text",
+       "type": "number"
+      }
+     },
+     "run_as": "text",
+     "steps": [
+      {
+       "action": "agent",
+       "instruction": "text",
+       "output": {
+        "key": {
+         "description": "text",
+         "type": "number"
+        }
+       },
+       "when": "always"
+      }
+     ],
+     "trigger": {
+      "hook_id": "text",
+      "kind": "hook"
+     },
+     "updated_at": "2026-01-02T03:04:05Z"
+    }
+   ]
+  }
+ },
+ "automations.post_hook": {
+  "result": {
+   "accepted": true,
+   "duplicate": true,
+   "event_id": "text",
+   "run_ids": [
+    "text"
+   ]
+  }
+ },
+ "automations.put_autonomy": {
+  "result": {
+   "custom": {
+    "max_amount_per_day_tiyn": true,
+    "max_amount_per_document_tiyn": true
+   },
+   "defaults": {
+    "max_amount_per_day_tiyn": 9007199254740993,
+    "max_amount_per_document_tiyn": 9007199254740993
+   },
+   "levels": {
+    "advance_report": "L1",
+    "bank_payment": "L1",
+    "bank_receipt": "L1",
+    "cash_order_in": "L1",
+    "cash_order_out": "L1",
+    "contract": "L1",
+    "counterparty": "L1",
+    "inventory_writeoff": "L1",
+    "purchase": "L1",
+    "sale": "L1"
+   },
+   "max_amount_per_day_tiyn": 9007199254740993,
+   "max_amount_per_document_tiyn": 9007199254740993,
+   "updated_at": "2026-01-02T03:04:05Z"
+  }
+ },
+ "automations.put_scenario": {
+  "result": {
+   "action": "agent",
+   "auto_approve": {
+    "directbank": true,
+    "kinds": [
+     "sale"
+    ],
+    "max_amount_per_day_tiyn": 9007199254740993,
+    "max_amount_per_document_tiyn": 9007199254740993
+   },
+   "created_at": "2026-01-02T03:04:05Z",
+   "enabled": true,
+   "id": "text",
+   "instruction": "text",
+   "name": "text",
+   "next_run_at": "2026-01-02T03:04:05Z",
+   "output": {
+    "key": {
+     "description": "text",
+     "type": "number"
+    }
+   },
+   "run_as": "text",
+   "steps": [
+    {
+     "action": "agent",
+     "instruction": "text",
+     "output": {
+      "key": {
+       "description": "text",
+       "type": "number"
+      }
+     },
+     "when": "always"
+    }
+   ],
+   "trigger": {
+    "filter": {
+     "all": [
+      {
+       "op": "eq",
+       "path": "text"
+      }
+     ]
+    },
+    "hook_id": "text",
+    "kind": "hook"
+   },
+   "updated_at": "2026-01-02T03:04:05Z",
+   "warnings": [
+    "text"
+   ]
+  }
+ },
+ "automations.put_state": {
+  "result": {
+   "paused": true,
+   "paused_at": "2026-01-02T03:04:05Z",
+   "queued": 9007199254740993,
+   "reason": "text",
+   "running": 9007199254740993
+  }
+ },
+ "automations.retry_run": {
+  "result": {
+   "answer": "text",
+   "attempt": 9007199254740993,
+   "auto_retries": 9007199254740993,
+   "cancel_requested": true,
+   "cost_tiyn": 9007199254740993,
+   "created_at": "2026-01-02T03:04:05Z",
+   "current_step": 9007199254740993,
+   "error": "text",
+   "error_code": "text",
+   "event_id": "text",
+   "event_type": "text",
+   "external_id": "text",
+   "finished_at": "2026-01-02T03:04:05Z",
+   "id": "text",
+   "output": {
+    "key": 1.5
+   },
+   "output_error": "not_returned",
+   "output_note": "text",
+   "proposals": [
+    {
+     "attempt": 9007199254740993,
+     "id": "text"
+    }
+   ],
+   "requested_by": "text",
+   "retry_at": "2026-01-02T03:04:05Z",
+   "retryable": true,
+   "scenario_id": "text",
+   "slot_at": "2026-01-02T03:04:05Z",
+   "started_at": "2026-01-02T03:04:05Z",
+   "state": "queued",
+   "steps": [
+    {
+     "action": "agent",
+     "answer": "text",
+     "error": "text",
+     "error_code": "text",
+     "findings": 9007199254740993,
+     "output": {
+      "key": 1.5
+     },
+     "output_error": "not_returned",
+     "output_note": "text",
+     "proposals": [
+      "text"
+     ],
+     "skipped_by": "always",
+     "state": "done",
+     "step": 9007199254740993,
+     "stop_reason": "text"
+    }
+   ],
+   "stop_reason": "text",
+   "tools": [
+    "text"
+   ],
+   "trial": true,
+   "trigger": "hook"
+  }
+ },
+ "automations.rotate_hook": {
+  "result": {
+   "created_at": "2026-01-02T03:04:05Z",
+   "enabled": true,
+   "id": "text",
+   "id_path": "text",
+   "name": "text",
+   "scenarios_url": "text",
+   "signature_header": "text",
+   "signed": true,
+   "token": "text",
+   "token_hint": "text",
+   "token_note": "text",
+   "updated_at": "2026-01-02T03:04:05Z",
+   "url": "text"
+  }
+ },
+ "automations.run_scenario": {
+  "result": {
+   "answer": "text",
+   "attempt": 9007199254740993,
+   "auto_retries": 9007199254740993,
+   "cancel_requested": true,
+   "cost_tiyn": 9007199254740993,
+   "created_at": "2026-01-02T03:04:05Z",
+   "current_step": 9007199254740993,
+   "error": "text",
+   "error_code": "text",
+   "event_id": "text",
+   "event_type": "text",
+   "external_id": "text",
+   "filter_matched": true,
+   "finished_at": "2026-01-02T03:04:05Z",
+   "id": "text",
+   "output": {
+    "key": 1.5
+   },
+   "output_error": "not_returned",
+   "output_note": "text",
+   "proposals": [
+    {
+     "attempt": 9007199254740993,
+     "id": "text"
+    }
+   ],
+   "requested_by": "text",
+   "retry_at": "2026-01-02T03:04:05Z",
+   "retryable": true,
+   "scenario_id": "text",
+   "slot_at": "2026-01-02T03:04:05Z",
+   "started_at": "2026-01-02T03:04:05Z",
+   "state": "queued",
+   "steps": [
+    {
+     "action": "agent",
+     "answer": "text",
+     "error": "text",
+     "error_code": "text",
+     "findings": 9007199254740993,
+     "output": {
+      "key": 1.5
+     },
+     "output_error": "not_returned",
+     "output_note": "text",
+     "proposals": [
+      "text"
+     ],
+     "skipped_by": "always",
+     "state": "done",
+     "step": 9007199254740993,
+     "stop_reason": "text"
+    }
+   ],
+   "stop_reason": "text",
+   "tools": [
+    "text"
+   ],
+   "trial": true,
+   "trigger": "hook"
+  }
+ },
+ "automations.test_hook": {
+  "result": {
+   "event_id": "text",
+   "external_id": "text",
+   "external_id_note": "text",
+   "external_id_source": "id_path",
+   "hook_id": "text",
+   "json": true,
+   "run_ids": [
+    "text"
+   ],
+   "scenarios": [
+    {
+     "enabled": true,
+     "failed_condition": {
+      "index": 9007199254740993,
+      "op": "text",
+      "path": "text"
+     },
+     "matched": true,
+     "name": "text",
+     "reason": "text",
+     "scenario_id": "text",
+     "would_run": true
+    }
+   ],
+   "signature_note": "text",
+   "signed": true
+  }
+ },
+ "automations.update_hook": {
+  "result": {
+   "created_at": "2026-01-02T03:04:05Z",
+   "enabled": true,
+   "id": "text",
+   "id_path": "text",
+   "name": "text",
+   "scenarios_url": "text",
+   "signature_header": "text",
+   "signed": true,
+   "token_hint": "text",
+   "updated_at": "2026-01-02T03:04:05Z"
+  }
+ },
+ "automations.update_scenario": {
+  "result": {
+   "action": "agent",
+   "auto_approve": {
+    "directbank": true,
+    "kinds": [
+     "sale"
+    ],
+    "max_amount_per_day_tiyn": 9007199254740993,
+    "max_amount_per_document_tiyn": 9007199254740993
+   },
+   "created_at": "2026-01-02T03:04:05Z",
+   "enabled": true,
+   "id": "text",
+   "instruction": "text",
+   "name": "text",
+   "next_run_at": "2026-01-02T03:04:05Z",
+   "output": {
+    "key": {
+     "description": "text",
+     "type": "number"
+    }
+   },
+   "run_as": "text",
+   "steps": [
+    {
+     "action": "agent",
+     "instruction": "text",
+     "output": {
+      "key": {
+       "description": "text",
+       "type": "number"
+      }
+     },
+     "when": "always"
+    }
+   ],
+   "trigger": {
+    "filter": {
+     "all": [
+      {
+       "op": "eq",
+       "path": "text"
+      }
+     ]
+    },
+    "hook_id": "text",
+    "kind": "hook"
+   },
+   "updated_at": "2026-01-02T03:04:05Z"
+  }
+ },
+ "batches.create_bank_statement": {
+  "result": {
+   "error": "text",
+   "events": 1.5,
+   "finished_at": "2026-01-02T03:04:05Z",
+   "id": "text",
+   "kind": "bank_statement",
+   "report": {
+    "approval": {
+     "approved": 1.5,
+     "counts": {
+      "key": 1.5
+     },
+     "excluded": 1.5,
+     "failed": 1.5,
+     "limit": 1.5,
+     "message": "text",
+     "ok": true,
+     "requested": 1.5,
+     "results": [
+      {
+       "id": "text",
+       "message": "text",
+       "outcome": "approved",
+       "title": "text"
+      }
+     ]
+    },
+    "created": 9007199254740993,
+    "duplicates": 9007199254740993,
+    "failed": 9007199254740993,
+    "gateway": {
+     "asked": 9007199254740993,
+     "passed": 9007199254740993
+    },
+    "manual": 9007199254740993,
+    "min_concurrency": 9007199254740993,
+    "pending": 9007199254740993,
+    "rows": [
+     {
+      "key": "text",
+      "status": "created",
+      "title": "text"
+     }
+    ],
+    "skipped": 9007199254740993,
+    "stopped": true,
+    "total": 9007199254740993,
+    "unknown": 9007199254740993,
+    "x_undeclared": "kept"
+   },
+   "running": true,
+   "started_at": "2026-01-02T03:04:05Z",
+   "title": "text"
+  }
+ },
+ "batches.create_esf_purchases": {
+  "result": {
+   "error": "text",
+   "events": 1.5,
+   "finished_at": "2026-01-02T03:04:05Z",
+   "id": "text",
+   "kind": "bank_statement",
+   "report": {
+    "approval": {
+     "approved": 1.5,
+     "counts": {
+      "key": 1.5
+     },
+     "excluded": 1.5,
+     "failed": 1.5,
+     "limit": 1.5,
+     "message": "text",
+     "ok": true,
+     "requested": 1.5,
+     "results": [
+      {
+       "id": "text",
+       "message": "text",
+       "outcome": "approved",
+       "title": "text"
+      }
+     ]
+    },
+    "created": 9007199254740993,
+    "duplicates": 9007199254740993,
+    "failed": 9007199254740993,
+    "gateway": {
+     "asked": 9007199254740993,
+     "passed": 9007199254740993
+    },
+    "manual": 9007199254740993,
+    "min_concurrency": 9007199254740993,
+    "pending": 9007199254740993,
+    "rows": [
+     {
+      "key": "text",
+      "status": "created",
+      "title": "text"
+     }
+    ],
+    "skipped": 9007199254740993,
+    "stopped": true,
+    "total": 9007199254740993,
+    "unknown": 9007199254740993,
+    "x_undeclared": "kept"
+   },
+   "running": true,
+   "started_at": "2026-01-02T03:04:05Z",
+   "title": "text"
+  }
+ },
+ "batches.get": {
+  "result": {
+   "error": "text",
+   "events": 1.5,
+   "finished_at": "2026-01-02T03:04:05Z",
+   "id": "text",
+   "kind": "bank_statement",
+   "report": {
+    "approval": {
+     "approved": 1.5,
+     "counts": {
+      "key": 1.5
+     },
+     "excluded": 1.5,
+     "failed": 1.5,
+     "limit": 1.5,
+     "message": "text",
+     "ok": true,
+     "requested": 1.5,
+     "results": [
+      {
+       "id": "text",
+       "message": "text",
+       "outcome": "approved",
+       "title": "text"
+      }
+     ]
+    },
+    "created": 9007199254740993,
+    "duplicates": 9007199254740993,
+    "failed": 9007199254740993,
+    "gateway": {
+     "asked": 9007199254740993,
+     "passed": 9007199254740993
+    },
+    "manual": 9007199254740993,
+    "min_concurrency": 9007199254740993,
+    "pending": 9007199254740993,
+    "rows": [
+     {
+      "key": "text",
+      "status": "created",
+      "title": "text"
+     }
+    ],
+    "skipped": 9007199254740993,
+    "stopped": true,
+    "total": 9007199254740993,
+    "unknown": 9007199254740993,
+    "x_undeclared": "kept"
+   },
+   "running": true,
+   "started_at": "2026-01-02T03:04:05Z",
+   "title": "text"
+  }
+ },
+ "batches.get_summary": {
+  "result": {
+   "approve": {
+    "body": {
+     "batch_id": "text",
+     "post": true
+    },
+    "href": "text",
+    "method": "POST"
+   },
+   "can_approve": true,
+   "finished_at": "2026-01-02T03:04:05Z",
+   "job_id": "text",
+   "kind": "bank_statement",
+   "manual_rows": [
+    {
+     "key": "text",
+     "reason": "text",
+     "title": "text"
+    }
+   ],
+   "proposals": [
+    {
+     "amount": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "blockers": [
+      "text"
+     ],
+     "id": "text",
+     "outcome": "ready",
+     "status": "previewed",
+     "status_title": "text",
+     "summary": "text",
+     "title": "text",
+     "warnings": [
+      "text"
+     ]
+    }
+   ],
+   "reason": "text",
+   "running": true,
+   "title": "text",
+   "totals": {
+    "blocked": 1.5,
+    "failed": 1.5,
+    "manual": 1.5,
+    "proposals": 1.5,
+    "ready": 1.5,
+    "ready_with_warnings": 1.5,
+    "rejected": 1.5,
+    "rows": 1.5,
+    "sum_all": {
+     "amount": 1.5,
+     "amount_tiyn": 9007199254740993,
+     "formatted": "text"
+    },
+    "sum_ready": {
+     "amount": 1.5,
+     "amount_tiyn": 9007199254740993,
+     "formatted": "text"
+    },
+    "written": 1.5
+   }
+  }
+ },
+ "batches.list": {
+  "result": {
+   "data": [
+    {
+     "events": 1.5,
+     "id": "text",
+     "kind": "bank_statement",
+     "running": true,
+     "started_at": "2026-01-02T03:04:05Z",
+     "title": "text"
+    }
+   ],
+   "next_cursor": "text"
+  }
+ },
+ "batches.list_events": {
+  "event": {
+   "delta": "text",
+   "step": 1.5,
+   "type": "text"
+  }
+ },
+ "batches.list_statements": {
+  "result": {
+   "data": [
+    {
+     "events": 1.5,
+     "id": "text",
+     "kind": "bank_statement",
+     "running": true,
+     "started_at": "2026-01-02T03:04:05Z",
+     "summary": "text",
+     "title": "text"
+    }
+   ],
+   "next_cursor": "text"
+  }
+ },
+ "batches.poll_directbank": {
+  "result": {
+   "created": 1.5,
+   "documents": 1.5,
+   "job_id": "text"
+  }
+ },
+ "batches.stop": {
+  "result": {
+   "id": "text",
+   "stopped": true
+  }
+ },
+ "chat.answer": {
+  "event": {
+   "delta": "text",
+   "step": 1.5,
+   "type": "text"
+  },
+  "result": {
+   "answer": "text",
+   "citations": [
+    {
+     "source": "text",
+     "title": "text"
+    }
+   ],
+   "dialog_id": "text",
+   "errors": [
+    {
+     "code": "budget",
+     "message": "text",
+     "type": "text",
+     "x_undeclared": "kept"
+    }
+   ],
+   "pending_question": {
+    "choice_id": "text",
+    "questions": [
+     {
+      "header": "text",
+      "multi_select": true,
+      "options": [
+       {
+        "description": "text",
+        "label": "text"
+       }
+      ],
+      "question": "text"
+     }
+    ]
+   },
+   "proposals": [
+    {
+     "card": {
+      "actions": [
+       {
+        "action": "approve",
+        "body": {
+         "key": {
+          "nested": [
+           "a",
+           1
+          ]
+         }
+        },
+        "effect": "text",
+        "enabled": true,
+        "href": "text",
+        "label": "text",
+        "method": "POST"
+       }
+      ],
+      "approval": {
+       "allowed": true,
+       "blocked_by_blockers": true,
+       "requires_right": "proposals.approve"
+      },
+      "blocker_count": 9007199254740993,
+      "blockers": [
+       "text"
+      ],
+      "created_at": "2026-01-02T03:04:05Z",
+      "dialog_id": "text",
+      "header": {
+       "accounts": [
+        {
+         "code": "text",
+         "field": "text",
+         "ref": "text",
+         "title": "text"
+        }
+       ],
+       "date": "text",
+       "document_title": "text",
+       "entity_set": "text",
+       "net": {
+        "amount": 1.5,
+        "amount_tiyn": 9007199254740993,
+        "formatted": "text"
+       },
+       "total": {
+        "amount": 1.5,
+        "amount_tiyn": 9007199254740993,
+        "formatted": "text"
+       },
+       "vat": {
+        "amount": 1.5,
+        "amount_tiyn": 9007199254740993,
+        "formatted": "text"
+       }
+      },
+      "history": [
+       {
+        "actor": "text",
+        "at": "2026-01-02T03:04:05Z",
+        "status": "previewed",
+        "status_title": "text"
+       }
+      ],
+      "href": "text",
+      "id": "text",
+      "intent": {
+       "key": {
+        "nested": [
+         "a",
+         1
+        ]
+       }
+      },
+      "kind": "sale",
+      "kind_title": "text",
+      "level": "L0",
+      "level_title": "text",
+      "line_count": 9007199254740993,
+      "lines": [
+       {
+        "accounts": [
+         {
+          "code": "text",
+          "field": "text",
+          "ref": "text",
+          "title": "text"
+         }
+        ],
+        "item": {
+         "name": "text",
+         "ref": "text"
+        },
+        "no": 9007199254740993,
+        "price": {
+         "amount": 1.5,
+         "amount_tiyn": 9007199254740993,
+         "formatted": "text"
+        },
+        "quantity": 1.5,
+        "section": "goods",
+        "sum": {
+         "amount": 1.5,
+         "amount_tiyn": 9007199254740993,
+         "formatted": "text"
+        },
+        "total": {
+         "amount": 1.5,
+         "amount_tiyn": 9007199254740993,
+         "formatted": "text"
+        },
+        "vat": {
+         "amount": 1.5,
+         "amount_tiyn": 9007199254740993,
+         "formatted": "text"
+        },
+        "vat_rate_title": "text"
+       }
+      ],
+      "postings": [
+       {
+        "amount": {
+         "amount": 1.5,
+         "amount_tiyn": 9007199254740993,
+         "formatted": "text"
+        },
+        "computed_by_1c": true,
+        "credit": "text",
+        "debit": "text",
+        "label": "text"
+       }
+      ],
+      "source": {
+       "channel": "mcp"
+      },
+      "status": "previewed",
+      "status_title": "text",
+      "summary": "text",
+      "title": "text",
+      "total": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "vat": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "warning_count": 9007199254740993,
+      "warnings": [
+       "text"
+      ]
+     },
+     "id": "text"
+    }
+   ],
+   "questions": [
+    {
+     "text": "text"
+    }
+   ],
+   "stop_reason": "text",
+   "turn_no": 1.5,
+   "usage": {
+    "cache_read_tokens": 9007199254740993,
+    "cache_write_tokens": 9007199254740993,
+    "cost_tiyn": 9007199254740993,
+    "input_tokens": 9007199254740993,
+    "output_tokens": 9007199254740993
+   }
+  }
+ },
+ "chat.count_tokens": {
+  "result": {
+   "input_cost_tiyn": 9007199254740993,
+   "input_tokens": 9007199254740993,
+   "max_cost_tiyn": 9007199254740993,
+   "max_output_tokens": 9007199254740993,
+   "model": "text"
+  }
+ },
+ "chat.create": {
+  "event": {
+   "delta": "text",
+   "step": 1.5,
+   "type": "text"
+  },
+  "result": {
+   "answer": "text",
+   "citations": [
+    {
+     "source": "text",
+     "title": "text"
+    }
+   ],
+   "dialog_id": "text",
+   "errors": [
+    {
+     "code": "budget",
+     "message": "text",
+     "type": "text",
+     "x_undeclared": "kept"
+    }
+   ],
+   "pending_question": {
+    "choice_id": "text",
+    "questions": [
+     {
+      "header": "text",
+      "multi_select": true,
+      "options": [
+       {
+        "description": "text",
+        "label": "text"
+       }
+      ],
+      "question": "text"
+     }
+    ]
+   },
+   "proposals": [
+    {
+     "card": {
+      "actions": [
+       {
+        "action": "approve",
+        "body": {
+         "key": {
+          "nested": [
+           "a",
+           1
+          ]
+         }
+        },
+        "effect": "text",
+        "enabled": true,
+        "href": "text",
+        "label": "text",
+        "method": "POST"
+       }
+      ],
+      "approval": {
+       "allowed": true,
+       "blocked_by_blockers": true,
+       "requires_right": "proposals.approve"
+      },
+      "blocker_count": 9007199254740993,
+      "blockers": [
+       "text"
+      ],
+      "created_at": "2026-01-02T03:04:05Z",
+      "dialog_id": "text",
+      "header": {
+       "accounts": [
+        {
+         "code": "text",
+         "field": "text",
+         "ref": "text",
+         "title": "text"
+        }
+       ],
+       "date": "text",
+       "document_title": "text",
+       "entity_set": "text",
+       "net": {
+        "amount": 1.5,
+        "amount_tiyn": 9007199254740993,
+        "formatted": "text"
+       },
+       "total": {
+        "amount": 1.5,
+        "amount_tiyn": 9007199254740993,
+        "formatted": "text"
+       },
+       "vat": {
+        "amount": 1.5,
+        "amount_tiyn": 9007199254740993,
+        "formatted": "text"
+       }
+      },
+      "history": [
+       {
+        "actor": "text",
+        "at": "2026-01-02T03:04:05Z",
+        "status": "previewed",
+        "status_title": "text"
+       }
+      ],
+      "href": "text",
+      "id": "text",
+      "intent": {
+       "key": {
+        "nested": [
+         "a",
+         1
+        ]
+       }
+      },
+      "kind": "sale",
+      "kind_title": "text",
+      "level": "L0",
+      "level_title": "text",
+      "line_count": 9007199254740993,
+      "lines": [
+       {
+        "accounts": [
+         {
+          "code": "text",
+          "field": "text",
+          "ref": "text",
+          "title": "text"
+         }
+        ],
+        "item": {
+         "name": "text",
+         "ref": "text"
+        },
+        "no": 9007199254740993,
+        "price": {
+         "amount": 1.5,
+         "amount_tiyn": 9007199254740993,
+         "formatted": "text"
+        },
+        "quantity": 1.5,
+        "section": "goods",
+        "sum": {
+         "amount": 1.5,
+         "amount_tiyn": 9007199254740993,
+         "formatted": "text"
+        },
+        "total": {
+         "amount": 1.5,
+         "amount_tiyn": 9007199254740993,
+         "formatted": "text"
+        },
+        "vat": {
+         "amount": 1.5,
+         "amount_tiyn": 9007199254740993,
+         "formatted": "text"
+        },
+        "vat_rate_title": "text"
+       }
+      ],
+      "postings": [
+       {
+        "amount": {
+         "amount": 1.5,
+         "amount_tiyn": 9007199254740993,
+         "formatted": "text"
+        },
+        "computed_by_1c": true,
+        "credit": "text",
+        "debit": "text",
+        "label": "text"
+       }
+      ],
+      "source": {
+       "channel": "mcp"
+      },
+      "status": "previewed",
+      "status_title": "text",
+      "summary": "text",
+      "title": "text",
+      "total": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "vat": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "warning_count": 9007199254740993,
+      "warnings": [
+       "text"
+      ]
+     },
+     "id": "text"
+    }
+   ],
+   "questions": [
+    {
+     "text": "text"
+    }
+   ],
+   "stop_reason": "text",
+   "turn_no": 1.5,
+   "usage": {
+    "cache_read_tokens": 9007199254740993,
+    "cache_write_tokens": 9007199254740993,
+    "cost_tiyn": 9007199254740993,
+    "input_tokens": 9007199254740993,
+    "output_tokens": 9007199254740993
+   }
+  }
+ },
+ "chat.delete": {
+  "result": {
+   "deleted": true,
+   "id": "text"
+  }
+ },
+ "chat.get": {
+  "result": {
+   "awaiting": {
+    "choice_id": "text",
+    "questions": [
+     {
+      "header": "text",
+      "multi_select": true,
+      "options": [
+       {
+        "description": "text",
+        "label": "text"
+       }
+      ],
+      "question": "text"
+     }
+    ]
+   },
+   "closed": {
+    "message": "text",
+    "reason": "context_overflow"
+   },
+   "created_at": "2026-01-02T03:04:05Z",
+   "id": "text",
+   "masked": 1.5,
+   "message_count": 1.5,
+   "messages": [
+    {
+     "at": "2026-01-02T03:04:05Z",
+     "id": "text",
+     "role": "user",
+     "text": "text"
+    }
+   ],
+   "pd_restored": true,
+   "running": true,
+   "title": "text",
+   "turn": 1.5,
+   "updated_at": "2026-01-02T03:04:05Z"
+  }
+ },
+ "chat.list": {
+  "result": {
+   "data": [
+    {
+     "id": "text",
+     "message_count": 1.5,
+     "running": true,
+     "title": "text",
+     "updated_at": "2026-01-02T03:04:05Z"
+    }
+   ],
+   "next_cursor": "text"
+  }
+ },
+ "chat.list_events": {
+  "event": {
+   "delta": "text",
+   "step": 1.5,
+   "type": "text"
+  }
+ },
+ "chat.stop": {
+  "result": {
+   "dismissed": true,
+   "id": "text",
+   "stopped": true
+  }
+ },
+ "chat.update": {
+  "result": {
+   "id": "text",
+   "title": "text"
+  }
+ },
+ "companies.get": {
+  "result": {
+   "bin": "text",
+   "created_at": "2026-01-02T03:04:05Z",
+   "id": "text",
+   "legal_form": "ip",
+   "name": "text",
+   "permissions": [
+    "company.read"
+   ],
+   "role": "text",
+   "role_name": "text",
+   "status": "active",
+   "workspace_id": "text"
+  }
+ },
+ "companies.list": {
+  "result": {
+   "data": [
+    {
+     "bin": "text",
+     "counts": {
+      "proposals_blocked": 9007199254740993,
+      "proposals_to_decide": 9007199254740993
+     },
+     "created_at": "2026-01-02T03:04:05Z",
+     "id": "text",
+     "legal_form": "ip",
+     "name": "text",
+     "permissions": [
+      "company.read"
+     ],
+     "role": "text",
+     "role_name": "text",
+     "status": "active",
+     "workspace_id": "text"
+    }
+   ]
+  }
+ },
+ "esf.get_incoming": {
+  "result": {
+   "as_of": "2026-01-02",
+   "data": [
+    {
+     "action": "document_found",
+     "action_title": "text",
+     "blockers": [
+      "text"
+     ],
+     "date": "2026-01-02",
+     "esf": "text",
+     "match": {
+      "status": "matched"
+     },
+     "number": "text",
+     "status": "text",
+     "supplier": "text",
+     "supplier_bin": "text",
+     "total": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "turnover_date": "2026-01-02",
+     "vat": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "warnings": [
+      "text"
+     ]
+    }
+   ],
+   "next_cursor": "text",
+   "since": "2026-01-02",
+   "total": 9007199254740993,
+   "until": "2026-01-02"
+  }
+ },
+ "esf.get_outgoing": {
+  "result": {
+   "as_of": "2026-01-02",
+   "data": [
+    {
+     "blockers": [
+      "text"
+     ],
+     "problem": "text",
+     "sale": {
+      "amount": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "counterparty": "text",
+      "date": "2026-01-02",
+      "kind": "text",
+      "number": "text"
+     },
+     "verdict": "invoice_not_issued",
+     "verdict_title": "text",
+     "warnings": [
+      "text"
+     ]
+    }
+   ],
+   "next_cursor": "text",
+   "note": "text",
+   "total": 9007199254740993
+  }
+ },
+ "feed.get": {
+  "result": {
+   "counts": {
+    "auto": 1.5,
+    "decision": 1.5,
+    "question": 1.5
+   },
+   "data": [
+    {
+     "actions": [
+      {
+       "action": "open",
+       "enabled": true,
+       "href": "text",
+       "label": "text",
+       "method": "GET"
+      }
+     ],
+     "at": "2026-01-02T03:04:05Z",
+     "cursor": "text",
+     "id": "text",
+     "section": "auto",
+     "section_title": "text",
+     "title": "text"
+    }
+   ],
+   "next_cursor": "text",
+   "sections": {
+    "auto": "text",
+    "decision": "text",
+    "question": "text"
+   }
+  }
+ },
+ "feed.list_events": {
+  "event": {
+   "actions": [
+    {
+     "action": "open",
+     "enabled": true,
+     "href": "text",
+     "label": "text",
+     "method": "GET"
+    }
+   ],
+   "actor": "text",
+   "actor_name": "text",
+   "amount": {
+    "amount": 1.5,
+    "amount_tiyn": 9007199254740993,
+    "formatted": "text"
+   },
+   "at": "2026-01-02T03:04:05Z",
+   "batch_id": "text",
+   "cursor": "text",
+   "detail": "text",
+   "dialog_id": "text",
+   "id": "text",
+   "proposal_id": "text",
+   "section": "auto",
+   "section_title": "text",
+   "status": "previewed",
+   "status_title": "text",
+   "title": "text"
+  }
+ },
+ "forms.build": {
+  "result": {
+   "cells": [
+    {
+     "causes": [
+      {}
+     ],
+     "cell": "text",
+     "line": "text",
+     "one_c": "text",
+     "one_c_value": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "ours": "text",
+     "ours_value": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "status": "match",
+     "title": "text",
+     "type": "money"
+    }
+   ],
+   "coverage": "full",
+   "form": "text",
+   "isna": true,
+   "missing": [
+    {
+     "what": "text",
+     "why": "text"
+    }
+   ],
+   "next": "text",
+   "not_ready_because": [
+    "text"
+   ],
+   "period": {
+    "code": "text",
+    "from": "2026-01-02",
+    "kind": "month",
+    "title": "text",
+    "to": "2026-01-02"
+   },
+   "ready_to_file": true,
+   "reference": {
+    "date": "text",
+    "edition": "text",
+    "found": true,
+    "note": "text"
+   },
+   "submission": "text",
+   "title": "text",
+   "totals": {
+    "match": 9007199254740993,
+    "mismatch": 9007199254740993,
+    "no_reference": 9007199254740993,
+    "not_computed": 9007199254740993
+   },
+   "uncovered": {
+    "cells": [
+     {
+      "name": "text",
+      "value": "text"
+     }
+    ],
+    "total": 9007199254740993
+   },
+   "warnings": [
+    "text"
+   ]
+  }
+ },
+ "forms.get_isna": {
+  "result": {
+   "available": true,
+   "complete": true,
+   "download": {
+    "button": "text",
+    "screen": "text"
+   },
+   "exported": 9007199254740993,
+   "file_name": "text",
+   "for_human": [
+    "text"
+   ],
+   "form": "text",
+   "format": {
+    "note": "text",
+    "verified": true,
+    "version": "text"
+   },
+   "header_from": {
+    "key": "text"
+   },
+   "incomplete_because": [
+    "text"
+   ],
+   "map_edition": "text",
+   "next": "text",
+   "not_in_calculation": 9007199254740993,
+   "period": {
+    "code": "text",
+    "from": "2026-01-02",
+    "title": "text",
+    "to": "2026-01-02"
+   },
+   "reconciliation": {
+    "reference": "text",
+    "totals": {
+     "match": 9007199254740993,
+     "mismatch": 9007199254740993,
+     "no_reference": 9007199254740993,
+     "not_computed": 9007199254740993
+    }
+   },
+   "unmapped": [
+    "text"
+   ],
+   "warnings": [
+    "text"
+   ]
+  }
+ },
+ "forms.list": {
+  "result": {
+   "forms": [
+    {
+     "annual": true,
+     "coverage": "full",
+     "form": "text",
+     "group": "tax",
+     "isna": true,
+     "kind": "month",
+     "period_kind": "text",
+     "periods": [
+      {
+       "from": "2026-01-02",
+       "in_one_c": "text",
+       "period": "text",
+       "period_title": "text",
+       "started": true,
+       "to": "2026-01-02"
+      }
+     ],
+     "required": true,
+     "title": "text",
+     "why": "text"
+    }
+   ],
+   "in_one_c_without_calculation": [
+    {
+     "form": "text",
+     "periods": [
+      "text"
+     ]
+    }
+   ],
+   "regime": "text",
+   "year": 9007199254740993
+  }
+ },
+ "forms.list_data_gaps": {
+  "result": {
+   "forms": [
+    {
+     "form": "text",
+     "from": "2026-01-02",
+     "group": "text",
+     "missing": 9007199254740993,
+     "not_computed": 9007199254740993,
+     "period": "text",
+     "period_title": "text",
+     "title": "text",
+     "to": "2026-01-02",
+     "uncovered": 9007199254740993
+    }
+   ],
+   "gaps": [
+    {
+     "action": "fill_in_1c",
+     "action_title": "text",
+     "forms": [
+      {
+       "cells": 9007199254740993,
+       "form": "text",
+       "periods": [
+        {
+         "code": "text",
+         "title": "text"
+        }
+       ],
+       "title": "text"
+      }
+     ],
+     "id": "text",
+     "objects": [
+      {
+       "name": "text"
+      }
+     ],
+     "what": "text",
+     "why": "text"
+    }
+   ],
+   "next": "text",
+   "objects": [
+    {
+     "gap_ids": [
+      "text"
+     ],
+     "name": "text"
+    }
+   ],
+   "summary": {
+    "answer": 9007199254740993,
+    "close_month": 9007199254740993,
+    "fill_in_1c": 9007199254740993,
+    "norm": 9007199254740993,
+    "other_source": 9007199254740993,
+    "wait": 9007199254740993
+   },
+   "year": 9007199254740993
+  }
+ },
+ "forms.list_notes": {
+  "result": {
+   "form": "text",
+   "next": "text",
+   "organization": {
+    "bin": "text",
+    "name": "text"
+   },
+   "period": {
+    "code": "text",
+    "from": "2026-01-02",
+    "kind": "month",
+    "title": "text",
+    "to": "2026-01-02"
+   },
+   "sections": [
+    {
+     "basis": "text",
+     "id": "text",
+     "number": 9007199254740993,
+     "paragraphs": [
+      "text"
+     ],
+     "sources": [
+      "text"
+     ],
+     "tables": [
+      {
+       "columns": [
+        "text"
+       ],
+       "rows": [
+        [
+         "text"
+        ]
+       ]
+      }
+     ],
+     "title": "text",
+     "to_fill": [
+      {
+       "action": "fill_in_1c",
+       "what": "text"
+      }
+     ]
+    }
+   ],
+   "title": "text",
+   "to_fill_total": 9007199254740993,
+   "warnings": [
+    "text"
+   ]
+  }
+ },
+ "onec.get_status": {
+  "result": {
+   "connected": true,
+   "gateway": "odata",
+   "last_check": {
+    "capabilities": [
+     {
+      "id": "core",
+      "reason": "text",
+      "status": "yes",
+      "title": "text"
+     }
+    ],
+    "checked_at": "2026-01-02T03:04:05Z",
+    "stale": true,
+    "summary": "text",
+    "verdict": "ok"
+   },
+   "updated_at": "2026-01-02T03:04:05Z"
+  }
+ },
+ "platform.get_account": {
+  "result": {
+   "auto_reload": {
+    "amount_tiyn": 9007199254740993,
+    "enabled": true,
+    "monthly_limit_tiyn": 9007199254740993,
+    "threshold_tiyn": 9007199254740993
+   },
+   "auto_reload_spent_tiyn": 9007199254740993,
+   "balance_tiyn": 9007199254740993,
+   "blocked_reason": "disabled",
+   "enabled": true,
+   "month": "text",
+   "monthly_cap_tiyn": 9007199254740993,
+   "purchase_limits": {
+    "daily_max_tiyn": 9007199254740993,
+    "max_tiyn": 9007199254740993,
+    "min_tiyn": 9007199254740993
+   },
+   "spent_tiyn": 9007199254740993
+  }
+ },
+ "platform.get_audit": {
+  "result": {
+   "data": [
+    {
+     "action": "company.created",
+     "action_title": "text",
+     "actor": {
+      "id": "text",
+      "name": "text",
+      "type": "user"
+     },
+     "at": "2026-01-02T03:04:05Z",
+     "company_id": "text",
+     "id": "text",
+     "ip": "text",
+     "request_id": "text",
+     "target": {
+      "id": "text",
+      "type": "text"
+     }
+    }
+   ],
+   "next_cursor": "text"
+  }
+ },
+ "platform.get_ledger": {
+  "result": {
+   "data": [
+    {
+     "amount_tiyn": 9007199254740993,
+     "api_key_id": "text",
+     "at": "2026-01-02T03:04:05Z",
+     "balance_after_tiyn": 9007199254740993,
+     "id": "text",
+     "kind": "purchase",
+     "model": "text",
+     "note": "text",
+     "payment_id": "text",
+     "request_id": "text"
+    }
+   ],
+   "next_cursor": "text"
+  }
+ },
+ "platform.get_usage": {
+  "result": {
+   "by_company": [
+    {
+     "cache_read_tokens": 9007199254740993,
+     "cache_write_tokens": 9007199254740993,
+     "company_id": "text",
+     "cost_tiyn": 9007199254740993,
+     "input_tokens": 9007199254740993,
+     "output_tokens": 9007199254740993,
+     "requests": 9007199254740993
+    }
+   ],
+   "by_day": [
+    {
+     "cache_read_tokens": 9007199254740993,
+     "cache_write_tokens": 9007199254740993,
+     "cost_tiyn": 9007199254740993,
+     "day": "text",
+     "input_tokens": 9007199254740993,
+     "output_tokens": 9007199254740993,
+     "requests": 9007199254740993
+    }
+   ],
+   "by_key": [
+    {
+     "api_key_id": "text",
+     "cache_read_tokens": 9007199254740993,
+     "cache_write_tokens": 9007199254740993,
+     "cost_tiyn": 9007199254740993,
+     "input_tokens": 9007199254740993,
+     "output_tokens": 9007199254740993,
+     "requests": 9007199254740993
+    }
+   ],
+   "by_model": [
+    {
+     "cache_read_tokens": 9007199254740993,
+     "cache_write_tokens": 9007199254740993,
+     "cost_tiyn": 9007199254740993,
+     "input_tokens": 9007199254740993,
+     "model": "text",
+     "output_tokens": 9007199254740993,
+     "requests": 9007199254740993
+    }
+   ],
+   "from": "2026-01-02T03:04:05Z",
+   "to": "2026-01-02T03:04:05Z",
+   "totals": {
+    "cache_read_tokens": 9007199254740993,
+    "cache_write_tokens": 9007199254740993,
+    "cost_tiyn": 9007199254740993,
+    "input_tokens": 9007199254740993,
+    "output_tokens": 9007199254740993,
+    "requests": 9007199254740993
+   }
+  }
+ },
+ "platform.list_limits": {
+  "result": {
+   "concurrent_turns": {
+    "in_use": 9007199254740993,
+    "limit": 9007199254740993
+   },
+   "files": {
+    "attachment_bytes": 9007199254740993,
+    "attachments_per_message": 9007199254740993,
+    "attachments_total_bytes": 9007199254740993,
+    "bank_statement_request_bytes": 9007199254740993,
+    "chat_request_bytes": 9007199254740993,
+    "hook_event_bytes": 9007199254740993,
+    "image_bytes": 9007199254740993,
+    "pdf_pages": 9007199254740993,
+    "request_bytes": 9007199254740993
+   },
+   "rate": {
+    "key": {
+     "limit_per_minute": 9007199254740993,
+     "remaining": 9007199254740993,
+     "reset_in_sec": 9007199254740993
+    },
+    "workspace": {
+     "limit_per_minute": 9007199254740993,
+     "remaining": 9007199254740993,
+     "reset_in_sec": 9007199254740993
+    }
+   }
+  }
+ },
+ "platform.list_requests": {
+  "result": {
+   "data": [
+    {
+     "api_key_id": "text",
+     "at": "2026-01-02T03:04:05Z",
+     "client_request_id": "text",
+     "company_id": "text",
+     "duration_ms": 9007199254740993,
+     "id": "text",
+     "ip": "text",
+     "method": "text",
+     "path": "text",
+     "query": "text",
+     "request_id": "text",
+     "status": 9007199254740993
+    }
+   ],
+   "next_cursor": "text"
+  }
+ },
+ "platform.list_usage_rates": {
+  "result": {
+   "data": [
+    {
+     "cache_read_per_mtok_tiyn": 9007199254740993,
+     "cache_write_per_mtok_tiyn": 9007199254740993,
+     "effective_from": "2026-01-02T03:04:05Z",
+     "input_per_mtok_tiyn": 9007199254740993,
+     "model": "text",
+     "output_per_mtok_tiyn": 9007199254740993
+    }
+   ]
+  }
+ },
+ "proposals.approve": {
+  "result": {
+   "document": {
+    "number": "text",
+    "posted": true,
+    "ref": "text"
+   },
+   "message": "text",
+   "mismatches": [
+    "text"
+   ],
+   "ok": true,
+   "postings": [
+    {
+     "amount": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "computed_by_1c": true,
+     "credit": "text",
+     "debit": "text",
+     "label": "text"
+    }
+   ],
+   "proposal": {
+    "actions": [
+     {
+      "action": "approve",
+      "body": {
+       "key": {
+        "nested": [
+         "a",
+         1
+        ]
+       }
+      },
+      "effect": "text",
+      "enabled": true,
+      "href": "text",
+      "label": "text",
+      "method": "POST"
+     }
+    ],
+    "advance_offset": {
+     "amount": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "credit": "text",
+     "debit": "text",
+     "note": "text",
+     "to_pay": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     }
+    },
+    "approval": {
+     "allowed": true,
+     "blocked_by_blockers": true,
+     "requires_right": "proposals.approve"
+    },
+    "blocker_count": 9007199254740993,
+    "blockers": [
+     "text"
+    ],
+    "counterparty": {
+     "name": "text",
+     "ref": "text"
+    },
+    "created_at": "2026-01-02T03:04:05Z",
+    "dialog_id": "text",
+    "document_number": "text",
+    "header": {
+     "accounts": [
+      {
+       "code": "text",
+       "field": "text",
+       "ref": "text",
+       "title": "text"
+      }
+     ],
+     "date": "text",
+     "document_title": "text",
+     "entity_set": "text",
+     "net": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "total": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "vat": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     }
+    },
+    "history": [
+     {
+      "actor": "text",
+      "at": "2026-01-02T03:04:05Z",
+      "status": "previewed",
+      "status_title": "text"
+     }
+    ],
+    "href": "text",
+    "id": "text",
+    "intent": {
+     "key": {
+      "nested": [
+       "a",
+       1
+      ]
+     }
+    },
+    "kind": "sale",
+    "kind_title": "text",
+    "level": "L0",
+    "level_title": "text",
+    "line_count": 9007199254740993,
+    "lines": [
+     {
+      "accounts": [
+       {
+        "code": "text",
+        "field": "text",
+        "ref": "text",
+        "title": "text"
+       }
+      ],
+      "item": {
+       "name": "text",
+       "ref": "text"
+      },
+      "no": 9007199254740993,
+      "price": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "quantity": 1.5,
+      "section": "goods",
+      "sum": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "total": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "vat": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "vat_rate_title": "text"
+     }
+    ],
+    "postings": [
+     {
+      "amount": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "computed_by_1c": true,
+      "credit": "text",
+      "debit": "text",
+      "label": "text"
+     }
+    ],
+    "result": {
+     "mismatches": [
+      "text"
+     ],
+     "number": "text",
+     "postings": [
+      {
+       "amount": {
+        "amount": 1.5,
+        "amount_tiyn": 9007199254740993,
+        "formatted": "text"
+       },
+       "computed_by_1c": true,
+       "credit": "text",
+       "debit": "text",
+       "label": "text"
+      }
+     ],
+     "ref": "text"
+    },
+    "source": {
+     "channel": "mcp"
+    },
+    "status": "previewed",
+    "status_title": "text",
+    "summary": "text",
+    "title": "text",
+    "total": {
+     "amount": 1.5,
+     "amount_tiyn": 9007199254740993,
+     "formatted": "text"
+    },
+    "vat": {
+     "amount": 1.5,
+     "amount_tiyn": 9007199254740993,
+     "formatted": "text"
+    },
+    "warning_count": 9007199254740993,
+    "warnings": [
+     "text"
+    ]
+   },
+   "repeated": true
+  }
+ },
+ "proposals.approve_batch": {
+  "result": {
+   "approved": 1.5,
+   "batch_id": "text",
+   "counts": {
+    "key": 1.5
+   },
+   "excluded": 1.5,
+   "failed": 1.5,
+   "limit": 1.5,
+   "message": "text",
+   "ok": true,
+   "requested": 1.5,
+   "results": [
+    {
+     "id": "text",
+     "message": "text",
+     "outcome": "approved",
+     "title": "text"
+    }
+   ],
+   "stopped": {
+    "reason": "text",
+    "remaining": 1.5
+   },
+   "unknown_excluded": [
+    "text"
+   ]
+  }
+ },
+ "proposals.get": {
+  "result": {
+   "actions": [
+    {
+     "action": "approve",
+     "body": {
+      "key": {
+       "nested": [
+        "a",
+        1
+       ]
+      }
+     },
+     "effect": "text",
+     "enabled": true,
+     "href": "text",
+     "label": "text",
+     "method": "POST"
+    }
+   ],
+   "advance_offset": {
+    "amount": {
+     "amount": 1.5,
+     "amount_tiyn": 9007199254740993,
+     "formatted": "text"
+    },
+    "credit": "text",
+    "debit": "text",
+    "note": "text",
+    "to_pay": {
+     "amount": 1.5,
+     "amount_tiyn": 9007199254740993,
+     "formatted": "text"
+    }
+   },
+   "approval": {
+    "allowed": true,
+    "blocked_by_blockers": true,
+    "reason": "text",
+    "requires_right": "proposals.approve"
+   },
+   "blocker_count": 9007199254740993,
+   "blockers": [
+    "text"
+   ],
+   "counterparty": {
+    "bin": "text",
+    "name": "text",
+    "ref": "text"
+   },
+   "created_at": "2026-01-02T03:04:05Z",
+   "dialog_id": "text",
+   "document_number": "text",
+   "header": {
+    "accounts": [
+     {
+      "code": "text",
+      "field": "text",
+      "ref": "text",
+      "title": "text"
+     }
+    ],
+    "comment": "text",
+    "contract": {
+     "name": "text",
+     "ref": "text"
+    },
+    "counterparty": {
+     "name": "text",
+     "ref": "text"
+    },
+    "date": "text",
+    "document_title": "text",
+    "entity_set": "text",
+    "net": {
+     "amount": 1.5,
+     "amount_tiyn": 9007199254740993,
+     "formatted": "text"
+    },
+    "organization": {
+     "name": "text",
+     "ref": "text"
+    },
+    "payment_purpose": "text",
+    "prices_include_vat": true,
+    "total": {
+     "amount": 1.5,
+     "amount_tiyn": 9007199254740993,
+     "formatted": "text"
+    },
+    "vat": {
+     "amount": 1.5,
+     "amount_tiyn": 9007199254740993,
+     "formatted": "text"
+    }
+   },
+   "history": [
+    {
+     "actor": "text",
+     "at": "2026-01-02T03:04:05Z",
+     "status": "previewed",
+     "status_title": "text"
+    }
+   ],
+   "href": "text",
+   "id": "text",
+   "intent": {
+    "key": {
+     "nested": [
+      "a",
+      1
+     ]
+    }
+   },
+   "kind": "sale",
+   "kind_title": "text",
+   "level": "L0",
+   "level_title": "text",
+   "line_count": 9007199254740993,
+   "lines": [
+    {
+     "accounts": [
+      {
+       "code": "text",
+       "field": "text",
+       "ref": "text",
+       "title": "text"
+      }
+     ],
+     "item": {
+      "name": "text",
+      "ref": "text"
+     },
+     "no": 9007199254740993,
+     "price": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "quantity": 1.5,
+     "section": "goods",
+     "sum": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "total": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "vat": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "vat_rate_title": "text"
+    }
+   ],
+   "postings": [
+    {
+     "amount": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "computed_by_1c": true,
+     "credit": "text",
+     "debit": "text",
+     "label": "text"
+    }
+   ],
+   "result": {
+    "mismatches": [
+     "text"
+    ],
+    "number": "text",
+    "postings": [
+     {
+      "amount": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "computed_by_1c": true,
+      "credit": "text",
+      "debit": "text",
+      "label": "text"
+     }
+    ],
+    "ref": "text"
+   },
+   "source": {
+    "channel": "mcp",
+    "note": "text"
+   },
+   "status": "previewed",
+   "status_title": "text",
+   "summary": "text",
+   "title": "text",
+   "total": {
+    "amount": 1.5,
+    "amount_tiyn": 9007199254740993,
+    "formatted": "text"
+   },
+   "vat": {
+    "amount": 1.5,
+    "amount_tiyn": 9007199254740993,
+    "formatted": "text"
+   },
+   "warning_count": 9007199254740993,
+   "warnings": [
+    "text"
+   ]
+  }
+ },
+ "proposals.list": {
+  "result": {
+   "counts": {
+    "key": 1.5
+   },
+   "data": [
+    {
+     "approval": {
+      "allowed": true,
+      "blocked_by_blockers": true,
+      "requires_right": "proposals.approve"
+     },
+     "blocker_count": 9007199254740993,
+     "created_at": "2026-01-02T03:04:05Z",
+     "dialog_id": "text",
+     "href": "text",
+     "id": "text",
+     "kind": "sale",
+     "kind_title": "text",
+     "level": "L0",
+     "level_title": "text",
+     "line_count": 9007199254740993,
+     "status": "previewed",
+     "status_title": "text",
+     "title": "text",
+     "total": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "vat": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "warning_count": 9007199254740993
+    }
+   ],
+   "next_cursor": "text",
+   "total": 1.5
+  }
+ },
+ "proposals.reject": {
+  "result": {
+   "document": {
+    "number": "text",
+    "posted": true,
+    "ref": "text"
+   },
+   "message": "text",
+   "mismatches": [
+    "text"
+   ],
+   "ok": true,
+   "postings": [
+    {
+     "amount": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "computed_by_1c": true,
+     "credit": "text",
+     "debit": "text",
+     "label": "text"
+    }
+   ],
+   "proposal": {
+    "actions": [
+     {
+      "action": "approve",
+      "body": {
+       "key": {
+        "nested": [
+         "a",
+         1
+        ]
+       }
+      },
+      "effect": "text",
+      "enabled": true,
+      "href": "text",
+      "label": "text",
+      "method": "POST"
+     }
+    ],
+    "advance_offset": {
+     "amount": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "credit": "text",
+     "debit": "text",
+     "note": "text",
+     "to_pay": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     }
+    },
+    "approval": {
+     "allowed": true,
+     "blocked_by_blockers": true,
+     "requires_right": "proposals.approve"
+    },
+    "blocker_count": 9007199254740993,
+    "blockers": [
+     "text"
+    ],
+    "counterparty": {
+     "name": "text",
+     "ref": "text"
+    },
+    "created_at": "2026-01-02T03:04:05Z",
+    "dialog_id": "text",
+    "document_number": "text",
+    "header": {
+     "accounts": [
+      {
+       "code": "text",
+       "field": "text",
+       "ref": "text",
+       "title": "text"
+      }
+     ],
+     "date": "text",
+     "document_title": "text",
+     "entity_set": "text",
+     "net": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "total": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     },
+     "vat": {
+      "amount": 1.5,
+      "amount_tiyn": 9007199254740993,
+      "formatted": "text"
+     }
+    },
+    "history": [
+     {
+      "actor": "text",
+      "at": "2026-01-02T03:04:05Z",
+      "status": "previewed",
+      "status_title": "text"
+     }
+    ],
+    "href": "text",
+    "id": "text",
+    "intent": {
+     "key": {
+      "nested": [
+       "a",
+       1
+      ]
+     }
+    },
+    "kind": "sale",
+    "kind_title": "text",
+    "level": "L0",
+    "level_title": "text",
+    "line_count": 9007199254740993,
+    "lines": [
+     {
+      "accounts": [
+       {
+        "code": "text",
+        "field": "text",
+        "ref": "text",
+        "title": "text"
+       }
+      ],
+      "item": {
+       "name": "text",
+       "ref": "text"
+      },
+      "no": 9007199254740993,
+      "price": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "quantity": 1.5,
+      "section": "goods",
+      "sum": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "total": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "vat": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "vat_rate_title": "text"
+     }
+    ],
+    "postings": [
+     {
+      "amount": {
+       "amount": 1.5,
+       "amount_tiyn": 9007199254740993,
+       "formatted": "text"
+      },
+      "computed_by_1c": true,
+      "credit": "text",
+      "debit": "text",
+      "label": "text"
+     }
+    ],
+    "result": {
+     "mismatches": [
+      "text"
+     ],
+     "number": "text",
+     "postings": [
+      {
+       "amount": {
+        "amount": 1.5,
+        "amount_tiyn": 9007199254740993,
+        "formatted": "text"
+       },
+       "computed_by_1c": true,
+       "credit": "text",
+       "debit": "text",
+       "label": "text"
+      }
+     ],
+     "ref": "text"
+    },
+    "source": {
+     "channel": "mcp"
+    },
+    "status": "previewed",
+    "status_title": "text",
+    "summary": "text",
+    "title": "text",
+    "total": {
+     "amount": 1.5,
+     "amount_tiyn": 9007199254740993,
+     "formatted": "text"
+    },
+    "vat": {
+     "amount": 1.5,
+     "amount_tiyn": 9007199254740993,
+     "formatted": "text"
+    },
+    "warning_count": 9007199254740993,
+    "warnings": [
+     "text"
+    ]
+   },
+   "repeated": true
+  }
+ },
+ "webhooks.create_endpoint": {
+  "result": {
+   "channels": [
+    "text"
+   ],
+   "created_at": "2026-01-02T03:04:05Z",
+   "description": "text",
+   "enabled": true,
+   "event_types": [
+    "text"
+   ],
+   "id": "text",
+   "secret": "text",
+   "secret_note": "text",
+   "updated_at": "2026-01-02T03:04:05Z",
+   "url": "text"
+  }
+ },
+ "webhooks.delete_endpoint": {},
+ "webhooks.get_endpoint": {
+  "result": {
+   "channels": [
+    "text"
+   ],
+   "created_at": "2026-01-02T03:04:05Z",
+   "description": "text",
+   "enabled": true,
+   "event_types": [
+    "text"
+   ],
+   "id": "text",
+   "updated_at": "2026-01-02T03:04:05Z",
+   "url": "text"
+  }
+ },
+ "webhooks.get_usage": {
+  "result": {
+   "month": "text",
+   "monthly_free_messages": 9007199254740993,
+   "over_limit": 9007199254740993,
+   "sent": 9007199254740993
+  }
+ },
+ "webhooks.list_endpoint_attempts": {
+  "result": {
+   "data": [
+    {
+     "created_at": "2026-01-02T03:04:05Z",
+     "endpoint_id": "text",
+     "id": "text",
+     "message_id": "text",
+     "response_duration_ms": 9007199254740993,
+     "response_status_code": 9007199254740993,
+     "status": "succeeded",
+     "trigger": "scheduled",
+     "url": "text"
+    }
+   ],
+   "next_cursor": "text"
+  }
+ },
+ "webhooks.list_endpoints": {
+  "result": {
+   "data": [
+    {
+     "channels": [
+      "text"
+     ],
+     "created_at": "2026-01-02T03:04:05Z",
+     "description": "text",
+     "enabled": true,
+     "event_types": [
+      "text"
+     ],
+     "id": "text",
+     "updated_at": "2026-01-02T03:04:05Z",
+     "url": "text"
+    }
+   ],
+   "next_cursor": "text"
+  }
+ },
+ "webhooks.list_event_types": {
+  "result": {
+   "data": [
+    {
+     "description": "text",
+     "example": {
+      "company_id": "text",
+      "created_at": "2026-01-02T03:04:05Z",
+      "data": {
+       "key": {
+        "nested": [
+         "a",
+         1
+        ]
+       }
+      },
+      "id": "text",
+      "type": "text",
+      "workspace_id": "text"
+     },
+     "name": "text",
+     "schema": {
+      "key": {
+       "nested": [
+        "a",
+        1
+       ]
+      }
+     }
+    }
+   ]
+  }
+ },
+ "webhooks.list_message_attempts": {
+  "result": {
+   "data": [
+    {
+     "created_at": "2026-01-02T03:04:05Z",
+     "endpoint_id": "text",
+     "id": "text",
+     "message_id": "text",
+     "response_duration_ms": 9007199254740993,
+     "response_status_code": 9007199254740993,
+     "status": "succeeded",
+     "trigger": "scheduled",
+     "url": "text"
+    }
+   ],
+   "next_cursor": "text"
+  }
+ },
+ "webhooks.list_messages": {
+  "result": {
+   "data": [
+    {
+     "created_at": "2026-01-02T03:04:05Z",
+     "event_type": "text",
+     "id": "text",
+     "svix_message_id": "text"
+    }
+   ],
+   "next_cursor": "text"
+  }
+ },
+ "webhooks.resend_message": {},
+ "webhooks.rotate_endpoint_secret": {
+  "result": {
+   "endpoint_id": "text",
+   "secret": "text",
+   "secret_note": "text"
+  }
+ },
+ "webhooks.test_endpoint": {
+  "result": {
+   "created_at": "2026-01-02T03:04:05Z",
+   "event_type": "text",
+   "id": "text",
+   "svix_message_id": "text"
+  }
+ },
+ "webhooks.update_endpoint": {
+  "result": {
+   "channels": [
+    "text"
+   ],
+   "created_at": "2026-01-02T03:04:05Z",
+   "description": "text",
+   "enabled": true,
+   "event_types": [
+    "text"
+   ],
+   "id": "text",
+   "updated_at": "2026-01-02T03:04:05Z",
+   "url": "text"
+  }
+ },
+ "workspaces.list": {
+  "result": {
+   "data": [
+    {
+     "id": "text",
+     "kind": "personal",
+     "name": "text",
+     "plan": {
+      "code": "text",
+      "is_free": true,
+      "name": "text"
+     },
+     "role": "text"
+    }
+   ]
+  }
+ }
+}

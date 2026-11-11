@@ -1,0 +1,8 @@
+# Standard libraries the signatures depend on.
+dependencies:
+  - name: bigdecimal
+  - name: date
+  - name: json
+  - name: net-http
+  - name: pathname
+  - name: uri
