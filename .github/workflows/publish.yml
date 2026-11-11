@@ -86,7 +86,7 @@ jobs:
           fi
       - name: Get short-lived RubyGems credentials
         if: steps.auth.outputs.mode == 'oidc'
-        uses: rubygems/configure-rubygems-credentials@bc6dd217f8a4f919d6835fcfefd470ef821f5c44 # v1.0.0
+        uses: rubygems/configure-rubygems-credentials@dc5a8d8553e6ee01fc26761a49e99e733d17954a # v2.1.0
       - name: Publish to RubyGems (trusted publishing)
         if: steps.auth.outputs.mode == 'oidc'
         run: gem push "tungo-sdk-${VERSION}.gem"
