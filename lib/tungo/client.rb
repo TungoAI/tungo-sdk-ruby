@@ -172,7 +172,7 @@ module Tungo
                                                     "Cache-Control" => "no-cache")
       call = prepare(options: options, accept: "text/event-stream", headers: headers, **spec)
       response, = perform(call, options, timeout: nil, streaming: true)
-      check_event_stream(response)
+      response = check_event_stream(response)
       stream_class.new(response: response, decode: event_decoder(event))
     end
 
@@ -378,9 +378,14 @@ module Tungo
                             "(#{e.class})", api_response: api_response, body: body)
     end
 
+    # Returns the response when it is an event stream. A chat turn repeated with the same
+    # Idempotency-Key after it finished is answered with the stored ChatTurnResult instead: it
+    # becomes the event stream of that turn. Anything else is a DecodeError.
     def check_event_stream(response)
+      return Internal::ChatReplay.event_stream(response) if Internal::ChatReplay.replay?(response)
+
       type = response.headers["content-type"].to_s
-      return if type.split(";").first.to_s.strip.casecmp?("text/event-stream")
+      return response if type.split(";").first.to_s.strip.casecmp?("text/event-stream")
 
       body = begin
         response.read

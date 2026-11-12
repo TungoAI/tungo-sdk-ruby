@@ -118,5 +118,85 @@ module Tungo
                                   retry: retry_ms)
       end
     end
+
+    # A stream call repeated with the same Idempotency-Key after its chat turn finished: the
+    # server answers the stored ChatTurnResult as JSON with Idempotent-Replayed: true.
+    module ChatReplay
+      module_function
+
+      # Whether a stream call was answered with a stored result replayed by Idempotency-Key.
+      def replay?(response)
+        type = response.headers["content-type"].to_s.split(";").first.to_s.strip
+        type.casecmp?("application/json") && response.headers["idempotent-replayed"].to_s.strip.casecmp?("true")
+      end
+
+      # Turns a replayed ChatTurnResult into the event stream of the turn it stands for: text (the
+      # answer), proposal, question, citation, error and choice events, then done. The dialog id
+      # and the turn number, which a replay carries only in the body, become the X-Dialog-Id and
+      # X-Turn-No headers when they are missing.
+      #
+      # @raise [Tungo::DecodeError] when the body is not a chat turn result
+      def event_stream(response)
+        body = begin
+          response.read
+        ensure
+          response.close
+        end
+        result = parse(body)
+        unless result.is_a?(Hash) && result["dialog_id"].is_a?(String)
+          raise DecodeError.new("The API replayed status #{response.status} to a stream request with a body that " \
+                                "is not a chat turn result",
+                                api_response: APIResponse.new(status: response.status, headers: response.headers),
+                                body: body)
+        end
+        headers = response.headers.dup
+        headers["x-dialog-id"] = result["dialog_id"] if headers["x-dialog-id"].to_s.empty?
+        turn_no = result["turn_no"]
+        headers["x-turn-no"] = turn_no.to_s if turn_no.is_a?(Integer) && headers["x-turn-no"].to_s.empty?
+        Transport::Response.new(status: response.status, headers: headers, chunks: [events(result, headers)])
+      end
+
+      def parse(body)
+        Util.parse_json(Util.text(body))
+      rescue JSON::ParserError, EncodingError, ArgumentError
+        nil
+      end
+
+      def events(result, headers)
+        out = +""
+        emit = ->(type, event) { out << "event: #{type}\ndata: #{Util.generate_json(event.merge("type" => type))}\n\n" }
+        entries = ->(key) { result[key].is_a?(Array) ? result[key].grep(Hash) : [] }
+        answer = result["answer"].is_a?(String) ? result["answer"] : ""
+        emit.call("text", { "delta" => answer }) unless answer.empty?
+        entries.call("proposals").each do |proposal|
+          emit.call("proposal", proposal.except("id").merge("proposal_id" => proposal["id"]))
+        end
+        entries.call("questions").each { |question| emit.call("question", question) }
+        entries.call("citations").each { |citation| emit.call("citation", citation) }
+        request_id = headers["x-request-id"].to_s
+        entries.call("errors").each do |error|
+          emit.call("error", { "error" => error, "request_id" => request_id.empty? ? nil : request_id })
+        end
+        emit.call("done", done(result, answer, emit))
+        out
+      end
+
+      # The done event; emits the choice event of an open question first.
+      def done(result, answer, emit)
+        event = { "answer" => answer }
+        event["stop_reason"] = result["stop_reason"] if result["stop_reason"].is_a?(String)
+        usage = result["usage"]
+        if usage.is_a?(Hash)
+          event["usage"] = usage.except("cost_tiyn")
+          event["cost_tiyn"] = usage["cost_tiyn"] if usage.key?("cost_tiyn")
+        end
+        pending = result["pending_question"]
+        if pending.is_a?(Hash)
+          emit.call("choice", pending)
+          event["choice_id"] = pending["choice_id"] if pending.key?("choice_id")
+        end
+        event
+      end
+    end
   end
 end

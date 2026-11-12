@@ -11,7 +11,7 @@ class ConformanceTest < TungoTestCase
     assert_equal 2, vectors["version"]
     sections = vectors.keys - %w[version description]
     covered = %w[webhook_verification hook_signature money bin_iin errors retry_after backoff retry_policy
-                 path_segment query sse chat_stream]
+                 path_segment query sse chat_stream chat_stream_replay]
 
     assert_equal covered.sort, sections.sort, "a vector section has no test"
   end
@@ -207,6 +207,25 @@ class ConformanceTest < TungoTestCase
         next
       end
       turn = stream.accumulate(raise_on_error: false)
+      check_chat_turn(turn, kase)
+      check_chat_error(kase)
+    end
+  end
+
+  # A stream call repeated with the same Idempotency-Key after its turn finished is answered with
+  # the stored ChatTurnResult as JSON: the stream must yield the events of that turn.
+  def test_chat_stream_replay
+    vectors["chat_stream_replay"].each do |kase|
+      server.respond { |_| { status: kase["status"], headers: kase["headers"], chunks: [JSON.generate(kase["body"])] } }
+      if kase["expect"]["decode_error"]
+        error = assert_raises(Tungo::DecodeError, kase["name"]) do
+          client.chat.create_stream(message: "Привет", company_id: "co_1")
+        end
+
+        assert_equal kase["status"], error.api_response.status, kase["name"]
+        next
+      end
+      turn = client.chat.create_stream(message: "Привет", company_id: "co_1").accumulate(raise_on_error: false)
       check_chat_turn(turn, kase)
       check_chat_error(kase)
     end
