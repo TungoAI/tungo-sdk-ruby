@@ -210,6 +210,19 @@ class ErrorsTest < TungoTestCase
     assert_equal 1, server.requests.size
   end
 
+  def test_a_caller_key_does_not_make_an_undeclared_post_retryable
+    # count-tokens declares no Idempotency-Key: the API ignores a key there, so it is not sent
+    # and a lost answer is not followed by a second, billed request.
+    server.respond { |_| MockServer.error(503, "unavailable_error", headers: { "retry-after-ms" => "1" }) }
+    options = { idempotency_key: "k-1", extra_headers: { "Idempotency-Key" => "k-2" } }
+
+    assert_raises(Tungo::UnavailableError) do
+      client(company_id: "co_1").chat.count_tokens(message: "x", request_options: options)
+    end
+    assert_equal 1, server.requests.size
+    assert_nil server.requests.first.headers["idempotency-key"]
+  end
+
   def test_idempotent_post_is_retried_with_the_same_key
     server.respond do |_, count|
       if count == 1

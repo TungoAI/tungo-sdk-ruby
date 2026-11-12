@@ -9,7 +9,9 @@ module Tungo
   # @!attribute max_retries
   #   @return [Integer, nil] how many times a failed request may be repeated
   # @!attribute idempotency_key
-  #   @return [String, nil] value of the Idempotency-Key header (generated when the operation declares it)
+  #   @return [String, nil] value of the Idempotency-Key header of an operation that declares it
+  #     (generated when nil); other operations send no key, not even this one, and a POST or
+  #     PATCH among them is never retried
   # @!attribute extra_headers
   #   @return [Hash{String=>String}, nil] headers added to (or replacing) the default ones
   # @!attribute connect_timeout

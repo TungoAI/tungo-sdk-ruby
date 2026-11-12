@@ -235,13 +235,16 @@ module Tungo
 
       all = { "accept" => accept, "user-agent" => USER_AGENT }.merge(default_headers_for(auth))
       all["x-api-key"] = api_key! if auth == :key
-      key = options.idempotency_key || idempotency_key(idempotency_header, idempotency_default)
-      all[(idempotency_header || "Idempotency-Key").downcase] = key if key
+      # A key goes only to an operation that declares the header: anywhere else the API ignores
+      # it, and sending it would make a retry look safe when it repeats the action.
+      key = idempotency_header && (options.idempotency_key || idempotency_key(idempotency_header, idempotency_default))
+      all[idempotency_header.downcase] = key if key
       payload, type = encode_body(body, body_required, raw_body, content_type)
       all["content-type"] = type if payload && type
       all[signature_header.downcase] = Webhooks.sign_hook_payload(payload || "", secret) if signature_header && secret
       merge_headers(all, headers)
       merge_headers(all, options.extra_headers)
+      all.delete("idempotency-key") unless idempotency_header
       Call.new(verb: method.to_s.upcase, route: path, url: url, headers: all, body: payload, keyed: !key.nil?)
     end
 
