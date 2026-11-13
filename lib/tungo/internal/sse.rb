@@ -131,7 +131,7 @@ module Tungo
       end
 
       # Turns a replayed ChatTurnResult into the event stream of the turn it stands for: text (the
-      # answer), proposal, question, citation, error and choice events, then done. The dialog id
+      # answer), proposal, question, citation, error, choice and next events, then done. The dialog id
       # and the turn number, which a replay carries only in the body, become the X-Dialog-Id and
       # X-Turn-No headers when they are missing.
       #
@@ -181,7 +181,17 @@ module Tungo
         out
       end
 
-      # The done event; emits the choice event of an open question first.
+      # The next event of a live turn, which ends its finished answer right before done: the stored
+      # result keeps it as followups and next_action.
+      def next_event(result, emit)
+        followups = result["followups"].is_a?(Array) ? result["followups"] : []
+        action = result["next_action"].is_a?(Hash) ? result["next_action"] : nil
+        return if followups.empty? && action.nil?
+
+        emit.call("next", { "followups" => followups, "action" => action })
+      end
+
+      # The done event; emits the choice event of an open question and the next event first.
       def done(result, answer, emit)
         event = { "answer" => answer }
         event["stop_reason"] = result["stop_reason"] if result["stop_reason"].is_a?(String)
@@ -195,6 +205,7 @@ module Tungo
           emit.call("choice", pending)
           event["choice_id"] = pending["choice_id"] if pending.key?("choice_id")
         end
+        next_event(result, emit)
         event
       end
     end

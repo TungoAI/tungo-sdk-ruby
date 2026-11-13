@@ -321,6 +321,19 @@ class ConformanceTest < TungoTestCase
     assert_equal expect["event_count"], turn.events.size, name
     assert_equal expect["event_types"], turn.events.map { |event| event[:type] }, name if expect["event_types"]
     assert_equal expect["error"].nil?, turn.error.nil?, name
+    check_chat_next(turn, kase)
+  end
+
+  # The followups and action of the next event, when the vector names them.
+  def check_chat_next(turn, kase)
+    return unless kase["expect"].key?("next")
+
+    nexts = turn.events.select { |event| event[:type] == "next" }.map do |event|
+      wire = Tungo::Internal::Type.wire(event)
+      { "followups" => wire["followups"], "action" => wire["action"] }
+    end
+
+    assert_equal [kase["expect"]["next"]], nexts, kase["name"]
   end
 
   # The accumulating helpers must raise the error event as a typed error.
