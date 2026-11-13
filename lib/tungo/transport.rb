@@ -351,7 +351,8 @@ module Tungo
 
       def connect(url)
         connection = if @proxy
-                       Net::HTTP.new(url.host, url.port, @proxy.host, @proxy.port, @proxy.user, @proxy.password)
+                       Net::HTTP.new(url.host, url.port, @proxy.host, @proxy.port,
+                                     proxy_credential(@proxy.user), proxy_credential(@proxy.password))
                      else
                        Net::HTTP.new(url.host, url.port)
                      end
@@ -361,6 +362,13 @@ module Tungo
         connection.keep_alive_timeout = @keep_alive_timeout
         @configure&.call(connection)
         connection
+      end
+
+      # URI#user and URI#password keep the percent-encoding of the URL ("p%40ss"), and Net::HTTP
+      # sends an explicit proxy's credentials as given (it decodes only those of http_proxy).
+      # URI.decode_uri_component, unlike CGI.unescape, keeps a "+" as it is.
+      def proxy_credential(value)
+        value && URI.decode_uri_component(value)
       end
 
       def finish(connection)

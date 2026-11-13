@@ -366,6 +366,23 @@ class HardeningTest < TungoTestCase
     end
   end
 
+  def test_percent_encoded_proxy_credentials_reach_net_http_decoded
+    transport = Tungo::Transport::NetHTTP.new(proxy: "http://us%3Aer:p%40ss+1@proxy.example:3128")
+    connection = transport.send(:connect, URI("https://api.tungo.kz/v1/x"))
+
+    assert_equal "proxy.example", connection.proxy_address
+    assert_equal 3128, connection.proxy_port
+    assert_equal "us:er", connection.proxy_user
+    assert_equal "p@ss+1", connection.proxy_pass, "a plus sign of the userinfo is not a space"
+  end
+
+  def test_a_proxy_without_credentials_has_none
+    connection = Tungo::Transport::NetHTTP.new(proxy: "http://proxy.example:3128").send(:connect, URI("https://api.tungo.kz/v1/x"))
+
+    assert_nil connection.proxy_user
+    assert_nil connection.proxy_pass
+  end
+
   def test_the_time_spent_connecting_is_taken_off_the_total_timeout
     transport = SlowTransport.new
     request = Tungo::Transport::Request.new(verb: "GET", url: URI("http://127.0.0.1:1/v1/x"), headers: {}, body: nil,
