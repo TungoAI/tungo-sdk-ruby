@@ -26,6 +26,13 @@ module Tungo
       #   @return [String, nil]
       required :company_id, :string, nullable: true
 
+      # @!attribute [r] cost_tiyn
+      #   Цена запроса в тиынах — сколько списано с баланса платформы за вызовы модели этого запроса
+      #   (ход ИИ; у хода потоком — когда он закончится). null — запрос модель не вызывал; у запросов до
+      #   появления этого поля тоже null
+      #   @return [Integer, nil]
+      required :cost_tiyn, :integer, nullable: true
+
       # @!attribute [r] duration_ms
       #   Сколько шёл ответ, мс. У хода ИИ — до начала потока событий
       #   @return [Integer]

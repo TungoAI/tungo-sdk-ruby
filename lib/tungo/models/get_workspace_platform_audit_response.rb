@@ -17,6 +17,17 @@ module Tungo
       #   непрозрачный: не разбирать и не собирать самому, хр…
       #   @return [String, nil]
       required :next_cursor, :string, nullable: true
+
+      # @!attribute [r] total
+      #   Сколько всего записей под этими фильтрами (курсор не учитывается). Считается не дальше 10 000:
+      #   если записей больше — здесь 10 000 и total_more = true
+      #   @return [Integer]
+      required :total, :integer
+
+      # @!attribute [r] total_more
+      #   true — записей больше, чем total: писать «больше 10 000», а не точное число
+      #   @return [Boolean]
+      required :total_more, :boolean
     end
   end
 end

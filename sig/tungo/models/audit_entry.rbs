@@ -11,9 +11,10 @@ module Tungo
       def data: () -> untyped
       def id: () -> String
       def ip: () -> String?
+      def object: () -> Tungo::Models::AuditEntryObject?
       def request_id: () -> String?
       def target: () -> Tungo::Models::AuditEntryTarget?
-      def initialize: (?action: Tungo::Models::AuditEntryAction::input, ?action_title: String, ?actor: Tungo::input[Tungo::Models::AuditEntryActor], ?at: (String | Time)?, ?company_id: String?, ?data: untyped, ?id: String, ?ip: String?, ?request_id: String?, ?target: Tungo::input[Tungo::Models::AuditEntryTarget]?, **untyped) -> void
+      def initialize: (?action: Tungo::Models::AuditEntryAction::input, ?action_title: String, ?actor: Tungo::input[Tungo::Models::AuditEntryActor], ?at: (String | Time)?, ?company_id: String?, ?data: untyped, ?id: String, ?ip: String?, ?object: Tungo::input[Tungo::Models::AuditEntryObject]?, ?request_id: String?, ?target: Tungo::input[Tungo::Models::AuditEntryTarget]?, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::AuditEntry
       def with: (**untyped) -> Tungo::Models::AuditEntry
     end

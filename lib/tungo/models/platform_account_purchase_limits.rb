@@ -20,6 +20,12 @@ module Tungo
       #   Наименьшее пополнение в тиынах (1 ₸ = 100 тиын; показывать значение / 100 ₸)
       #   @return [Integer]
       required :min_tiyn, :integer
+
+      # @!attribute [r] today_tiyn
+      #   Сколько уже пополнено сегодня (сутки по Алматы; платежи без итога тоже в счёте) — тот же счёт,
+      #   что у предела daily_max_tiyn в тиынах (1 ₸ = 100 тиын; показывать значение / 100 ₸)
+      #   @return [Integer]
+      required :today_tiyn, :integer
     end
   end
 end

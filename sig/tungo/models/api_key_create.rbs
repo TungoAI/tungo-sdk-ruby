@@ -9,11 +9,12 @@ module Tungo
       def expires_at: () -> String?
       def monthly_cap_tiyn: () -> Integer?
       def name: () -> String
-      def permissions: () -> Array[String]
+      def no_companies: () -> bool?
+      def permissions: () -> Array[String]?
       def write_kinds: () -> Array[Tungo::Models::ApiKeyCreateWriteKindItem::t]?
       def write_max_amount_per_day_tiyn: () -> Integer?
       def write_max_amount_per_document_tiyn: () -> Integer?
-      def initialize: (?all_companies: bool, ?allowed_ips: Array[String]?, ?company_ids: Array[String], ?expires_at: (String | Time)?, ?monthly_cap_tiyn: Integer?, ?name: String, ?permissions: Array[String], ?write_kinds: Array[Tungo::Models::ApiKeyCreateWriteKindItem::input]?, ?write_max_amount_per_day_tiyn: Integer?, ?write_max_amount_per_document_tiyn: Integer?, **untyped) -> void
+      def initialize: (?all_companies: bool, ?allowed_ips: Array[String]?, ?company_ids: Array[String], ?expires_at: (String | Time)?, ?monthly_cap_tiyn: Integer?, ?name: String, ?no_companies: bool, ?permissions: Array[String], ?write_kinds: Array[Tungo::Models::ApiKeyCreateWriteKindItem::input]?, ?write_max_amount_per_day_tiyn: Integer?, ?write_max_amount_per_document_tiyn: Integer?, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ApiKeyCreate
       def with: (**untyped) -> Tungo::Models::ApiKeyCreate
     end

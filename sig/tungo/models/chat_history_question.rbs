@@ -3,10 +3,11 @@
 module Tungo
   module Models
     class ChatHistoryQuestion < Tungo::Model
+      def answer: () -> Tungo::Models::ChatHistoryQuestionAnswer?
       def kind: () -> String
       def proposal_id: () -> String?
       def text: () -> String
-      def initialize: (?kind: String, ?proposal_id: String, ?text: String, **untyped) -> void
+      def initialize: (?answer: Tungo::input[Tungo::Models::ChatHistoryQuestionAnswer], ?kind: String, ?proposal_id: String, ?text: String, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ChatHistoryQuestion
       def with: (**untyped) -> Tungo::Models::ChatHistoryQuestion
     end

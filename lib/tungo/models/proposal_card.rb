@@ -19,6 +19,10 @@ module Tungo
       #   @return [Tungo::Models::ProposalApproval]
       required :approval, :ProposalApproval
 
+      # @!attribute [r] approval_request
+      #   @return [Tungo::Models::ProposalApprovalRequest]
+      required :approval_request, :ProposalApprovalRequest
+
       # @!attribute [r] blocker_count
       #   Сколько блокеров: больше 0 — одобрить нельзя, нужен ответ человека в чате
       #   @return [Integer]
@@ -41,7 +45,8 @@ module Tungo
 
       # @!attribute [r] dialog_id
       #   Разговор чата, в котором ИИ подготовил предложение: «Открыть разговор» — GET
-      #   …/chat/{dialog_id} (если он ваш). null — не из чата (пачка, автоматизация, MCP)
+      #   …/chat/{dialog_id} (если он ваш). null — не из разговора человека (пачка из ручки,
+      #   автоматизация, MCP)
       #   @return [String, nil]
       required :dialog_id, :string, nullable: true
 
@@ -104,6 +109,10 @@ module Tungo
       #   @return [Array<Tungo::Models::ProposalLine>]
       required :lines, array_of(:ProposalLine)
 
+      # @!attribute [r] origin
+      #   @return [Tungo::Models::ProposalOrigin]
+      required :origin, :ProposalOrigin
+
       # @!attribute [r] postings
       #   Ожидаемые проводки — что получится в учёте после проведения
       #   @return [Array<Tungo::Models::ProposalPosting>]
@@ -120,6 +129,12 @@ module Tungo
       # @!attribute [r] status
       #   @return [String]
       required :status, :ProposalStatus
+
+      # @!attribute [r] status_reason
+      #   Причина отказа — у статусов rejected (отклонено) и failed (записать не удалось): последняя
+      #   такая запись history. null — статус другой или причину не записали
+      #   @return [Tungo::Models::ProposalCardStatusReason, nil]
+      required :status_reason, :ProposalCardStatusReason, nullable: true
 
       # @!attribute [r] status_title
       #   Статус по-русски для показа (бейдж)

@@ -4,7 +4,9 @@
 
 module Tungo
   module Models
-    # Только у code = budget: day — дневной лимит, dialog — лимит разговора
+    # Только у code = budget — почему ход остановлен: - `day` — дневной лимит человека исчерпан —
+    # продолжить завтра (по Алматы) или поднять лимит - `dialog` — лимит разговора исчерпан — начать новый
+    # разговор - `turn` — потолок…
     #
     # A value this SDK version does not know is passed through unchanged.
     module ChatTurnErrorLimitKind
@@ -12,6 +14,10 @@ module Tungo
 
       DAY = "day"
       DIALOG = "dialog"
+      TURN = "turn"
+      PLAN = "plan"
+      DISABLED = "disabled"
+      METER = "meter"
     end
   end
 end

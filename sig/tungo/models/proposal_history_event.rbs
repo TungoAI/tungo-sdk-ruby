@@ -5,10 +5,11 @@ module Tungo
     class ProposalHistoryEvent < Tungo::Model
       def actor: () -> String
       def at: () -> String
+      def code: () -> String?
       def note: () -> String?
       def status: () -> Tungo::Models::ProposalStatus::t
       def status_title: () -> String
-      def initialize: (?actor: String, ?at: (String | Time), ?note: String, ?status: Tungo::Models::ProposalStatus::input, ?status_title: String, **untyped) -> void
+      def initialize: (?actor: String, ?at: (String | Time), ?code: String, ?note: String, ?status: Tungo::Models::ProposalStatus::input, ?status_title: String, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ProposalHistoryEvent
       def with: (**untyped) -> Tungo::Models::ProposalHistoryEvent
     end

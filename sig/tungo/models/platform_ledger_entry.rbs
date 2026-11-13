@@ -7,13 +7,14 @@ module Tungo
       def api_key_id: () -> String?
       def at: () -> String
       def balance_after_tiyn: () -> Integer
+      def documents: () -> Tungo::Models::PlatformLedgerEntryDocuments?
       def id: () -> String
       def kind: () -> Tungo::Models::PlatformLedgerEntryKind::t
       def model: () -> String?
       def note: () -> String?
       def payment_id: () -> String?
       def request_id: () -> String?
-      def initialize: (?amount_tiyn: Integer, ?api_key_id: String?, ?at: (String | Time), ?balance_after_tiyn: Integer, ?id: String, ?kind: Tungo::Models::PlatformLedgerEntryKind::input, ?model: String?, ?note: String?, ?payment_id: String?, ?request_id: String?, **untyped) -> void
+      def initialize: (?amount_tiyn: Integer, ?api_key_id: String?, ?at: (String | Time), ?balance_after_tiyn: Integer, ?documents: Tungo::input[Tungo::Models::PlatformLedgerEntryDocuments]?, ?id: String, ?kind: Tungo::Models::PlatformLedgerEntryKind::input, ?model: String?, ?note: String?, ?payment_id: String?, ?request_id: String?, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::PlatformLedgerEntry
       def with: (**untyped) -> Tungo::Models::PlatformLedgerEntry
     end

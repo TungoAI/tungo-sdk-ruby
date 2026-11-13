@@ -27,6 +27,13 @@ module Tungo
       #   @return [Integer]
       required :balance_after_tiyn, :integer
 
+      # @!attribute [r] documents
+      #   Документы пополнения (kind = purchase) из его платежа. null — у остальных видов и у ключа не
+      #   на все компании. Файл PDF ядро не формирует: чек выпускает касса, ссылка появляется в
+      #   receipt_url
+      #   @return [Tungo::Models::PlatformLedgerEntryDocuments, nil]
+      required :documents, :PlatformLedgerEntryDocuments, nullable: true
+
       # @!attribute [r] id
       #   id движения (led_…); он же — курсор
       #   @return [String]

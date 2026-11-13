@@ -43,12 +43,19 @@ module Tungo
       #   @return [String]
       required :name, :string
 
+      # @!attribute [r] no_companies
+      #   Ключ без доступа к компаниям и их 1С: ни одной компании он не видит — ни сейчас, ни будущих;
+      #   company_ids и all_companies не передаются, права — только company.read (он ничего не
+      #   открывает). По умолчанию false
+      #   @return [Boolean, nil]
+      optional :no_companies, :boolean
+
       # @!attribute [r] permissions
       #   Права ключа (1–20): `company.read` — читать данные компаний (добавляется всегда, даже если не
       #   передано); `chat.use` — работать с ИИ-бухгалтером; `proposals.create` — готовить документы для
       #   1С; `proposals.approve` — одобр…
-      #   @return [Array<String>]
-      required :permissions, array_of(:string)
+      #   @return [Array<String>, nil]
+      optional :permissions, array_of(:string)
 
       # @!attribute [r] write_kinds
       #   Предел записи в 1С по ключу: какие виды документов ключ может одобрять (как kinds правила

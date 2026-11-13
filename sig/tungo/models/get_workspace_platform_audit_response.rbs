@@ -5,7 +5,9 @@ module Tungo
     class GetWorkspacePlatformAuditResponse < Tungo::Model
       def data: () -> Array[Tungo::Models::AuditEntry]
       def next_cursor: () -> String?
-      def initialize: (?data: Array[Tungo::input[Tungo::Models::AuditEntry]], ?next_cursor: String?, **untyped) -> void
+      def total: () -> Integer
+      def total_more: () -> bool
+      def initialize: (?data: Array[Tungo::input[Tungo::Models::AuditEntry]], ?next_cursor: String?, ?total: Integer, ?total_more: bool, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::GetWorkspacePlatformAuditResponse
       def with: (**untyped) -> Tungo::Models::GetWorkspacePlatformAuditResponse
     end

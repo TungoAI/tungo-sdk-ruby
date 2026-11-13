@@ -8,6 +8,10 @@ module Tungo
       type input = String
       DAY: String
       DIALOG: String
+      TURN: String
+      PLAN: String
+      DISABLED: String
+      METER: String
     end
   end
 end

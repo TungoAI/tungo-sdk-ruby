@@ -12,7 +12,7 @@ module Tungo
       required :cost_tiyn, :integer
 
       # @!attribute [r] model
-      #   Модель ИИ (техническое имя)
+      #   Модель ИИ: tungo-1-flash, tungo-1, tungo-1-deep (tungo-search, tungo-legacy)
       #   @return [String]
       required :model, :string
 

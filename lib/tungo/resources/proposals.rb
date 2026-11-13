@@ -16,6 +16,10 @@ module Tungo
       #
       # +GET /v1/companies/{co}/proposals+
       #
+      # @param approval_requested [String] true — только отправленные на одобрение и ещё не решённые; false
+      #   — только остальные
+      # @param batch_id [String] Только документы одного задания пачки (bat_…) — тот же состав, что в сводке
+      #   задания и у «Одобрить и отправить в 1С». Не id задания — 400; задания нет — пустой список
       # @param cursor [String] next_cursor из ответа прошлой страницы; без него — первая (самая свежая)
       #   страница. Остальные фильтры — те же, что у первой страницы.
       # @param date_from [String] Созданные не раньше этого дня (ГГГГ-ММ-ДД, день по Алматы)
@@ -25,7 +29,9 @@ module Tungo
       #   cash_order_out, advance_report). Неизвестный — 400
       # @param limit [Integer] Сколько на странице: 1–100, по умолчанию 20
       # @param q [String] Поиск без учёта регистра: номер предложения (P-…), номер документа 1С, контрагент
-      #   (имя из превью), БИН/ИИН и другие реквизиты документа
+      #   (имя из превью), БИН/ИИН, сумма (как пишут: «150 000,50» или 150000.5) и другие реквизиты документа
+      # @param source [String] Только из этих источников (origin.source): один или несколько через запятую
+      #   (chat, statement, esf, automation). Неизвестный — 400
       # @param status [String] Только в этих статусах: один или несколько через запятую (previewed,
       #   approved, rejected, committed, posted, verified, mismatch, failed); без него — все. Неизвестный —
       #   400
@@ -33,12 +39,15 @@ module Tungo
       # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
       # @return [Tungo::Page<Tungo::Models::ProposalListItem>]
       def list(
+        approval_requested: OMIT,
+        batch_id: OMIT,
         cursor: OMIT,
         date_from: OMIT,
         date_to: OMIT,
         kind: OMIT,
         limit: OMIT,
         q: OMIT,
+        source: OMIT,
         status: OMIT,
         company_id: nil,
         request_options: nil
@@ -48,12 +57,15 @@ module Tungo
           path: "/v1/companies/{co}/proposals",
           path_params: { co: @client.resolve_company_id(company_id) },
           query: {
+            "approval_requested" => approval_requested,
+            "batch_id" => batch_id,
             "cursor" => cursor,
             "date_from" => date_from,
             "date_to" => date_to,
             "kind" => kind,
             "limit" => limit,
             "q" => q,
+            "source" => source,
             "status" => status
           },
           model: :ProposalPage,
@@ -65,6 +77,10 @@ module Tungo
       #
       # +GET /v1/companies/{co}/proposals+
       #
+      # @param approval_requested [String] true — только отправленные на одобрение и ещё не решённые; false
+      #   — только остальные
+      # @param batch_id [String] Только документы одного задания пачки (bat_…) — тот же состав, что в сводке
+      #   задания и у «Одобрить и отправить в 1С». Не id задания — 400; задания нет — пустой список
       # @param cursor [String] next_cursor из ответа прошлой страницы; без него — первая (самая свежая)
       #   страница. Остальные фильтры — те же, что у первой страницы.
       # @param date_from [String] Созданные не раньше этого дня (ГГГГ-ММ-ДД, день по Алматы)
@@ -74,7 +90,9 @@ module Tungo
       #   cash_order_out, advance_report). Неизвестный — 400
       # @param limit [Integer] Сколько на странице: 1–100, по умолчанию 20
       # @param q [String] Поиск без учёта регистра: номер предложения (P-…), номер документа 1С, контрагент
-      #   (имя из превью), БИН/ИИН и другие реквизиты документа
+      #   (имя из превью), БИН/ИИН, сумма (как пишут: «150 000,50» или 150000.5) и другие реквизиты документа
+      # @param source [String] Только из этих источников (origin.source): один или несколько через запятую
+      #   (chat, statement, esf, automation). Неизвестный — 400
       # @param status [String] Только в этих статусах: один или несколько через запятую (previewed,
       #   approved, rejected, committed, posted, verified, mismatch, failed); без него — все. Неизвестный —
       #   400
@@ -82,24 +100,30 @@ module Tungo
       # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
       # @return [Enumerator<Tungo::Models::ProposalListItem>]
       def list_all(
+        approval_requested: OMIT,
+        batch_id: OMIT,
         cursor: OMIT,
         date_from: OMIT,
         date_to: OMIT,
         kind: OMIT,
         limit: OMIT,
         q: OMIT,
+        source: OMIT,
         status: OMIT,
         company_id: nil,
         request_options: nil
       )
         Tungo::Page.auto_paging do
           list(
+            approval_requested: approval_requested,
+            batch_id: batch_id,
             cursor: cursor,
             date_from: date_from,
             date_to: date_to,
             kind: kind,
             limit: limit,
             q: q,
+            source: source,
             status: status,
             company_id: company_id,
             request_options: request_options
@@ -222,6 +246,29 @@ module Tungo
           path_params: { co: @client.resolve_company_id(company_id), id: id },
           body: { "reason" => reason, "confirm_unknown_write" => confirm_unknown_write },
           model: :ProposalDecision,
+          options: request_options
+        )
+      end
+
+      # Отправить на одобрение
+      #
+      # +POST /v1/companies/{co}/proposals/{id}/request-approval+
+      #
+      # @param id [String] Номер предложения внутри компании: P- и шесть цифр (P-000123). У двух компаний
+      #   номера могут совпадать
+      # @param note [String, nil] Пояснение для того, кто одобряет, до 1000 знаков; попадёт в историю
+      #   предложения и журнал
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::Models::ProposalApprovalRequestResult]
+      def request_approval(id, note: OMIT, company_id: nil, request_options: nil)
+        @client.request(
+          method: :post,
+          path: "/v1/companies/{co}/proposals/{id}/request-approval",
+          path_params: { co: @client.resolve_company_id(company_id), id: id },
+          body: { "note" => note },
+          body_required: false,
+          model: :ProposalApprovalRequestResult,
           options: request_options
         )
       end

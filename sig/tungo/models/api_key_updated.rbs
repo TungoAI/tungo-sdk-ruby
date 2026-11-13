@@ -15,6 +15,7 @@ module Tungo
       def last_used_ip: () -> String?
       def monthly_cap_tiyn: () -> Integer?
       def name: () -> String
+      def no_companies: () -> bool
       def permissions: () -> Array[Tungo::Models::ApiKeyUpdatedPermissionItem::t]
       def prefix: () -> String
       def previous_secret_valid_until: () -> String?
@@ -25,7 +26,7 @@ module Tungo
       def write_kinds: () -> Array[String]?
       def write_max_amount_per_day_tiyn: () -> Integer?
       def write_max_amount_per_document_tiyn: () -> Integer?
-      def initialize: (?all_companies: bool, ?allowed_ips: Array[String]?, ?company_ids: Array[String], ?created_at: (String | Time), ?created_by: String, ?disabled_at: (String | Time)?, ?expires_at: (String | Time), ?id: String, ?last_used_at: (String | Time)?, ?last_used_ip: String?, ?monthly_cap_tiyn: Integer?, ?name: String, ?permissions: Array[Tungo::Models::ApiKeyUpdatedPermissionItem::input], ?prefix: String, ?previous_secret_valid_until: (String | Time)?, ?revoked_at: (String | Time)?, ?status: Tungo::Models::ApiKeyUpdatedStatus::input, ?warnings: Array[Tungo::input[Tungo::Models::ApiKeyWarning]], ?workspace_id: String, ?write_kinds: Array[String]?, ?write_max_amount_per_day_tiyn: Integer?, ?write_max_amount_per_document_tiyn: Integer?, **untyped) -> void
+      def initialize: (?all_companies: bool, ?allowed_ips: Array[String]?, ?company_ids: Array[String], ?created_at: (String | Time), ?created_by: String, ?disabled_at: (String | Time)?, ?expires_at: (String | Time), ?id: String, ?last_used_at: (String | Time)?, ?last_used_ip: String?, ?monthly_cap_tiyn: Integer?, ?name: String, ?no_companies: bool, ?permissions: Array[Tungo::Models::ApiKeyUpdatedPermissionItem::input], ?prefix: String, ?previous_secret_valid_until: (String | Time)?, ?revoked_at: (String | Time)?, ?status: Tungo::Models::ApiKeyUpdatedStatus::input, ?warnings: Array[Tungo::input[Tungo::Models::ApiKeyWarning]], ?workspace_id: String, ?write_kinds: Array[String]?, ?write_max_amount_per_day_tiyn: Integer?, ?write_max_amount_per_document_tiyn: Integer?, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ApiKeyUpdated
       def with: (**untyped) -> Tungo::Models::ApiKeyUpdated
     end

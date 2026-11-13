@@ -6,7 +6,8 @@ module Tungo
       def daily_max_tiyn: () -> Integer
       def max_tiyn: () -> Integer
       def min_tiyn: () -> Integer
-      def initialize: (?daily_max_tiyn: Integer, ?max_tiyn: Integer, ?min_tiyn: Integer, **untyped) -> void
+      def today_tiyn: () -> Integer
+      def initialize: (?daily_max_tiyn: Integer, ?max_tiyn: Integer, ?min_tiyn: Integer, ?today_tiyn: Integer, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::PlatformAccountPurchaseLimits
       def with: (**untyped) -> Tungo::Models::PlatformAccountPurchaseLimits
     end

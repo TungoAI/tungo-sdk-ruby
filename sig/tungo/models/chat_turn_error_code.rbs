@@ -7,6 +7,7 @@ module Tungo
       type t = String
       type input = String
       BUDGET: String
+      PARALLEL_TURNS_LIMIT: String
       RATE_LIMITED: String
       API: String
       REFUSAL: String

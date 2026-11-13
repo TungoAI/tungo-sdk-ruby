@@ -21,6 +21,11 @@ module Tungo
       #   @return [String]
       required :id, :string
 
+      # @!attribute [r] mentions
+      #   Упоминания через «@» в этом вопросе, если были: вид, id и название на момент отправки
+      #   @return [Array<Tungo::Models::ChatHistoryMention>, nil]
+      optional :mentions, array_of(:ChatHistoryMention)
+
       # @!attribute [r] pending
       #   Вопрос идущего хода: ответа ещё нет, его дочитывают потоком (GET …/chat/{id}/events?turn=).
       #   Только у последнего сообщения

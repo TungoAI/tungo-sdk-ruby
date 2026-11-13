@@ -6,9 +6,16 @@ module Tungo
   module Models
     # Страница очереди предложений, свежие сверху
     class ProposalPage < Tungo::Model
+      # @!attribute [r] approval_requested_count
+      #   Сколько предложений ждёт решения по просьбе («Отправить на одобрение») — в тех же пределах,
+      #   что counts
+      #   @return [Integer]
+      required :approval_requested_count, :integer
+
       # @!attribute [r] counts
-      #   Сколько предложений в каждом статусе (ключ — ProposalStatus), без учёта фильтра — для бейджей
-      #   вкладок; статусов без предложений нет
+      #   Сколько предложений в каждом статусе (ключ — ProposalStatus) — для бейджей вкладок; статусов
+      #   без предложений нет. Считается в пределах source и batch_id (откуда и из какой пачки),
+      #   остальные фильтры (status, kind, даты, q…
       #   @return [Hash{String=>Integer, BigDecimal}]
       required :counts, map_of(:number)
 

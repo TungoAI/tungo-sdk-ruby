@@ -7,14 +7,16 @@ module Tungo
     # Запись журнала организации: кто, когда и что сделал.
     class AuditEntry < Tungo::Model
       # @!attribute [r] action
-      #   Что сделано — машинное имя вида «объект.действие»; подпись по-русски — в action_title.
-      #   Значения: - `company.created` — Компания заведена - `company.updated` — Карточка компании
-      #   изменена - `company.archived` — Компания уб…
+      #   Код действия вида «объект.действие». Текст для человека собирайте сами на его языке: по этому
+      #   коду и параметрам из data (ниже — что значит каждый код). Значения: - `company.created` —
+      #   Компания заведена - `company.updated…
       #   @return [String]
       required :action, :AuditEntryAction
 
       # @!attribute [r] action_title
-      #   Что сделано, по-русски — для показа
+      #   Deprecated. Что сделано, готовой фразой по-русски. Оставлено для совместимости: фраза всегда
+      #   русская, поэтому для показа берите код action и параметры data и подставляйте текст на языке
+      #   человека
       #   @return [String]
       required :action_title, :string
 
@@ -35,8 +37,9 @@ module Tungo
       required :company_id, :string, nullable: true
 
       # @!attribute [r] data
-      #   Подробности действия (JSON, ключи snake_case): например { before, after } у изменений. Вид
-      #   зависит от action — показывать как дополнительные сведения
+      #   Параметры действия (JSON, ключи snake_case) — для подстановки в текст и для подробностей:
+      #   например { role } у смены роли, { from, amount_tiyn, kind } у платежа, { before, after } у
+      #   изменений. Набор зависит от action
       #   @return [Object]
       optional :data, :any
 
@@ -49,6 +52,13 @@ module Tungo
       #   IP, с которого пришёл запрос; null — фоновое действие
       #   @return [String, nil]
       required :ip, :string, nullable: true
+
+      # @!attribute [r] object
+      #   Над чем сделано — с названием, чтобы не показывать безликое «Организация»: в отличие от
+      #   target, у действий с вебхуком это сам адрес вебхука, у платежа есть сумма и назначение. null —
+      #   без отдельного объекта. По ключу API …
+      #   @return [Tungo::Models::AuditEntryObject, nil]
+      required :object, :AuditEntryObject, nullable: true
 
       # @!attribute [r] request_id
       #   Номер запроса (req_…) — по нему поддержка найдёт запрос; null — фоновое действие

@@ -61,6 +61,12 @@ module Tungo
       #   вариантами (событие choice). Без него ИИ спрашивает обычным текстом
       # @param dialog_id [String, nil] Продолжить разговор с этим id. Без него — новый разговор, его id
       #   придёт в заголовке X-Dialog-Id
+      # @param effort [String, nil] Усилие ИИ на этот вопрос: low < medium < high < xhigh < max — глубже
+      #   думает, дольше и дороже (больше расход лимита). Не прислано или null — усилие выбирает Tungo. Только
+      #   на тарифе с выбором усилия (max_effort тарифа в GE…
+      # @param mentions [Array<Tungo::Models::ChatMention>] Упоминания через «@» в этом вопросе, до 10: ИИ
+      #   получит их вместе с вопросом. Каждое проверяется на доступ: нет объекта в этой компании или нет
+      #   права его видеть — 404 (error.code = mention_not_found, error.index — номер в…
       # @param message [String] Вопрос человека, до 4000 знаков; можно не писать, если приложены файлы
       # @param mode [String] Режим хода: auto (по умолчанию) — ИИ сам решает, ответить или подготовить
       #   документ; ask — только ответ и разбор, без документов; document — подготовить документ
@@ -78,6 +84,8 @@ module Tungo
         attachments: OMIT,
         capabilities: OMIT,
         dialog_id: OMIT,
+        effort: OMIT,
+        mentions: OMIT,
         message: OMIT,
         mode: OMIT,
         new_dialog: OMIT,
@@ -94,6 +102,8 @@ module Tungo
             "attachments" => attachments,
             "capabilities" => capabilities,
             "dialog_id" => dialog_id,
+            "effort" => effort,
+            "mentions" => mentions,
             "message" => message,
             "mode" => mode,
             "new_dialog" => new_dialog,
@@ -119,6 +129,12 @@ module Tungo
       #   вариантами (событие choice). Без него ИИ спрашивает обычным текстом
       # @param dialog_id [String, nil] Продолжить разговор с этим id. Без него — новый разговор, его id
       #   придёт в заголовке X-Dialog-Id
+      # @param effort [String, nil] Усилие ИИ на этот вопрос: low < medium < high < xhigh < max — глубже
+      #   думает, дольше и дороже (больше расход лимита). Не прислано или null — усилие выбирает Tungo. Только
+      #   на тарифе с выбором усилия (max_effort тарифа в GE…
+      # @param mentions [Array<Tungo::Models::ChatMention>] Упоминания через «@» в этом вопросе, до 10: ИИ
+      #   получит их вместе с вопросом. Каждое проверяется на доступ: нет объекта в этой компании или нет
+      #   права его видеть — 404 (error.code = mention_not_found, error.index — номер в…
       # @param message [String] Вопрос человека, до 4000 знаков; можно не писать, если приложены файлы
       # @param mode [String] Режим хода: auto (по умолчанию) — ИИ сам решает, ответить или подготовить
       #   документ; ask — только ответ и разбор, без документов; document — подготовить документ
@@ -136,6 +152,8 @@ module Tungo
         attachments: OMIT,
         capabilities: OMIT,
         dialog_id: OMIT,
+        effort: OMIT,
+        mentions: OMIT,
         message: OMIT,
         mode: OMIT,
         new_dialog: OMIT,
@@ -152,6 +170,8 @@ module Tungo
             "attachments" => attachments,
             "capabilities" => capabilities,
             "dialog_id" => dialog_id,
+            "effort" => effort,
+            "mentions" => mentions,
             "message" => message,
             "mode" => mode,
             "new_dialog" => new_dialog,
@@ -197,6 +217,50 @@ module Tungo
         )
       end
 
+      # Что можно упомянуть через «@»
+      #
+      # +GET /v1/companies/{co}/chat/mentions+
+      #
+      # @param limit [Integer] Сколько на каждый вид: 1–20, по умолчанию 8
+      # @param q [String] Что ищем: часть номера, названия, имени; у контрагента — от 2 знаков (или БИН
+      #   цифрами). Пусто — свежие предложения и задания
+      # @param types [String] Виды через запятую; по умолчанию все. `proposal` — предложение (документ для
+      #   1С), id — его номер P-000123; `counterparty` — контрагент из 1С компании, id — его ссылка из поиска;
+      #   `batch` — задание пачки (разбор выписки, в…
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::Models::ChatMentionSearch]
+      def list_mentions(limit: OMIT, q: OMIT, types: OMIT, company_id: nil, request_options: nil)
+        @client.request(
+          method: :get,
+          path: "/v1/companies/{co}/chat/mentions",
+          path_params: { co: @client.resolve_company_id(company_id) },
+          query: { "limit" => limit, "q" => q, "types" => types },
+          model: :ChatMentionSearch,
+          options: request_options
+        )
+      end
+
+      # Подсказки пустого чата
+      #
+      # +GET /v1/companies/{co}/chat/suggestions+
+      #
+      # @param lang [String] Язык текстов — язык интерфейса кабинета. Не передан — язык ответов ИИ из
+      #   профиля (`kk` — по-казахски, иначе по-русски)
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::Models::ChatSuggestions]
+      def list_suggestions(lang: OMIT, company_id: nil, request_options: nil)
+        @client.request(
+          method: :get,
+          path: "/v1/companies/{co}/chat/suggestions",
+          path_params: { co: @client.resolve_company_id(company_id) },
+          query: { "lang" => lang },
+          model: :ChatSuggestions,
+          options: request_options
+        )
+      end
+
       # Разговор целиком
       #
       # +GET /v1/companies/{co}/chat/{id}+
@@ -222,8 +286,8 @@ module Tungo
       #
       # @param id [String] id разговора: dialog_id из ответа (заголовок X-Dialog-Id, поле id в списке
       #   разговоров). Обычно UUID; клиент мог задать свой (до 64 знаков A–Z, a–z, 0–9, _ и -)
-      # @param title [String] Новое название, до 64 символов; пустая строка — вернуть заголовок по первому
-      #   вопросу
+      # @param title [String] Новое название, до 64 символов; пустая строка — вернуть автоматическое
+      #   название (от ИИ, а пока его нет — первый вопрос)
       # @param company_id [String, nil] overrides the client's company
       # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
       # @return [Tungo::Models::ChatDialogRenamed]

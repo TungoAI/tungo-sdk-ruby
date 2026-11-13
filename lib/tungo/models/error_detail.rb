@@ -15,10 +15,16 @@ module Tungo
       #   @return [Array<String>, nil]
       optional :allowed_methods, array_of(:ErrorDetailAllowedMethodItem)
 
+      # @!attribute [r] amount_tiyn
+      #   При code = subscription_unpaid_debt — сколько оплатить, в тиынах: сумма всех неоплаченных
+      #   счетов подписки.
+      #   @return [Integer, nil]
+      optional :amount_tiyn, :integer
+
       # @!attribute [r] code
       #   Уточнение вида: по нему выбирается действие интерфейса (кнопка «Пополнить», «Войти иначе»…).
-      #   Нет поля — хватает type и message. Известные коды: - `sso_domain_taken` (409) — домен SSO уже
-      #   подтверждён другой организацией -…
+      #   Нет поля — хватает type и message. Известные коды: - `cannot_ban_self` (409) — админка:
+      #   закрыть вход самому себе нельзя - `user…
       #   @return [String, nil]
       optional :code, :string
 
@@ -28,11 +34,29 @@ module Tungo
       #   @return [Array<Tungo::Models::FieldError>, nil]
       optional :fields, array_of(:FieldError)
 
+      # @!attribute [r] free_blocked_reason
+      #   При code = free_limit_unavailable. Главная причина отказа в бесплатном лимите:
+      #   `admin_decision` — решение администратора; `temporary_email` — учётная запись на временной
+      #   почте; `hidden_email` — скрытая почта Apple; `emai…
+      #   @return [String, nil]
+      optional :free_blocked_reason, :ErrorDetailFreeBlockedReason
+
       # @!attribute [r] message
       #   Готовый текст для человека по-русски: что случилось, что делать и к кому обратиться.
       #   Показывать как есть; не разбирать — формулировки меняются.
       #   @return [String]
       required :message, :string
+
+      # @!attribute [r] next_request_at
+      #   Тот же срок моментом времени — ISO 8601, UTC: когда запрос можно повторить.
+      #   @return [String, nil]
+      optional :next_request_at, :string
+
+      # @!attribute [r] payment_id
+      #   При code = subscription_unpaid_debt — платёж для кнопки «Оплатить»
+      #   (…/billing/payments/{payment_id}/pay-form); null — вести к списку счетов.
+      #   @return [String, nil]
+      optional :payment_id, :string, nullable: true
 
       # @!attribute [r] permission
       #   При code = missing_permission — какого права не хватает: права в компании (company.read,
@@ -53,6 +77,12 @@ module Tungo
       #   key_cap_reached, platform_cap_reached …
       #   @return [String, nil]
       optional :resets_at, :string
+
+      # @!attribute [r] retry_after_seconds
+      #   При отказе по частоте (429) на адресах экрана входа — через сколько секунд можно повторить (то
+      #   же число, что в заголовке Retry-After). Показать таймер.
+      #   @return [Integer, nil]
+      optional :retry_after_seconds, :integer
 
       # @!attribute [r] role
       #   При code = role_above_yours — ключ роли в компании, которую нельзя выдать или снять (например

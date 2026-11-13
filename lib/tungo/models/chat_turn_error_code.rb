@@ -4,15 +4,16 @@
 
 module Tungo
   module Models
-    # Причина: - `budget` — кончился лимит (дня или разговора) - `rate_limited` — сервис модели перегружен
-    # — повторите - `api` — сбой сервиса модели - `refusal` — модель отказалась отвечать -
-    # `context_overflow` — разговор слиш…
+    # Причина: - `budget` — кончился лимит (дня или разговора) - `parallel_turns_limit` — у человека уже
+    # идёт предельное число ходов ИИ (тариф без доп. использования) — дождаться ответа на предыдущие
+    # вопросы - `rate_limited` —…
     #
     # A value this SDK version does not know is passed through unchanged.
     module ChatTurnErrorCode
       extend Tungo::Internal::Enum
 
       BUDGET = "budget"
+      PARALLEL_TURNS_LIMIT = "parallel_turns_limit"
       RATE_LIMITED = "rate_limited"
       API = "api"
       REFUSAL = "refusal"

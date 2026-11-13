@@ -27,8 +27,8 @@ module Tungo
       required :id, :string
 
       # @!attribute [r] legal_form
-      #   @return [String]
-      required :legal_form, :CompanyLegalForm
+      #   @return [String, nil]
+      required :legal_form, :CompanyLegalForm, nullable: true
 
       # @!attribute [r] name
       #   Название компании, как его ввели при заведении

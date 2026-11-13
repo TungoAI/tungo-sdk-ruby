@@ -19,7 +19,8 @@ module Tungo
       required :allowed_ips, array_of(:string), nullable: true
 
       # @!attribute [r] company_ids
-      #   Компании, к которым ключ даёт доступ (co_…); пусто у ключа на все компании (all_companies)
+      #   Компании, к которым ключ даёт доступ (co_…); пусто у ключа на все компании (all_companies) и у
+      #   ключа без компаний (no_companies)
       #   @return [Array<String>]
       required :company_ids, array_of(:string)
 
@@ -70,6 +71,13 @@ module Tungo
       #   Название ключа для людей
       #   @return [String]
       required :name, :string
+
+      # @!attribute [r] no_companies
+      #   Ключ без доступа к компаниям и их 1С: company_ids пуст, all_companies = false; компаний не
+      #   видит никогда. Пустой company_ids сам по себе вида не называет — смотреть на all_companies и
+      #   no_companies
+      #   @return [Boolean]
+      required :no_companies, :boolean
 
       # @!attribute [r] permissions
       #   Права ключа: `company.read` — читать данные компаний (есть всегда); `chat.use` — работать с

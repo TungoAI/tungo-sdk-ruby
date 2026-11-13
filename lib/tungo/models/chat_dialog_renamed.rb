@@ -16,6 +16,10 @@ module Tungo
       #   Название разговора теперь
       #   @return [String]
       required :title, :string
+
+      # @!attribute [r] title_source
+      #   @return [String]
+      required :title_source, :ChatTitleSource
     end
   end
 end

@@ -7,9 +7,9 @@ module Tungo
     # Ошибка хода
     class ChatHistoryError < Tungo::Model
       # @!attribute [r] code
-      #   Причина: - `budget` — кончился лимит (дня или разговора) - `rate_limited` — сервис модели
-      #   перегружен — повторите - `api` — сбой сервиса модели - `refusal` — модель отказалась отвечать
-      #   - `context_overflow` — разговор слиш…
+      #   Причина: - `budget` — кончился лимит (дня или разговора) - `parallel_turns_limit` — у человека
+      #   уже идёт предельное число ходов ИИ (тариф без доп. использования) — дождаться ответа на
+      #   предыдущие вопросы - `rate_limited` —…
       #   @return [String, nil]
       optional :code, :ChatHistoryErrorCode
 

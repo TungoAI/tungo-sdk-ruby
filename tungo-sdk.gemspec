@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = "tungo-sdk"
-  spec.version = "0.2.0" # x-release-version
+  spec.version = "0.3.0" # x-release-version
   spec.authors = ["Tungo"]
   spec.summary = "Official Ruby library for the Tungo Platform API"
   spec.description = "Typed client for the Tungo Platform API: AI accountant chat with streaming, " \

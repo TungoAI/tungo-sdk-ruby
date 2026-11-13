@@ -12,8 +12,15 @@ module Tungo
       #   @return [Integer]
       required :cache_read_per_mtok_tiyn, :integer
 
+      # @!attribute [r] cache_write_1h_per_mtok_tiyn
+      #   Цена 1 млн токенов записи в кэш модели на 1 час (дороже: так кэшируются правила и инструменты)
+      #   в тиынах (1 ₸ = 100 тиын; показывать значение / 100 ₸)
+      #   @return [Integer]
+      required :cache_write_1h_per_mtok_tiyn, :integer
+
       # @!attribute [r] cache_write_per_mtok_tiyn
-      #   Цена 1 млн токенов записи в кэш модели в тиынах (1 ₸ = 100 тиын; показывать значение / 100 ₸)
+      #   Цена 1 млн токенов записи в кэш модели на 5 минут в тиынах (1 ₸ = 100 тиын; показывать
+      #   значение / 100 ₸)
       #   @return [Integer]
       required :cache_write_per_mtok_tiyn, :integer
 
@@ -29,7 +36,8 @@ module Tungo
       required :input_per_mtok_tiyn, :integer
 
       # @!attribute [r] model
-      #   Модель ИИ (техническое имя)
+      #   Модель ИИ: tungo-1-flash, tungo-1, tungo-1-deep (tungo-search — поиск по нормам, tungo-legacy
+      #   — прежняя)
       #   @return [String]
       required :model, :string
 
@@ -37,6 +45,11 @@ module Tungo
       #   Цена 1 млн токенов ответа в тиынах (1 ₸ = 100 тиын; показывать значение / 100 ₸)
       #   @return [Integer]
       required :output_per_mtok_tiyn, :integer
+
+      # @!attribute [r] title
+      #   Название модели для людей
+      #   @return [String]
+      required :title, :string
     end
   end
 end

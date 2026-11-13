@@ -52,6 +52,12 @@ module Tungo
       #   @return [Boolean]
       required :running, :boolean
 
+      # @!attribute [r] statement
+      #   Данные файла выписки (счёт, банк, период, остатки); null — задание не по файлу выписки (ЭСФ,
+      #   DirectBank, одобрение) или заведено до появления поля
+      #   @return [Tungo::Models::BatchStatement, nil]
+      required :statement, :BatchStatement, nullable: true
+
       # @!attribute [r] title
       #   Название задания
       #   @return [String]

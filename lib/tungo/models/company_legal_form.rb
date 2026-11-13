@@ -4,7 +4,8 @@
 
 module Tungo
   module Models
-    # Форма: ip — ИП, too — ТОО, ao — АО, other — другое
+    # Форма: ip — ИП, too — ТОО, ao — АО, other — другое; null — ещё не указана (задаётся в карточке
+    # компании: PATCH /v1/companies/{co})
     #
     # A value this SDK version does not know is passed through unchanged.
     module CompanyLegalForm

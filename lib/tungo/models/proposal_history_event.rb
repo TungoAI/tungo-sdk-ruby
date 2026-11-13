@@ -17,6 +17,13 @@ module Tungo
       #   @return [String]
       required :at, :string
 
+      # @!attribute [r] code
+      #   Машинная пометка шага, если есть: `approval_requested` — просили одобрить (статус при этом не
+      #   менялся); `write_unknown`, `rejected_write_unknown`, `revert_unknown` — исход записи в 1С
+      #   неизвестен
+      #   @return [String, nil]
+      optional :code, :string
+
       # @!attribute [r] note
       #   Пояснение: причина отклонения, комментарий к одобрению, текст ошибки записи
       #   @return [String, nil]

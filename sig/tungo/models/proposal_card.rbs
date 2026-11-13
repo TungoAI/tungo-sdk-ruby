@@ -6,6 +6,7 @@ module Tungo
       def actions: () -> Array[Tungo::Models::ProposalAction]
       def advance_offset: () -> Tungo::Models::ProposalAdvanceOffset?
       def approval: () -> Tungo::Models::ProposalApproval
+      def approval_request: () -> Tungo::Models::ProposalApprovalRequest
       def blocker_count: () -> Integer
       def blockers: () -> Array[String]
       def counterparty: () -> Tungo::Models::ProposalParty?
@@ -23,10 +24,12 @@ module Tungo
       def level_title: () -> String
       def line_count: () -> Integer
       def lines: () -> Array[Tungo::Models::ProposalLine]
+      def origin: () -> Tungo::Models::ProposalOrigin
       def postings: () -> Array[Tungo::Models::ProposalPosting]
       def result: () -> Tungo::Models::ProposalResult?
       def source: () -> Tungo::Models::ProposalSource
       def status: () -> Tungo::Models::ProposalStatus::t
+      def status_reason: () -> Tungo::Models::ProposalCardStatusReason?
       def status_title: () -> String
       def summary: () -> String
       def title: () -> String
@@ -34,7 +37,7 @@ module Tungo
       def vat: () -> Tungo::Models::Money
       def warning_count: () -> Integer
       def warnings: () -> Array[String]
-      def initialize: (?actions: Array[Tungo::input[Tungo::Models::ProposalAction]], ?advance_offset: Tungo::input[Tungo::Models::ProposalAdvanceOffset], ?approval: Tungo::input[Tungo::Models::ProposalApproval], ?blocker_count: Integer, ?blockers: Array[String], ?counterparty: Tungo::input[Tungo::Models::ProposalParty], ?created_at: (String | Time), ?dialog_id: String?, ?document_number: String, ?header: Tungo::input[Tungo::Models::ProposalHeader], ?history: Array[Tungo::input[Tungo::Models::ProposalHistoryEvent]], ?href: String, ?id: String, ?intent: Hash[String | Symbol, untyped], ?kind: Tungo::Models::ProposalKind::input, ?kind_title: String, ?level: Tungo::Models::AutonomyLevel::input, ?level_title: String, ?line_count: Integer, ?lines: Array[Tungo::input[Tungo::Models::ProposalLine]], ?postings: Array[Tungo::input[Tungo::Models::ProposalPosting]], ?result: Tungo::input[Tungo::Models::ProposalResult], ?source: Tungo::input[Tungo::Models::ProposalSource], ?status: Tungo::Models::ProposalStatus::input, ?status_title: String, ?summary: String, ?title: String, ?total: Tungo::input[Tungo::Models::Money], ?vat: Tungo::input[Tungo::Models::Money], ?warning_count: Integer, ?warnings: Array[String], **untyped) -> void
+      def initialize: (?actions: Array[Tungo::input[Tungo::Models::ProposalAction]], ?advance_offset: Tungo::input[Tungo::Models::ProposalAdvanceOffset], ?approval: Tungo::input[Tungo::Models::ProposalApproval], ?approval_request: Tungo::input[Tungo::Models::ProposalApprovalRequest], ?blocker_count: Integer, ?blockers: Array[String], ?counterparty: Tungo::input[Tungo::Models::ProposalParty], ?created_at: (String | Time), ?dialog_id: String?, ?document_number: String, ?header: Tungo::input[Tungo::Models::ProposalHeader], ?history: Array[Tungo::input[Tungo::Models::ProposalHistoryEvent]], ?href: String, ?id: String, ?intent: Hash[String | Symbol, untyped], ?kind: Tungo::Models::ProposalKind::input, ?kind_title: String, ?level: Tungo::Models::AutonomyLevel::input, ?level_title: String, ?line_count: Integer, ?lines: Array[Tungo::input[Tungo::Models::ProposalLine]], ?origin: Tungo::input[Tungo::Models::ProposalOrigin], ?postings: Array[Tungo::input[Tungo::Models::ProposalPosting]], ?result: Tungo::input[Tungo::Models::ProposalResult], ?source: Tungo::input[Tungo::Models::ProposalSource], ?status: Tungo::Models::ProposalStatus::input, ?status_reason: Tungo::input[Tungo::Models::ProposalCardStatusReason]?, ?status_title: String, ?summary: String, ?title: String, ?total: Tungo::input[Tungo::Models::Money], ?vat: Tungo::input[Tungo::Models::Money], ?warning_count: Integer, ?warnings: Array[String], **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ProposalCard
       def with: (**untyped) -> Tungo::Models::ProposalCard
     end

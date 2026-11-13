@@ -23,10 +23,14 @@ module Tungo
       required :running, :boolean
 
       # @!attribute [r] title
-      #   Заголовок — первый вопрос одной строкой (до 64 знаков, длиннее — с «…»); вопрос из одних
-      #   файлов — их имена
+      #   Название одной строкой (до 64 знаков, длиннее — с «…»): человека, иначе от ИИ, иначе первый
+      #   вопрос (вопрос из одних файлов — их имена). Откуда оно — title_source
       #   @return [String]
       required :title, :string
+
+      # @!attribute [r] title_source
+      #   @return [String]
+      required :title_source, :ChatTitleSource
 
       # @!attribute [r] updated_at
       #   Последнее изменение (у идущего хода — его начало), ISO 8601 UTC

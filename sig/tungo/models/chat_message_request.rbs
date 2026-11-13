@@ -6,13 +6,15 @@ module Tungo
       def attachments: () -> Array[Tungo::Models::ChatAttachment]?
       def capabilities: () -> Array[String]?
       def dialog_id: () -> String?
+      def effort: () -> Tungo::Models::ChatMessageRequestEffort::t?
+      def mentions: () -> Array[Tungo::Models::ChatMention]?
       def message: () -> String?
       def mode: () -> Tungo::Models::ChatMessageRequestMode::t?
       def new_dialog: () -> bool?
       def proposal_id: () -> String?
       def stream: () -> bool?
       def turn: () -> Integer?
-      def initialize: (?attachments: Array[Tungo::input[Tungo::Models::ChatAttachment]], ?capabilities: Array[String], ?dialog_id: String?, ?message: String, ?mode: Tungo::Models::ChatMessageRequestMode::input, ?new_dialog: bool, ?proposal_id: String?, ?stream: bool, ?turn: Integer?, **untyped) -> void
+      def initialize: (?attachments: Array[Tungo::input[Tungo::Models::ChatAttachment]], ?capabilities: Array[String], ?dialog_id: String?, ?effort: Tungo::Models::ChatMessageRequestEffort::input?, ?mentions: Array[Tungo::input[Tungo::Models::ChatMention]], ?message: String, ?mode: Tungo::Models::ChatMessageRequestMode::input, ?new_dialog: bool, ?proposal_id: String?, ?stream: bool, ?turn: Integer?, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ChatMessageRequest
       def with: (**untyped) -> Tungo::Models::ChatMessageRequest
     end

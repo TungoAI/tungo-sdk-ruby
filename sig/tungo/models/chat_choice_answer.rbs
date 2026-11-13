@@ -5,7 +5,8 @@ module Tungo
     class ChatChoiceAnswer < Tungo::Model
       def other: () -> String?
       def selected: () -> Array[String]?
-      def initialize: (?other: String, ?selected: Array[String], **untyped) -> void
+      def skipped: () -> bool?
+      def initialize: (?other: String, ?selected: Array[String], ?skipped: bool, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ChatChoiceAnswer
       def with: (**untyped) -> Tungo::Models::ChatChoiceAnswer
     end

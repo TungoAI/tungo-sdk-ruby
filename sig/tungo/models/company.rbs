@@ -6,14 +6,14 @@ module Tungo
       def bin: () -> String?
       def created_at: () -> String
       def id: () -> String
-      def legal_form: () -> Tungo::Models::CompanyLegalForm::t
+      def legal_form: () -> Tungo::Models::CompanyLegalForm::t?
       def name: () -> String
       def permissions: () -> Array[Tungo::Models::CompanyPermission::t]
       def role: () -> String
       def role_name: () -> String
       def status: () -> Tungo::Models::CompanyStatus::t
       def workspace_id: () -> String
-      def initialize: (?bin: String?, ?created_at: (String | Time), ?id: String, ?legal_form: Tungo::Models::CompanyLegalForm::input, ?name: String, ?permissions: Array[Tungo::Models::CompanyPermission::input], ?role: String, ?role_name: String, ?status: Tungo::Models::CompanyStatus::input, ?workspace_id: String, **untyped) -> void
+      def initialize: (?bin: String?, ?created_at: (String | Time), ?id: String, ?legal_form: Tungo::Models::CompanyLegalForm::input?, ?name: String, ?permissions: Array[Tungo::Models::CompanyPermission::input], ?role: String, ?role_name: String, ?status: Tungo::Models::CompanyStatus::input, ?workspace_id: String, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::Company
       def with: (**untyped) -> Tungo::Models::Company
     end

@@ -7,7 +7,8 @@ module Tungo
       def payment_id: () -> String
       def payment_object: () -> Hash[String, untyped]
       def script_url: () -> String
-      def initialize: (?amount_tiyn: Integer, ?payment_id: String, ?payment_object: Hash[String | Symbol, untyped], ?script_url: String, **untyped) -> void
+      def test_mode: () -> bool
+      def initialize: (?amount_tiyn: Integer, ?payment_id: String, ?payment_object: Hash[String | Symbol, untyped], ?script_url: String, ?test_mode: bool, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::PayForm
       def with: (**untyped) -> Tungo::Models::PayForm
     end

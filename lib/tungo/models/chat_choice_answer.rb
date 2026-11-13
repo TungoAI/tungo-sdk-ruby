@@ -7,7 +7,8 @@ module Tungo
     # Ответ на один вопрос из события choice
     class ChatChoiceAnswer < Tungo::Model
       # @!attribute [r] other
-      #   Свой ответ текстом (вариант «свой ответ»). Нужен selected или other — хотя бы одно
+      #   Свой ответ текстом (вариант «свой ответ»). Нужен selected или other — хотя бы одно (или
+      #   skipped)
       #   @return [String, nil]
       optional :other, :string
 
@@ -16,6 +17,13 @@ module Tungo
       #   multi_select — не больше одного
       #   @return [Array<String>, nil]
       optional :selected, array_of(:string)
+
+      # @!attribute [r] skipped
+      #   true — «Пропустить»: вопрос оставлен без ответа, selected и other не передавать. ИИ узнаёт,
+      #   что вопрос пропущен, и продолжает без этого ответа. У вопроса-подтверждения действия пропуск
+      #   равен отказу: действие не выполняет…
+      #   @return [Boolean, nil]
+      optional :skipped, :boolean
     end
   end
 end

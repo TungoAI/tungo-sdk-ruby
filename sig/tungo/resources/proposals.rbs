@@ -4,12 +4,13 @@ module Tungo
   module Resources
     class Proposals
       def initialize: (Tungo::Client client) -> void
-      def list: (?cursor: String, ?date_from: (String | Date), ?date_to: (String | Date), ?kind: String, ?limit: Integer, ?q: String, ?status: String, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Page[Tungo::Models::ProposalListItem, Tungo::Models::ProposalPage]
-      def list_all: (?cursor: String, ?date_from: (String | Date), ?date_to: (String | Date), ?kind: String, ?limit: Integer, ?q: String, ?status: String, ?company_id: String?, ?request_options: Tungo::request_options?) -> Enumerator[Tungo::Models::ProposalListItem, void]
+      def list: (?approval_requested: Tungo::Models::ListCompanyProposalsApprovalRequested::input, ?batch_id: String, ?cursor: String, ?date_from: (String | Date), ?date_to: (String | Date), ?kind: String, ?limit: Integer, ?q: String, ?source: String, ?status: String, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Page[Tungo::Models::ProposalListItem, Tungo::Models::ProposalPage]
+      def list_all: (?approval_requested: Tungo::Models::ListCompanyProposalsApprovalRequested::input, ?batch_id: String, ?cursor: String, ?date_from: (String | Date), ?date_to: (String | Date), ?kind: String, ?limit: Integer, ?q: String, ?source: String, ?status: String, ?company_id: String?, ?request_options: Tungo::request_options?) -> Enumerator[Tungo::Models::ProposalListItem, void]
       def approve_batch: (?async: bool, ?batch_id: String, ?exclude: Array[String], ?idempotency_key: String, ?ids: Array[String], ?note: String, ?post: bool, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ApproveBatchCompanyProposalsResponse::t
       def get: (String id, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ProposalCard
       def approve: (String id, ?idempotency_key: String, ?note: String, ?post: bool, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ProposalDecision
       def reject: (String id, reason: String, ?confirm_unknown_write: bool, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ProposalDecision
+      def request_approval: (String id, ?note: String?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ProposalApprovalRequestResult
     end
   end
 end

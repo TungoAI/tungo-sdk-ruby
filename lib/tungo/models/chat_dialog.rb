@@ -54,9 +54,13 @@ module Tungo
       required :running, :boolean
 
       # @!attribute [r] title
-      #   Заголовок — первый вопрос одной строкой
+      #   Название одной строкой: человека, иначе от ИИ, иначе первый вопрос. Откуда оно — title_source
       #   @return [String]
       required :title, :string
+
+      # @!attribute [r] title_source
+      #   @return [String]
+      required :title_source, :ChatTitleSource
 
       # @!attribute [r] turn
       #   Номер текущего хода (если идёт) или число законченных ходов

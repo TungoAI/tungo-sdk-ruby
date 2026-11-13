@@ -27,6 +27,17 @@ module Tungo
       #   @return [Array<Tungo::Models::ChatTurnError>]
       required :errors, array_of(:ChatTurnError)
 
+      # @!attribute [r] followups
+      #   Вопросы-продолжения под ответом, до 3, на языке разговора: нажатие — обычный новый вопрос с
+      #   этим текстом. Пусто — предложить нечего
+      #   @return [Array<String>]
+      required :followups, array_of(:string)
+
+      # @!attribute [r] next_action
+      #   Предложенное следующее действие; null — нет
+      #   @return [Tungo::Models::ChatNextAction, nil]
+      required :next_action, :ChatNextAction, nullable: true
+
       # @!attribute [r] pending_question
       #   Открытый уточняющий вопрос: ответ — POST …/chat/{dialog_id}/answer; null — вопроса нет
       #   @return [Tungo::Models::ChatPendingQuestion, nil]

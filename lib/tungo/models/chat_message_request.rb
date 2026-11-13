@@ -25,6 +25,20 @@ module Tungo
       #   @return [String, nil]
       optional :dialog_id, :string, nullable: true
 
+      # @!attribute [r] effort
+      #   Усилие ИИ на этот вопрос: low < medium < high < xhigh < max — глубже думает, дольше и дороже
+      #   (больше расход лимита). Не прислано или null — усилие выбирает Tungo. Только на тарифе с
+      #   выбором усилия (max_effort тарифа в GE…
+      #   @return [String, nil]
+      optional :effort, :ChatMessageRequestEffort, nullable: true
+
+      # @!attribute [r] mentions
+      #   Упоминания через «@» в этом вопросе, до 10: ИИ получит их вместе с вопросом. Каждое
+      #   проверяется на доступ: нет объекта в этой компании или нет права его видеть — 404 (error.code
+      #   = mention_not_found, error.index — номер в…
+      #   @return [Array<Tungo::Models::ChatMention>, nil]
+      optional :mentions, array_of(:ChatMention)
+
       # @!attribute [r] message
       #   Вопрос человека, до 4000 знаков; можно не писать, если приложены файлы
       #   @return [String, nil]

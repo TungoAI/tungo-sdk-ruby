@@ -7,19 +7,23 @@ module Tungo
     # Ошибка хода
     class ChatTurnError < Tungo::Model
       # @!attribute [r] can_request_more
-      #   Только у code = budget: лимит можно попросить поднять у админа
+      #   Только у code = budget с limit_kind day или dialog: лимит можно попросить поднять у владельца
+      #   или админа организации. Нет — просить некого (человек сам владелец или админ) или причина не в
+      #   этом лимите
       #   @return [Boolean, nil]
       optional :can_request_more, :boolean
 
       # @!attribute [r] code
-      #   Причина: - `budget` — кончился лимит (дня или разговора) - `rate_limited` — сервис модели
-      #   перегружен — повторите - `api` — сбой сервиса модели - `refusal` — модель отказалась отвечать
-      #   - `context_overflow` — разговор слиш…
+      #   Причина: - `budget` — кончился лимит (дня или разговора) - `parallel_turns_limit` — у человека
+      #   уже идёт предельное число ходов ИИ (тариф без доп. использования) — дождаться ответа на
+      #   предыдущие вопросы - `rate_limited` —…
       #   @return [String]
       required :code, :ChatTurnErrorCode
 
       # @!attribute [r] limit_kind
-      #   Только у code = budget: day — дневной лимит, dialog — лимит разговора
+      #   Только у code = budget — почему ход остановлен: - `day` — дневной лимит человека исчерпан —
+      #   продолжить завтра (по Алматы) или поднять лимит - `dialog` — лимит разговора исчерпан — начать
+      #   новый разговор - `turn` — потолок…
       #   @return [String, nil]
       optional :limit_kind, :ChatTurnErrorLimitKind
 

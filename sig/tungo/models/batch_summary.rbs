@@ -12,9 +12,10 @@ module Tungo
       def proposals: () -> Array[Tungo::Models::BatchSummaryProposal]
       def reason: () -> String?
       def running: () -> bool
+      def statement: () -> Tungo::Models::BatchStatement?
       def title: () -> String
       def totals: () -> Tungo::Models::BatchSummaryTotals
-      def initialize: (?approve: Tungo::input[Tungo::Models::BatchSummaryApprove], ?can_approve: bool, ?finished_at: (String | Time), ?job_id: String, ?kind: Tungo::Models::BatchSummaryKind::input, ?manual_rows: Array[Tungo::input[Tungo::Models::BatchManualRow]], ?proposals: Array[Tungo::input[Tungo::Models::BatchSummaryProposal]], ?reason: String, ?running: bool, ?title: String, ?totals: Tungo::input[Tungo::Models::BatchSummaryTotals], **untyped) -> void
+      def initialize: (?approve: Tungo::input[Tungo::Models::BatchSummaryApprove], ?can_approve: bool, ?finished_at: (String | Time), ?job_id: String, ?kind: Tungo::Models::BatchSummaryKind::input, ?manual_rows: Array[Tungo::input[Tungo::Models::BatchManualRow]], ?proposals: Array[Tungo::input[Tungo::Models::BatchSummaryProposal]], ?reason: String, ?running: bool, ?statement: Tungo::input[Tungo::Models::BatchStatement]?, ?title: String, ?totals: Tungo::input[Tungo::Models::BatchSummaryTotals], **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::BatchSummary
       def with: (**untyped) -> Tungo::Models::BatchSummary
     end

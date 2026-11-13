@@ -7,8 +7,9 @@ module Tungo
       def message_count: () -> (Integer | BigDecimal)
       def running: () -> bool
       def title: () -> String
+      def title_source: () -> Tungo::Models::ChatTitleSource::t
       def updated_at: () -> String
-      def initialize: (?id: String, ?message_count: (Integer | Float | BigDecimal), ?running: bool, ?title: String, ?updated_at: (String | Time), **untyped) -> void
+      def initialize: (?id: String, ?message_count: (Integer | Float | BigDecimal), ?running: bool, ?title: String, ?title_source: Tungo::Models::ChatTitleSource::input, ?updated_at: (String | Time), **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ChatDialogSummary
       def with: (**untyped) -> Tungo::Models::ChatDialogSummary
     end

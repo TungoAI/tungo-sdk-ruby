@@ -21,10 +21,21 @@ module Tungo
       #   @return [Array<Tungo::Models::ChatCitation>]
       required :citations, array_of(:ChatCitation)
 
+      # @!attribute [r] followups
+      #   Вопросы-продолжения под ответом, до 3, на языке разговора: нажатие — обычный новый вопрос с
+      #   этим текстом. Пусто — предложить нечего
+      #   @return [Array<String>]
+      required :followups, array_of(:string)
+
       # @!attribute [r] id
       #   Устойчивый id сообщения: <dialog_id>:<номер хода>:a
       #   @return [String]
       required :id, :string
+
+      # @!attribute [r] next_action
+      #   Предложенное следующее действие; null — нет
+      #   @return [Tungo::Models::ChatNextAction, nil]
+      required :next_action, :ChatNextAction, nullable: true
 
       # @!attribute [r] proposal_ids
       #   Номера предложений этого хода — то же, что proposal-блоки, списком

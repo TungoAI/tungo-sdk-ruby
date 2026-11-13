@@ -29,6 +29,12 @@ module Tungo
       #   формы
       #   @return [String]
       required :script_url, :string
+
+      # @!attribute [r] test_mode
+      #   true — тестовый терминал ePay: настоящие деньги не списываются, платят тестовыми картами.
+      #   Показать на форме пометку «тестовая оплата»
+      #   @return [Boolean]
+      required :test_mode, :boolean
     end
   end
 end

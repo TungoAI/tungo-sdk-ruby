@@ -4,15 +4,20 @@ module Tungo
   module Models
     class ErrorDetail < Tungo::Model
       def allowed_methods: () -> Array[Tungo::Models::ErrorDetailAllowedMethodItem::t]?
+      def amount_tiyn: () -> Integer?
       def code: () -> String?
       def fields: () -> Array[Tungo::Models::FieldError]?
+      def free_blocked_reason: () -> Tungo::Models::ErrorDetailFreeBlockedReason::t?
       def message: () -> String
+      def next_request_at: () -> String?
+      def payment_id: () -> String?
       def permission: () -> String?
       def permissions: () -> Array[String]?
       def resets_at: () -> String?
+      def retry_after_seconds: () -> Integer?
       def role: () -> String?
       def type: () -> Tungo::Models::ErrorDetailType::t
-      def initialize: (?allowed_methods: Array[Tungo::Models::ErrorDetailAllowedMethodItem::input], ?code: String, ?fields: Array[Tungo::input[Tungo::Models::FieldError]], ?message: String, ?permission: String, ?permissions: Array[String], ?resets_at: (String | Time), ?role: String, ?type: Tungo::Models::ErrorDetailType::input, **untyped) -> void
+      def initialize: (?allowed_methods: Array[Tungo::Models::ErrorDetailAllowedMethodItem::input], ?amount_tiyn: Integer, ?code: String, ?fields: Array[Tungo::input[Tungo::Models::FieldError]], ?free_blocked_reason: Tungo::Models::ErrorDetailFreeBlockedReason::input, ?message: String, ?next_request_at: (String | Time), ?payment_id: String?, ?permission: String, ?permissions: Array[String], ?resets_at: (String | Time), ?retry_after_seconds: Integer, ?role: String, ?type: Tungo::Models::ErrorDetailType::input, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ErrorDetail
       def with: (**untyped) -> Tungo::Models::ErrorDetail
     end

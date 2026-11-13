@@ -213,6 +213,7 @@ class SurfaceTest < TungoTestCase
     assert_instance_of Tungo::Models::ApiKeyMonth, result.month
     assert_equal expected.fetch("monthly_cap_tiyn"), result.monthly_cap_tiyn
     assert_equal expected.fetch("name"), result.name
+    assert_same expected.fetch("no_companies"), result.no_companies
     assert_equal expected.fetch("permissions").size, result.permissions.size
     assert_equal expected.fetch("prefix"), result.prefix
     assert_equal expected.fetch("previous_secret_valid_until"), result.previous_secret_valid_until
@@ -458,6 +459,8 @@ class SurfaceTest < TungoTestCase
     assert_equal expected.fetch("citations").size, result.citations.size
     assert_equal expected.fetch("dialog_id"), result.dialog_id
     assert_equal expected.fetch("errors").size, result.errors.size
+    assert_equal expected.fetch("followups").size, result.followups.size
+    assert_instance_of Tungo::Models::ChatNextAction, result.next_action
     assert_instance_of Tungo::Models::ChatPendingQuestion, result.pending_question
     assert_equal expected.fetch("proposals").size, result.proposals.size
     assert_equal expected.fetch("questions").size, result.questions.size
@@ -490,6 +493,30 @@ class SurfaceTest < TungoTestCase
     assert_equal expected.fetch("model"), result.model
     assert_equal 200, result.api_response.status
     check "POST", "/v1/companies/co_1/chat/count-tokens", auth: true, idempotent: false
+  end
+
+  def test_chat_list_mentions
+    expected = sample("chat.list_mentions")
+    serve(expected, status: 200)
+    result = surface_client.chat.list_mentions
+
+    assert_decoded expected, result
+    assert_equal expected.fetch("data").size, result.data.size
+    assert_equal expected.fetch("unavailable").size, result.unavailable.size
+    assert_equal 200, result.api_response.status
+    check "GET", "/v1/companies/co_1/chat/mentions", auth: true, idempotent: false
+  end
+
+  def test_chat_list_suggestions
+    expected = sample("chat.list_suggestions")
+    serve(expected, status: 200)
+    result = surface_client.chat.list_suggestions
+
+    assert_decoded expected, result
+    assert_equal expected.fetch("data").size, result.data.size
+    assert_same expected.fetch("onec_linked"), result.onec_linked
+    assert_equal 200, result.api_response.status
+    check "GET", "/v1/companies/co_1/chat/suggestions", auth: true, idempotent: false
   end
 
   def test_chat_get
@@ -548,6 +575,8 @@ class SurfaceTest < TungoTestCase
     assert_equal expected.fetch("citations").size, result.citations.size
     assert_equal expected.fetch("dialog_id"), result.dialog_id
     assert_equal expected.fetch("errors").size, result.errors.size
+    assert_equal expected.fetch("followups").size, result.followups.size
+    assert_instance_of Tungo::Models::ChatNextAction, result.next_action
     assert_instance_of Tungo::Models::ChatPendingQuestion, result.pending_question
     assert_equal expected.fetch("proposals").size, result.proposals.size
     assert_equal expected.fetch("questions").size, result.questions.size
@@ -633,6 +662,7 @@ class SurfaceTest < TungoTestCase
     assert_equal expected.fetch("actions").size, result.actions.size
     assert_instance_of Tungo::Models::ProposalAdvanceOffset, result.advance_offset
     assert_instance_of Tungo::Models::ProposalApproval, result.approval
+    assert_instance_of Tungo::Models::ProposalApprovalRequest, result.approval_request
     assert_equal expected.fetch("blocker_count"), result.blocker_count
     assert_equal expected.fetch("blockers").size, result.blockers.size
     assert_instance_of Tungo::Models::ProposalParty, result.counterparty
@@ -647,9 +677,11 @@ class SurfaceTest < TungoTestCase
     assert_equal expected.fetch("level_title"), result.level_title
     assert_equal expected.fetch("line_count"), result.line_count
     assert_equal expected.fetch("lines").size, result.lines.size
+    assert_instance_of Tungo::Models::ProposalOrigin, result.origin
     assert_equal expected.fetch("postings").size, result.postings.size
     assert_instance_of Tungo::Models::ProposalResult, result.result
     assert_instance_of Tungo::Models::ProposalSource, result.source
+    assert_instance_of Tungo::Models::ProposalCardStatusReason, result.status_reason
     assert_equal expected.fetch("status_title"), result.status_title
     assert_equal expected.fetch("summary"), result.summary
     assert_equal expected.fetch("title"), result.title
@@ -693,6 +725,20 @@ class SurfaceTest < TungoTestCase
     assert_same expected.fetch("repeated"), result.repeated
     assert_equal 200, result.api_response.status
     check "POST", "/v1/companies/co_1/proposals/id_1/reject", auth: true, idempotent: false
+  end
+
+  def test_proposals_request_approval
+    expected = sample("proposals.request_approval")
+    serve(expected, status: 200)
+    result = surface_client.proposals.request_approval("id_1")
+
+    assert_decoded expected, result
+    assert_same expected.fetch("notified"), result.notified
+    assert_same expected.fetch("ok"), result.ok
+    assert_instance_of Tungo::Models::ProposalCard, result.proposal
+    assert_same expected.fetch("repeated"), result.repeated
+    assert_equal 200, result.api_response.status
+    check "POST", "/v1/companies/co_1/proposals/id_1/request-approval", auth: true, idempotent: false
   end
 
   def test_feed_get
@@ -821,6 +867,7 @@ class SurfaceTest < TungoTestCase
     assert_equal expected.fetch("proposals").size, result.proposals.size
     assert_equal expected.fetch("reason"), result.reason
     assert_same expected.fetch("running"), result.running
+    assert_instance_of Tungo::Models::BatchStatement, result.statement
     assert_equal expected.fetch("title"), result.title
     assert_instance_of Tungo::Models::BatchSummaryTotals, result.totals
     assert_equal 200, result.api_response.status
@@ -1447,6 +1494,6 @@ class SurfaceTest < TungoTestCase
   end
 
   def test_every_operation_is_covered
-    assert_equal 82, self.class.instance_methods(false).count { |name| name.start_with?("test_") } - 1
+    assert_equal 85, self.class.instance_methods(false).count { |name| name.start_with?("test_") } - 1
   end
 end

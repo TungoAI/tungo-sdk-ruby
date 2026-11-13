@@ -5,7 +5,8 @@ module Tungo
     class ChatDialogRenamed < Tungo::Model
       def id: () -> String
       def title: () -> String
-      def initialize: (?id: String, ?title: String, **untyped) -> void
+      def title_source: () -> Tungo::Models::ChatTitleSource::t
+      def initialize: (?id: String, ?title: String, ?title_source: Tungo::Models::ChatTitleSource::input, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ChatDialogRenamed
       def with: (**untyped) -> Tungo::Models::ChatDialogRenamed
     end

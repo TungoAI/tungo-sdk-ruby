@@ -4,8 +4,13 @@
 
 module Tungo
   module Models
-    # Вопрос ИИ к человеку
+    # Вопрос ИИ к человеку. Уточнение, которое ещё ждёт ответа, сюда не попадает — оно приходит только
+    # полем awaiting разговора, чтобы экран не показал его дважды
     class ChatHistoryQuestion < Tungo::Model
+      # @!attribute [r] answer
+      #   @return [Tungo::Models::ChatHistoryQuestionAnswer, nil]
+      optional :answer, :ChatHistoryQuestionAnswer
+
       # @!attribute [r] kind
       #   Вопрос ИИ
       #   @return [String]
