@@ -307,7 +307,7 @@ The same API is available in ten languages. All SDKs are generated from one cont
 
 ## Versioning and support
 
-This library follows [Semantic Versioning](https://semver.org/). While the major version is 0, a minor release may contain breaking changes; they are always listed in the [changelog](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/CHANGELOG.md). This README describes version 0.3.0.
+This library follows [Semantic Versioning](https://semver.org/). While the major version is 0, a minor release may contain breaking changes; they are always listed in the [changelog](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/CHANGELOG.md). This README describes version 0.3.1.
 
 The code is generated: please report problems and ideas in the [issue tracker](https://github.com/TungoAI/tungo-sdk-ruby/issues) rather than opening pull requests against generated files. To report a vulnerability, follow the [security policy](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/SECURITY.md).
 

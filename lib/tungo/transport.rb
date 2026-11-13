@@ -366,7 +366,7 @@ module Tungo
 
       # URI#user and URI#password keep the percent-encoding of the URL ("p%40ss"), and Net::HTTP
       # sends an explicit proxy's credentials as given (it decodes only those of http_proxy).
-      # URI.decode_uri_component, unlike CGI.unescape, keeps a "+" as it is.
+      # URI.decode_uri_component, unlike a form decoder, keeps a "+" as it is.
       def proxy_credential(value)
         value && URI.decode_uri_component(value)
       end

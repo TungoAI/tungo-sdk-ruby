@@ -58,6 +58,7 @@ module Tungo
       SAFE_METHODS = %w[GET HEAD PUT DELETE].freeze
       NUMBER = /\A[0-9]+(\.[0-9]+)?\z/
       UNRESERVED = /[^A-Za-z0-9\-._~]/n
+      HOOK_SIGNATURE_HEADER = /\A[A-Za-z0-9-]{1,64}\z/
 
       module_function
 
@@ -195,6 +196,36 @@ module Tungo
           %w[connection_error
              timeout].include?(cause.to_s)
         end
+      end
+
+      # Signs a hook body into +name+, the header the hook reads its signature from (the
+      # signature_header it was created with).
+      def sign_hook(all, headers, payload, name, secret)
+        unless name.is_a?(String) && name.match?(HOOK_SIGNATURE_HEADER)
+          raise ValidationError, "signature_header must be 1 to 64 Latin letters, digits or hyphens"
+        end
+        return unless secret
+
+        given = (headers || {}).any? do |header, value|
+          header.to_s.casecmp?(name) && !value.nil? && !OMIT.equal?(value)
+        end
+        raise ValidationError, "Pass either secret or signature, not both" if given
+
+        all[name.downcase] = Webhooks.sign_hook_payload(payload || "", secret)
+      end
+
+      # The idempotency_key field of a JSON object body (approving a proposal documents it as the
+      # same as the header), trimmed like the API trims it. The API prefers the header over the
+      # field, so a generated header would make the caller's own key useless. A key that cannot
+      # travel in a header (outside printable ASCII) is ignored here.
+      def body_idempotency_key(body)
+        return nil unless body.is_a?(Hash)
+
+        value = body.find { |name, _| name.to_s == "idempotency_key" }&.last
+        return nil unless value.is_a?(String)
+
+        key = value.strip
+        key if key.match?(/\A[\x20-\x7e]+\z/)
       end
 
       # A secret that is sent as a header value (the API key) must be printable ASCII without

@@ -48,7 +48,7 @@ module Tungo
           content_type: content_type,
           signature_header: signature_header || "X-Signature",
           secret: secret,
-          headers: { "X-Event-Id" => event_id, (signature_header || "X-Signature") => signature },
+          headers: { "X-Event-Id" => event_id, signature_header || "X-Signature" => signature },
           auth: :none,
           idempotency_header: "Idempotency-Key",
           idempotency_default: event_id,
