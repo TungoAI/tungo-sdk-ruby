@@ -237,11 +237,11 @@ module Tungo
       all["x-api-key"] = api_key! if auth == :key
       # A key goes only to an operation that declares the header: anywhere else the API ignores
       # it, and sending it would make a retry look safe when it repeats the action.
-      key = idempotency_header && (options.idempotency_key || idempotency_key(idempotency_header, idempotency_default))
+      key = idempotency_header && (options.idempotency_key || idempotency_key(idempotency_default, body))
       all[idempotency_header.downcase] = key if key
       payload, type = encode_body(body, body_required, raw_body, content_type)
       all["content-type"] = type if payload && type
-      all[signature_header.downcase] = Webhooks.sign_hook_payload(payload || "", secret) if signature_header && secret
+      sign_hook(all, headers, payload, signature_header, secret) if signature_header
       merge_headers(all, headers)
       merge_headers(all, options.extra_headers)
       all.delete("idempotency-key") unless idempotency_header
@@ -255,10 +255,42 @@ module Tungo
       auth == :key ? @default_headers : @default_headers.except(*Transport::CREDENTIAL_HEADERS)
     end
 
-    def idempotency_key(header, default)
-      return nil if header.nil?
+    HOOK_SIGNATURE_HEADER = /\A[A-Za-z0-9-]{1,64}\z/
 
-      default.is_a?(String) && !default.empty? ? default : SecureRandom.uuid
+    # Signs a hook body into +name+, the header the hook reads its signature from (the
+    # signature_header it was created with).
+    def sign_hook(all, headers, payload, name, secret)
+      unless name.is_a?(String) && name.match?(HOOK_SIGNATURE_HEADER)
+        raise ValidationError, "signature_header must be 1 to 64 Latin letters, digits or hyphens"
+      end
+      return unless secret
+
+      given = (headers || {}).any? do |header, value|
+        header.to_s.casecmp?(name) && !value.nil? && !OMIT.equal?(value)
+      end
+      raise ValidationError, "Pass either secret or signature, not both" if given
+
+      all[name.downcase] = Webhooks.sign_hook_payload(payload || "", secret)
+    end
+
+    def idempotency_key(default, body)
+      return default if default.is_a?(String) && !default.empty?
+
+      body_idempotency_key(body) || SecureRandom.uuid
+    end
+
+    # The idempotency_key field of a JSON object body (approving a proposal documents it as the
+    # same as the header), trimmed like the API trims it. The API prefers the header over the
+    # field, so a generated header would make the caller's own key useless. A key that cannot
+    # travel in a header (outside printable ASCII) is ignored here.
+    def body_idempotency_key(body)
+      return nil unless body.is_a?(Hash)
+
+      value = body.find { |name, _| name.to_s == "idempotency_key" }&.last
+      return nil unless value.is_a?(String)
+
+      key = value.strip
+      key if key.match?(/\A[\x20-\x7e]+\z/)
     end
 
     def encode_body(body, body_required, raw_body, content_type)

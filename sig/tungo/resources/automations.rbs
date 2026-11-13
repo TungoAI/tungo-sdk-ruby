@@ -4,7 +4,7 @@ module Tungo
   module Resources
     class Automations
       def initialize: (Tungo::Client client) -> void
-      def post_hook: (String token, ?untyped payload, ?event_id: String, ?signature: String, ?secret: String?, ?content_type: String, ?request_options: Tungo::request_options?) -> Tungo::Models::AutomationHookAccepted
+      def post_hook: (String token, ?untyped payload, ?event_id: String, ?signature: String, ?secret: String?, ?signature_header: String?, ?content_type: String, ?request_options: Tungo::request_options?) -> Tungo::Models::AutomationHookAccepted
       def list_hooks: (?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ListCompanyAutomationsHooksResponse
       def create_hook: (name: String, ?id_path: String?, ?signature_header: String, ?signature_secret: String?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::AutomationHookWithToken
       def get_hook: (String id, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::AutomationHook

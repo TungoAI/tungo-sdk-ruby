@@ -23,7 +23,9 @@ module Tungo
       # @param signature [String] Подпись тела, если у хука есть секрет: HMAC-SHA256(секрет, сырое тело) в
       #   hex, можно с приставкой sha256= (имя заголовка — signature_header хука)
       # @param secret [String, nil] the hook's signing secret: the exact bytes sent are signed in the
-      #   X-Signature header
+      #   signature header
+      # @param signature_header [String, nil] the header the hook reads its signature from (the
+      #   signature_header it was created with); X-Signature by default. Used for both secret and signature
       # @param content_type [String] defaults to application/octet-stream for a String and application/json
       #   otherwise
       # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
@@ -34,6 +36,7 @@ module Tungo
         event_id: OMIT,
         signature: OMIT,
         secret: nil,
+        signature_header: nil,
         content_type: OMIT,
         request_options: nil
       )
@@ -43,9 +46,9 @@ module Tungo
           path_params: { token: token },
           raw_body: payload,
           content_type: content_type,
-          signature_header: "X-Signature",
+          signature_header: signature_header || "X-Signature",
           secret: secret,
-          headers: { "X-Event-Id" => event_id, "X-Signature" => signature },
+          headers: { "X-Event-Id" => event_id, (signature_header || "X-Signature") => signature },
           auth: :none,
           idempotency_header: "Idempotency-Key",
           idempotency_default: event_id,

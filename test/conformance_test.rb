@@ -68,6 +68,17 @@ class ConformanceTest < TungoTestCase
     end
   end
 
+  def test_money_to_tiyn_bounds_a_huge_exponent
+    # A BigDecimal parsed from user text may carry any exponent: it is never written out in full.
+    { "1E-999999999" => 0, "-1E-999999999" => 0, "0E-999999999" => 0, "9.99E-4" => 0, "5E-3" => 1,
+      "-5E-3" => -1, "1.005E2" => 10_050 }.each do |text, tiyn|
+      assert_equal tiyn, Tungo::Money.to_tiyn(BigDecimal(text)), text
+    end
+    %w[1E+999999999 -1E19].each do |text|
+      assert_raises(Tungo::MoneyError, text) { Tungo::Money.to_tiyn(BigDecimal(text)) }
+    end
+  end
+
   def test_money_format_tiyn
     vectors["money"]["format_tiyn"].each do |kase|
       arguments = [Integer(kase["tiyn"])]

@@ -26,7 +26,7 @@ module Tungo
       tiyn = case amount
              when String then decimal_to_tiyn(amount)
              when Integer then amount * 100
-             when BigDecimal, Float then decimal_to_tiyn(finite_decimal(amount).to_s("F"))
+             when BigDecimal, Float then big_decimal_to_tiyn(finite_decimal(amount))
              when Rational then rational_to_tiyn(amount)
              else raise MoneyError, "cannot convert #{amount.class} to tiyn"
              end
@@ -75,6 +75,19 @@ module Tungo
       tiyn = "#{match[2]}#{fraction[0, 2]}".to_i
       tiyn += 1 if fraction[2] >= "5"
       match[1] == "-" ? -tiyn : tiyn
+    end
+
+    # Bounds the exponent before the value is written out: BigDecimal("1E-999999999").to_s("F")
+    # would build a billion-character string. +exponent+ is the number of digits before the
+    # point: below 10^-3 an amount rounds to zero tiyn, at 10^19 tenge and above it cannot fit
+    # into 64-bit tiyn.
+    #
+    # @api private
+    def big_decimal_to_tiyn(amount)
+      return 0 if amount.zero? || amount.exponent < -2
+      raise MoneyError, "the amount does not fit into 64-bit tiyn" if amount.exponent > 19
+
+      decimal_to_tiyn(amount.to_s("F"))
     end
 
     # @api private

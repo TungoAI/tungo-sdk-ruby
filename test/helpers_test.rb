@@ -71,6 +71,26 @@ class HelpersTest < TungoTestCase
     assert_match(/\A[0-9a-f-]{36}\z/, request.headers["idempotency-key"])
   end
 
+  def test_send_hook_signs_in_the_hooks_own_signature_header
+    # A hook created with signature_header "x-shop-signature" reads the signature only there.
+    client.send_hook("th_token", "{}", secret: "hksec_1", signature_header: "x-shop-signature")
+    request = server.requests.last
+
+    assert_equal Tungo::Webhooks.sign_hook_payload("{}", "hksec_1"), request.headers["x-shop-signature"]
+    assert_nil request.headers["x-signature"]
+
+    client.automations.post_hook("th_token", "{}", signature: "sha256=00", signature_header: "X-Shop-Signature")
+
+    assert_equal "sha256=00", server.requests.last.headers["x-shop-signature"]
+    assert_nil server.requests.last.headers["x-signature"]
+    assert_raises(Tungo::ValidationError) do
+      client.automations.post_hook("th_token", "{}", secret: "hksec_1", signature: "sha256=00")
+    end
+    assert_raises(Tungo::ValidationError) do
+      client.send_hook("th_token", "{}", secret: "hksec_1", signature_header: "bad header")
+    end
+  end
+
   def test_send_hook_without_a_secret_is_unsigned
     client.send_hook("th_token", "raw", content_type: "text/plain")
 

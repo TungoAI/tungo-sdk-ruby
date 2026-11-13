@@ -196,6 +196,18 @@ class ClientTest < TungoTestCase
     refute_equal keys.first, keys.last
   end
 
+  def test_the_idempotency_key_of_an_approval_body_is_the_header
+    # The API prefers the header over the documented body field: a generated header would make a
+    # repeat of the same click a new approval.
+    scoped = client(company_id: "co_1")
+    scoped.proposals.approve("P-1", idempotency_key: " click-7 ")
+    scoped.proposals.approve("P-1", idempotency_key: "click-7", request_options: { idempotency_key: "own" })
+    scoped.proposals.approve_batch(idempotency_key: "click-8")
+    keys = server.requests.map { |request| request.headers["idempotency-key"] }
+
+    assert_equal %w[click-7 own click-8], keys
+  end
+
   def test_api_response_metadata
     server.respond do |_|
       MockServer.json({ "data" => [] }, headers: { "x-ratelimit-limit" => "600", "x-ratelimit-remaining" => "599",

@@ -27,12 +27,14 @@ module Tungo
     end
 
     # Posts an event to an incoming hook (+POST /hooks/{token}+). The API key is never sent.
-    # With a +secret+ the exact bytes of the body are signed in the +X-Signature+ header.
+    # With a +secret+ the exact bytes of the body are signed in the +X-Signature+ header, or in
+    # +signature_header:+ for a hook created with its own signature_header.
     #
     # @param token [String] the hook token (+th_...+)
     # @param payload [String, Hash, Array, Tungo::Model, nil] a String is sent byte for byte;
     #   anything else is sent as JSON
     # @param secret [String, nil] the hook's signing secret
+    # @param signature_header [String, nil] the hook's own signature_header (default X-Signature)
     # @param options [Hash] the other keyword arguments of +automations.post_hook+
     # @return [Tungo::Models::AutomationHookAccepted]
     def send_hook(token, payload = nil, secret: nil, **)
