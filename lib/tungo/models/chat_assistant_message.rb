@@ -42,6 +42,11 @@ module Tungo
       #   @return [Array<String>]
       required :proposal_ids, array_of(:string)
 
+      # @!attribute [r] rating
+      #   Оценка этого ответа человеком; null — не оценён
+      #   @return [Tungo::Models::ChatMessageRating, nil]
+      required :rating, :ChatMessageRating, nullable: true
+
       # @!attribute [r] role
       #   Ответ ИИ
       #   @return [String]
@@ -57,6 +62,12 @@ module Tungo
       #   Размышления модели за ход одним текстом; пусто — не было
       #   @return [String]
       required :thinking, :string
+
+      # @!attribute [r] turn_no
+      #   Номер ответа в разговоре (он же X-Turn-No и средняя часть id): по нему ответ оценивают — PUT
+      #   …/chat/{id}/messages/{turn}/rating
+      #   @return [Integer]
+      required :turn_no, :integer
     end
   end
 end

@@ -11,12 +11,14 @@ module Tungo
       def message_count: () -> (Integer | BigDecimal)
       def messages: () -> Array[Tungo::Models::ChatMessage::t]
       def pd_restored: () -> bool
+      def rating: () -> Tungo::Models::ChatDialogRating?
+      def rating_prompt: () -> bool
       def running: () -> bool
       def title: () -> String
       def title_source: () -> Tungo::Models::ChatTitleSource::t
       def turn: () -> (Integer | BigDecimal)
       def updated_at: () -> String
-      def initialize: (?awaiting: Tungo::input[Tungo::Models::ChatPendingQuestion], ?closed: Tungo::input[Tungo::Models::ChatDialogClosed], ?created_at: (String | Time), ?id: String, ?masked: (Integer | Float | BigDecimal), ?message_count: (Integer | Float | BigDecimal), ?messages: Array[Tungo::Models::ChatMessage::input], ?pd_restored: bool, ?running: bool, ?title: String, ?title_source: Tungo::Models::ChatTitleSource::input, ?turn: (Integer | Float | BigDecimal), ?updated_at: (String | Time), **untyped) -> void
+      def initialize: (?awaiting: Tungo::input[Tungo::Models::ChatPendingQuestion], ?closed: Tungo::input[Tungo::Models::ChatDialogClosed], ?created_at: (String | Time), ?id: String, ?masked: (Integer | Float | BigDecimal), ?message_count: (Integer | Float | BigDecimal), ?messages: Array[Tungo::Models::ChatMessage::input], ?pd_restored: bool, ?rating: Tungo::input[Tungo::Models::ChatDialogRating]?, ?rating_prompt: bool, ?running: bool, ?title: String, ?title_source: Tungo::Models::ChatTitleSource::input, ?turn: (Integer | Float | BigDecimal), ?updated_at: (String | Time), **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ChatDialog
       def with: (**untyped) -> Tungo::Models::ChatDialog
     end

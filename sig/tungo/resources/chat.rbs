@@ -10,6 +10,7 @@ module Tungo
       def create_stream: (?attachments: Array[Tungo::input[Tungo::Models::ChatAttachment]], ?capabilities: Array[String], ?dialog_id: String?, ?effort: Tungo::Models::ChatMessageRequestEffort::input?, ?mentions: Array[Tungo::input[Tungo::Models::ChatMention]], ?message: String, ?mode: Tungo::Models::ChatMessageRequestMode::input, ?new_dialog: bool, ?proposal_id: String?, ?turn: Integer?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::ChatStream
       def count_tokens: (?attachments: Array[Tungo::input[Tungo::Models::ChatAttachment]], ?dialog_id: String, ?message: String, ?mode: Tungo::Models::ChatTokenCountRequestMode::input, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatTokenCount
       def list_mentions: (?limit: Integer, ?q: String, ?types: String, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatMentionSearch
+      def get_rating_options: (?lang: Tungo::Models::ListCompanyChatRatingOptionsLang::input, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatRatingOptions
       def list_suggestions: (?lang: Tungo::Models::ListCompanyChatSuggestionsLang::input, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatSuggestions
       def get: (String id, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatDialog
       def update: (String id, title: String, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatDialogRenamed
@@ -17,6 +18,10 @@ module Tungo
       def answer: (String id, answers: Array[Tungo::input[Tungo::Models::ChatChoiceAnswer]], choice_id: String, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatTurnResult
       def answer_stream: (String id, answers: Array[Tungo::input[Tungo::Models::ChatChoiceAnswer]], choice_id: String, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::ChatStream
       def list_events: (String id, ?turn: Integer?, ?last_event_id: String?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::ChatStream
+      def rate_message: (String id, String turn, vote: Tungo::Models::ChatMessageRatingBodyVote::input, ?comment: String?, ?reason: String?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatMessageRated
+      def delete_message_rating: (String id, String turn, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatMessageRated
+      def rate: (String id, score: Integer, ?comment: String?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatDialogRated
+      def dismiss_rating: (String id, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatRatingDismissed
       def stop: (String id, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatStopResult
     end
   end

@@ -23,6 +23,12 @@ module Tungo
       #   @return [Integer, nil]
       optional :cost_tiyn, :integer
 
+      # @!attribute [r] rating_prompt
+      #   Пора предложить человеку оценить разговор — те же правила, что у rating_prompt в GET
+      #   …/chat/{id}. Поля нет — не предлагать. Ключу API не приходит
+      #   @return [Boolean, nil]
+      optional :rating_prompt, :boolean
+
       # @!attribute [r] stop_reason
       #   Чем кончился ход: end_turn — ответ готов; awaiting_user — ждёт ответа на вопрос choice; budget
       #   — кончился лимит; aborted — остановили; refusal — модель отказалась; context_overflow —

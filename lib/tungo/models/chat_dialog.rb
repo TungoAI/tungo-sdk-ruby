@@ -48,6 +48,18 @@ module Tungo
       #   @return [Boolean]
       required :pd_restored, :boolean
 
+      # @!attribute [r] rating
+      #   Оценка разговора человеком; null — не оценён
+      #   @return [Tungo::Models::ChatDialogRating, nil]
+      required :rating, :ChatDialogRating, nullable: true
+
+      # @!attribute [r] rating_prompt
+      #   true — пора предложить человеку оценить разговор (форма 1–5 с комментарием). Решает ядро по
+      #   настройке: достаточно ответов ИИ в разговоре, разговор не оценён, человек не нажимал «не
+      #   сейчас», и ему не предлагали в последни…
+      #   @return [Boolean]
+      required :rating_prompt, :boolean
+
       # @!attribute [r] running
       #   true — идёт ход: дочитать его потоком GET …/chat/{id}/events?turn=<turn>
       #   @return [Boolean]

@@ -4,25 +4,82 @@
 
 module Tungo
   module Models
-    # Источник ответа: норма закона, статья базы знаний
+    # Источник ответа: норма закона, статья базы знаний. Список источников — по порядку первой ссылки в
+    # тексте ответа, без повторов. В самом тексте ответа списка источников нет: только короткие ссылки по
+    # месту («(НК РК, ст. 44…
     class ChatCitation < Tungo::Model
+      # @!attribute [r] article
+      #   Номер статьи
+      #   @return [String, nil]
+      optional :article, :string
+
+      # @!attribute [r] chapter
+      #   Номер главы — у источников без статей
+      #   @return [String, nil]
+      optional :chapter, :string
+
+      # @!attribute [r] document
+      #   Документ коротко: принятое сокращение, если оно есть в базе («НК РК»), иначе название обычным
+      #   регистром («Социальный кодекс Республики Казахстан»)
+      #   @return [String]
+      required :document, :string
+
       # @!attribute [r] edition
-      #   Редакция нормы (на какую дату)
+      #   Редакция нормы словами
       #   @return [String, nil]
       optional :edition, :string
 
+      # @!attribute [r] edition_date
+      #   Дата начала редакции, ГГГГ-ММ-ДД
+      #   @return [String, nil]
+      optional :edition_date, :string
+
+      # @!attribute [r] heading
+      #   Заголовок статьи без «Статья N.» — вторая строка чипа или подсказка
+      #   @return [String, nil]
+      optional :heading, :string
+
+      # @!attribute [r] label
+      #   Короткая подпись для чипа: документ и место в нём, без редакции и пометок
+      #   @return [String]
+      required :label, :string
+
+      # @!attribute [r] mentions
+      #   Как источник назван в тексте ответа — дословные куски текста («ст. 445», «статьи 445»): их
+      #   можно сделать ссылкой на этот источник. Только в итоге хода и в истории, в событии потока поля
+      #   нет. Поля нет и тогда, когда стать…
+      #   @return [Array<String>, nil]
+      optional :mentions, array_of(:string)
+
+      # @!attribute [r] note
+      #   Пометка о статусе или природе источника — показывать обязательно: «УТРАТИЛА СИЛУ с
+      #   01.01.2026», «по разъяснению КГД», «позиция органа (не норма права)»
+      #   @return [String, nil]
+      optional :note, :string
+
+      # @!attribute [r] point
+      #   Номер пункта
+      #   @return [String, nil]
+      optional :point, :string
+
       # @!attribute [r] source
-      #   Откуда: код нормы или статьи базы знаний
+      #   Подпись целиком, как раньше: документ, место, редакция и пометки одной строкой. Для показа
+      #   удобнее label, edition и note по отдельности
       #   @return [String]
       required :source, :string
 
+      # @!attribute [r] subpoint
+      #   Номер подпункта
+      #   @return [String, nil]
+      optional :subpoint, :string
+
       # @!attribute [r] title
-      #   Название источника для показа
+      #   Заголовок статьи целиком, с «Статья N.» (как раньше). Без номера — heading
       #   @return [String]
       required :title, :string
 
       # @!attribute [r] url
-      #   Ссылка на текст источника, если есть
+      #   Ссылка на текст источника: по ней источник открывают. Она же — ключ источника внутри ответа
       #   @return [String, nil]
       optional :url, :string
     end

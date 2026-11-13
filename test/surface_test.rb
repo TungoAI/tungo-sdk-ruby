@@ -507,6 +507,19 @@ class SurfaceTest < TungoTestCase
     check "GET", "/v1/companies/co_1/chat/mentions", auth: true, idempotent: false
   end
 
+  def test_chat_get_rating_options
+    expected = sample("chat.get_rating_options")
+    serve(expected, status: 200)
+    result = surface_client.chat.get_rating_options
+
+    assert_decoded expected, result
+    assert_equal expected.fetch("comment_chars"), result.comment_chars
+    assert_instance_of Tungo::Models::ChatRatingOptionsDialogScores, result.dialog_scores
+    assert_equal expected.fetch("reasons").size, result.reasons.size
+    assert_equal 200, result.api_response.status
+    check "GET", "/v1/companies/co_1/chat/rating-options", auth: true, idempotent: false
+  end
+
   def test_chat_list_suggestions
     expected = sample("chat.list_suggestions")
     serve(expected, status: 200)
@@ -533,6 +546,8 @@ class SurfaceTest < TungoTestCase
     assert_equal expected.fetch("message_count"), result.message_count
     assert_equal expected.fetch("messages").size, result.messages.size
     assert_same expected.fetch("pd_restored"), result.pd_restored
+    assert_instance_of Tungo::Models::ChatDialogRating, result.rating
+    assert_same expected.fetch("rating_prompt"), result.rating_prompt
     assert_same expected.fetch("running"), result.running
     assert_equal expected.fetch("title"), result.title
     assert_equal expected.fetch("turn"), result.turn
@@ -604,6 +619,59 @@ class SurfaceTest < TungoTestCase
     assert_instance_of Tungo::ChatStream, stream
     assert_events expected, stream
     check "GET", "/v1/companies/co_1/chat/id_1/events", auth: true, idempotent: false, accept: "text/event-stream"
+  end
+
+  def test_chat_rate_message
+    expected = sample("chat.rate_message")
+    serve(expected, status: 200)
+    result = surface_client.chat.rate_message("id_1", "id_1", vote: "up")
+
+    assert_decoded expected, result
+    assert_equal expected.fetch("dialog_id"), result.dialog_id
+    assert_equal expected.fetch("message_id"), result.message_id
+    assert_instance_of Tungo::Models::ChatMessageRating, result.rating
+    assert_equal expected.fetch("turn_no"), result.turn_no
+    assert_equal 200, result.api_response.status
+    check "PUT", "/v1/companies/co_1/chat/id_1/messages/id_1/rating", auth: true, idempotent: false
+  end
+
+  def test_chat_delete_message_rating
+    expected = sample("chat.delete_message_rating")
+    serve(expected, status: 200)
+    result = surface_client.chat.delete_message_rating("id_1", "id_1")
+
+    assert_decoded expected, result
+    assert_equal expected.fetch("dialog_id"), result.dialog_id
+    assert_equal expected.fetch("message_id"), result.message_id
+    assert_instance_of Tungo::Models::ChatMessageRating, result.rating
+    assert_equal expected.fetch("turn_no"), result.turn_no
+    assert_equal 200, result.api_response.status
+    check "DELETE", "/v1/companies/co_1/chat/id_1/messages/id_1/rating", auth: true, idempotent: false
+  end
+
+  def test_chat_rate
+    expected = sample("chat.rate")
+    serve(expected, status: 200)
+    result = surface_client.chat.rate("id_1", score: 1)
+
+    assert_decoded expected, result
+    assert_equal expected.fetch("id"), result.id
+    assert_instance_of Tungo::Models::ChatDialogRating, result.rating
+    assert_same expected.fetch("rating_prompt"), result.rating_prompt
+    assert_equal 200, result.api_response.status
+    check "PUT", "/v1/companies/co_1/chat/id_1/rating", auth: true, idempotent: false
+  end
+
+  def test_chat_dismiss_rating
+    expected = sample("chat.dismiss_rating")
+    serve(expected, status: 200)
+    result = surface_client.chat.dismiss_rating("id_1")
+
+    assert_decoded expected, result
+    assert_equal expected.fetch("id"), result.id
+    assert_same expected.fetch("rating_prompt"), result.rating_prompt
+    assert_equal 200, result.api_response.status
+    check "POST", "/v1/companies/co_1/chat/id_1/rating/dismiss", auth: true, idempotent: false
   end
 
   def test_chat_stop
@@ -1494,6 +1562,6 @@ class SurfaceTest < TungoTestCase
   end
 
   def test_every_operation_is_covered
-    assert_equal 85, self.class.instance_methods(false).count { |name| name.start_with?("test_") } - 1
+    assert_equal 90, self.class.instance_methods(false).count { |name| name.start_with?("test_") } - 1
   end
 end

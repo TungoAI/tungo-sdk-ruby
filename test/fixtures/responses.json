@@ -1259,6 +1259,8 @@
    "answer": "text",
    "citations": [
     {
+     "document": "text",
+     "label": "text",
      "source": "text",
      "title": "text"
     }
@@ -1514,6 +1516,8 @@
    "answer": "text",
    "citations": [
     {
+     "document": "text",
+     "label": "text",
      "source": "text",
      "title": "text"
     }
@@ -1756,6 +1760,25 @@
    "id": "text"
   }
  },
+ "chat.delete_message_rating": {
+  "result": {
+   "dialog_id": "text",
+   "message_id": "text",
+   "rating": {
+    "at": "2026-01-02T03:04:05Z",
+    "comment": "text",
+    "reason": "text",
+    "vote": "up"
+   },
+   "turn_no": 9007199254740993
+  }
+ },
+ "chat.dismiss_rating": {
+  "result": {
+   "id": "text",
+   "rating_prompt": false
+  }
+ },
  "chat.get": {
   "result": {
    "awaiting": {
@@ -1792,11 +1815,32 @@
     }
    ],
    "pd_restored": true,
+   "rating": {
+    "at": "2026-01-02T03:04:05Z",
+    "comment": "text",
+    "score": 7
+   },
+   "rating_prompt": true,
    "running": true,
    "title": "text",
    "title_source": "first_message",
    "turn": 1.5,
    "updated_at": "2026-01-02T03:04:05Z"
+  }
+ },
+ "chat.get_rating_options": {
+  "result": {
+   "comment_chars": 9007199254740993,
+   "dialog_scores": {
+    "max": 9007199254740993,
+    "min": 9007199254740993
+   },
+   "reasons": [
+    {
+     "key": "text",
+     "title": "text"
+    }
+   ]
   }
  },
  "chat.list": {
@@ -1859,6 +1903,30 @@
    ],
    "locale": "ru",
    "onec_linked": true
+  }
+ },
+ "chat.rate": {
+  "result": {
+   "id": "text",
+   "rating": {
+    "at": "2026-01-02T03:04:05Z",
+    "comment": "text",
+    "score": 7
+   },
+   "rating_prompt": false
+  }
+ },
+ "chat.rate_message": {
+  "result": {
+   "dialog_id": "text",
+   "message_id": "text",
+   "rating": {
+    "at": "2026-01-02T03:04:05Z",
+    "comment": "text",
+    "reason": "text",
+    "vote": "up"
+   },
+   "turn_no": 9007199254740993
   }
  },
  "chat.stop": {

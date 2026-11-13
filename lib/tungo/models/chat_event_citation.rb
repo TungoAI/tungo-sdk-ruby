@@ -4,20 +4,69 @@
 
 module Tungo
   module Models
-    # Источник ответа: норма закона, статья базы знаний
+    # Источник ответа: норма закона, статья базы знаний. Приходят по порядку первой ссылки в тексте,
+    # каждый источник один раз за ход. Вопросы-продолжения — отдельное событие next
     class ChatEventCitation < Tungo::Model
+      # @!attribute [r] article
+      #   Номер статьи
+      #   @return [String, nil]
+      optional :article, :string
+
+      # @!attribute [r] chapter
+      #   Номер главы — у источников без статей
+      #   @return [String, nil]
+      optional :chapter, :string
+
+      # @!attribute [r] document
+      #   Документ коротко: принятое сокращение, если оно есть в базе («НК РК»), иначе название обычным
+      #   регистром («Социальный кодекс Республики Казахстан»)
+      #   @return [String]
+      required :document, :string
+
       # @!attribute [r] edition
-      #   Редакция нормы
+      #   Редакция нормы словами
       #   @return [String, nil]
       optional :edition, :string
 
+      # @!attribute [r] edition_date
+      #   Дата начала редакции, ГГГГ-ММ-ДД
+      #   @return [String, nil]
+      optional :edition_date, :string
+
+      # @!attribute [r] heading
+      #   Заголовок статьи без «Статья N.» — вторая строка чипа или подсказка
+      #   @return [String, nil]
+      optional :heading, :string
+
+      # @!attribute [r] label
+      #   Короткая подпись для чипа: документ и место в нём, без редакции и пометок
+      #   @return [String]
+      required :label, :string
+
+      # @!attribute [r] note
+      #   Пометка о статусе или природе источника — показывать обязательно: «УТРАТИЛА СИЛУ с
+      #   01.01.2026», «по разъяснению КГД», «позиция органа (не норма права)»
+      #   @return [String, nil]
+      optional :note, :string
+
+      # @!attribute [r] point
+      #   Номер пункта
+      #   @return [String, nil]
+      optional :point, :string
+
       # @!attribute [r] source
-      #   Откуда: код нормы или статьи базы знаний
+      #   Подпись целиком, как раньше: документ, место, редакция и пометки одной строкой. Для показа
+      #   удобнее label, edition и note по отдельности
       #   @return [String]
       required :source, :string
 
+      # @!attribute [r] subpoint
+      #   Номер подпункта
+      #   @return [String, nil]
+      optional :subpoint, :string
+
       # @!attribute [r] title
-      #   Название источника
+      #   Заголовок статьи целиком, с «Статья N.» (как раньше). Без номера — heading
       #   @return [String]
       required :title, :string
 
@@ -27,7 +76,7 @@ module Tungo
       required :type, :string
 
       # @!attribute [r] url
-      #   Ссылка на текст источника
+      #   Ссылка на текст источника: по ней источник открывают. Она же — ключ источника внутри ответа
       #   @return [String, nil]
       optional :url, :string
     end

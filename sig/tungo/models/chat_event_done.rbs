@@ -6,10 +6,11 @@ module Tungo
       def answer: () -> String?
       def choice_id: () -> String?
       def cost_tiyn: () -> Integer?
+      def rating_prompt: () -> bool?
       def stop_reason: () -> String?
       def type: () -> String
       def usage: () -> Tungo::Models::ChatUsage?
-      def initialize: (?answer: String, ?choice_id: String, ?cost_tiyn: Integer, ?stop_reason: String, ?type: String, ?usage: Tungo::input[Tungo::Models::ChatUsage], **untyped) -> void
+      def initialize: (?answer: String, ?choice_id: String, ?cost_tiyn: Integer, ?rating_prompt: bool, ?stop_reason: String, ?type: String, ?usage: Tungo::input[Tungo::Models::ChatUsage], **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ChatEventDone
       def with: (**untyped) -> Tungo::Models::ChatEventDone
     end

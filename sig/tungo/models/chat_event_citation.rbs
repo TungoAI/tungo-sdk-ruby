@@ -3,12 +3,21 @@
 module Tungo
   module Models
     class ChatEventCitation < Tungo::Model
+      def article: () -> String?
+      def chapter: () -> String?
+      def document: () -> String
       def edition: () -> String?
+      def edition_date: () -> String?
+      def heading: () -> String?
+      def label: () -> String
+      def note: () -> String?
+      def point: () -> String?
       def source: () -> String
+      def subpoint: () -> String?
       def title: () -> String
       def type: () -> String
       def url: () -> String?
-      def initialize: (?edition: String, ?source: String, ?title: String, ?type: String, ?url: String, **untyped) -> void
+      def initialize: (?article: String, ?chapter: String, ?document: String, ?edition: String, ?edition_date: String, ?heading: String, ?label: String, ?note: String, ?point: String, ?source: String, ?subpoint: String, ?title: String, ?type: String, ?url: String, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ChatEventCitation
       def with: (**untyped) -> Tungo::Models::ChatEventCitation
     end

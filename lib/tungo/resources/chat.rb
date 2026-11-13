@@ -241,6 +241,25 @@ module Tungo
         )
       end
 
+      # Что нужно форме оценки: причины «вниз» и предел комментария
+      #
+      # +GET /v1/companies/{co}/chat/rating-options+
+      #
+      # @param lang [String] Язык названий причин; по умолчанию ru
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::Models::ChatRatingOptions]
+      def get_rating_options(lang: OMIT, company_id: nil, request_options: nil)
+        @client.request(
+          method: :get,
+          path: "/v1/companies/{co}/chat/rating-options",
+          path_params: { co: @client.resolve_company_id(company_id) },
+          query: { "lang" => lang },
+          model: :ChatRatingOptions,
+          options: request_options
+        )
+      end
+
       # Подсказки пустого чата
       #
       # +GET /v1/companies/{co}/chat/suggestions+
@@ -392,6 +411,96 @@ module Tungo
           event: :ChatEvent,
           stream_class: Tungo::ChatStream,
           last_event_id: last_event_id,
+          options: request_options
+        )
+      end
+
+      # Оценить ответ ИИ: палец вверх или вниз
+      #
+      # +PUT /v1/companies/{co}/chat/{id}/messages/{turn}/rating+
+      #
+      # @param id [String] id разговора: dialog_id из ответа (заголовок X-Dialog-Id, поле id в списке
+      #   разговоров). Обычно UUID; клиент мог задать свой (до 64 знаков A–Z, a–z, 0–9, _ и -)
+      # @param turn [String] Номер ответа: turn_no сообщения ИИ в истории (он же X-Turn-No)
+      # @param vote [String] up — ответ хороший, down — плохой. Повторная оценка того же ответа заменяет
+      #   прежнюю
+      # @param comment [String, nil] Комментарий человека, необязательный; предел длины — comment_chars из
+      #   GET …/chat/rating-options
+      # @param reason [String, nil] Причина оценки down — ключ из GET …/chat/rating-options; можно прислать
+      #   позже повторным PUT. У оценки up причины нет
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::Models::ChatMessageRated]
+      def rate_message(id, turn, vote:, comment: OMIT, reason: OMIT, company_id: nil, request_options: nil)
+        @client.request(
+          method: :put,
+          path: "/v1/companies/{co}/chat/{id}/messages/{turn}/rating",
+          path_params: { co: @client.resolve_company_id(company_id), id: id, turn: turn },
+          body: { "vote" => vote, "comment" => comment, "reason" => reason },
+          model: :ChatMessageRated,
+          options: request_options
+        )
+      end
+
+      # Снять свою оценку ответа
+      #
+      # +DELETE /v1/companies/{co}/chat/{id}/messages/{turn}/rating+
+      #
+      # @param id [String] id разговора: dialog_id из ответа (заголовок X-Dialog-Id, поле id в списке
+      #   разговоров). Обычно UUID; клиент мог задать свой (до 64 знаков A–Z, a–z, 0–9, _ и -)
+      # @param turn [String] Номер ответа: turn_no сообщения ИИ в истории (он же X-Turn-No)
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::Models::ChatMessageRated]
+      def delete_message_rating(id, turn, company_id: nil, request_options: nil)
+        @client.request(
+          method: :delete,
+          path: "/v1/companies/{co}/chat/{id}/messages/{turn}/rating",
+          path_params: { co: @client.resolve_company_id(company_id), id: id, turn: turn },
+          model: :ChatMessageRated,
+          options: request_options
+        )
+      end
+
+      # Оценить разговор целиком: от 1 до 5
+      #
+      # +PUT /v1/companies/{co}/chat/{id}/rating+
+      #
+      # @param id [String] id разговора: dialog_id из ответа (заголовок X-Dialog-Id, поле id в списке
+      #   разговоров). Обычно UUID; клиент мог задать свой (до 64 знаков A–Z, a–z, 0–9, _ и -)
+      # @param score [Integer] Оценка разговора: от 1 (плохо) до 5 (отлично). Повторная оценка заменяет
+      #   прежнюю
+      # @param comment [String, nil] Комментарий человека, необязательный; предел длины — comment_chars из
+      #   GET …/chat/rating-options
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::Models::ChatDialogRated]
+      def rate(id, score:, comment: OMIT, company_id: nil, request_options: nil)
+        @client.request(
+          method: :put,
+          path: "/v1/companies/{co}/chat/{id}/rating",
+          path_params: { co: @client.resolve_company_id(company_id), id: id },
+          body: { "score" => score, "comment" => comment },
+          model: :ChatDialogRated,
+          options: request_options
+        )
+      end
+
+      # Не сейчас: закрыть предложение оценить разговор
+      #
+      # +POST /v1/companies/{co}/chat/{id}/rating/dismiss+
+      #
+      # @param id [String] id разговора: dialog_id из ответа (заголовок X-Dialog-Id, поле id в списке
+      #   разговоров). Обычно UUID; клиент мог задать свой (до 64 знаков A–Z, a–z, 0–9, _ и -)
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::Models::ChatRatingDismissed]
+      def dismiss_rating(id, company_id: nil, request_options: nil)
+        @client.request(
+          method: :post,
+          path: "/v1/companies/{co}/chat/{id}/rating/dismiss",
+          path_params: { co: @client.resolve_company_id(company_id), id: id },
+          model: :ChatRatingDismissed,
           options: request_options
         )
       end
