@@ -5,8 +5,8 @@
 module Tungo
   module Models
     # Что происходит: - `compacting` — сервер сжимает историю длинного разговора - `escalating` — ответ
-    # перепроверяется более сильной моделью — ход займёт дольше - `elsewhere` — ответ готовится на другом
-    # сервере Tungo — он поя…
+    # перепроверяется более сильной моделью — ход займёт дольше - `checking_norm` — ответ сослался на
+    # норму, не открыв её: та же…
     #
     # A value this SDK version does not know is passed through unchanged.
     module ChatEventStatusCode
@@ -14,6 +14,8 @@ module Tungo
 
       COMPACTING = "compacting"
       ESCALATING = "escalating"
+      CHECKING_NORM = "checking_norm"
+      WRITING = "writing"
       ELSEWHERE = "elsewhere"
     end
   end

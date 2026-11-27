@@ -27,6 +27,8 @@ module Tungo
         "error" => :ChatEventError,
         "batch" => :ChatEventBatch,
         "batch_report" => :ChatEventBatchReport,
+        "file" => :ChatEventFile,
+        "memory" => :ChatEventMemory,
         "next" => :ChatEventNext,
         "done" => :ChatEventDone,
         "title" => :ChatEventTitle
@@ -44,6 +46,8 @@ module Tungo
         :ChatEventError,
         :ChatEventBatch,
         :ChatEventBatchReport,
+        :ChatEventFile,
+        :ChatEventMemory,
         :ChatEventNext,
         :ChatEventDone,
         :ChatEventTitle

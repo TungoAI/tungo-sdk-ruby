@@ -12,6 +12,11 @@ module Tungo
       #   @return [String]
       required :id, :string
 
+      # @!attribute [r] memory
+      #   false — разговор «без памяти»
+      #   @return [Boolean]
+      required :memory, :boolean
+
       # @!attribute [r] message_count
       #   Сколько сообщений в разговоре (вопросы и ответы)
       #   @return [Integer, BigDecimal]

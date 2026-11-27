@@ -5,7 +5,7 @@
 module Tungo
   module Models
     # Блок ответа в истории — те же виды, что клиент собирает из живого потока: text | tool | proposal |
-    # batch | question | error
+    # file | batch | memory | question | error
     #
     # The variant is selected by the +kind+ property. An object with a value this SDK version
     # does not know is returned as a {Tungo::UnknownVariant}.
@@ -17,7 +17,9 @@ module Tungo
         "text" => :ChatHistoryText,
         "tool" => :ChatHistoryTool,
         "proposal" => :ChatHistoryProposal,
+        "file" => :ChatHistoryFile,
         "batch" => :ChatHistoryBatch,
+        "memory" => :ChatHistoryMemory,
         "question" => :ChatHistoryQuestion,
         "error" => :ChatHistoryError
       )
@@ -25,7 +27,9 @@ module Tungo
         :ChatHistoryText,
         :ChatHistoryTool,
         :ChatHistoryProposal,
+        :ChatHistoryFile,
         :ChatHistoryBatch,
+        :ChatHistoryMemory,
         :ChatHistoryQuestion,
         :ChatHistoryError
       )

@@ -9,8 +9,8 @@ module Tungo
       # @!attribute [r] attachments
       #   Файлы к вопросу. До 5 файлов, каждый до 10 МБ, все вместе до 14 МБ (до кодирования в base64).
       #   Картинка — до 5 МБ, PDF — до 100 страниц. Форматы (по расширению имени): .pdf, .jpg, .jpeg,
-      #   .png, .webp, .docx, .xlsx, .xls, .…
-      #   @return [Array<Tungo::Models::ChatAttachment>, nil]
+      #   .png, .webp, .svg, .docx, .doc, .x…
+      #   @return [Array<Object>, nil]
       optional :attachments, array_of(:ChatAttachment)
 
       # @!attribute [r] capabilities
@@ -31,6 +31,13 @@ module Tungo
       #   выбором усилия (max_effort тарифа в GE…
       #   @return [String, nil]
       optional :effort, :ChatMessageRequestEffort, nullable: true
+
+      # @!attribute [r] memory
+      #   false — разговор «без памяти»: ИИ не видит, что запомнил раньше, ничего не запоминает и не
+      #   ищет по прошлым разговорам, а сам разговор не попадает в поиск. Действует только в первом
+      #   сообщении нового разговора и не меняетс…
+      #   @return [Boolean, nil]
+      optional :memory, :boolean
 
       # @!attribute [r] mentions
       #   Упоминания через «@» в этом вопросе, до 10: ИИ получит их вместе с вопросом. Каждое

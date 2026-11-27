@@ -10,6 +10,7 @@ module Tungo
       SNAPSHOT: String
       FAKE: String
       CONNECTOR: String
+      MODULE: String
     end
   end
 end

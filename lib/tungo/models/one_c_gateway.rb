@@ -5,8 +5,8 @@
 module Tungo
   module Models
     # Как Tungo достаёт данные 1С: odata — живая 1С через интернет; connector — коробочная 1С в офисе
-    # через программу Tungo Connector; snapshot — загруженная копия базы, только чтение; fake — только в
-    # тестах
+    # через программу Tungo Connector; module — через расширение «Tungo в 1С», пока у человека открыта 1С;
+    # snapshot — загруженная …
     #
     # A value this SDK version does not know is passed through unchanged.
     module OneCGateway
@@ -16,6 +16,7 @@ module Tungo
       SNAPSHOT = "snapshot"
       FAKE = "fake"
       CONNECTOR = "connector"
+      MODULE = "module"
     end
   end
 end

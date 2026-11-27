@@ -9,8 +9,8 @@ module Tungo
       # @!attribute [r] attachments
       #   Файлы, как в POST …/chat. До 5 файлов, каждый до 10 МБ, все вместе до 14 МБ (до кодирования в
       #   base64). Картинка — до 5 МБ, PDF — до 100 страниц. Форматы (по расширению имени): .pdf, .jpg,
-      #   .jpeg, .png, .webp, .docx, .xlsx…
-      #   @return [Array<Tungo::Models::ChatAttachment>, nil]
+      #   .jpeg, .png, .webp, .svg, .docx,…
+      #   @return [Array<Object>, nil]
       optional :attachments, array_of(:ChatAttachment)
 
       # @!attribute [r] dialog_id

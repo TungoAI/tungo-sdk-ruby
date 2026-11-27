@@ -8,8 +8,8 @@ module Tungo
     class AutomationStateInput < Tungo::Model
       # @!attribute [r] paused
       #   true — поставить все автоматизации компании на паузу: новые запуски не начинаются (идущий
-      #   доводит текущий шаг, остановить его — POST …/runs/{id}/cancel), события хуков принимаются и
-      #   ждут в очереди; false — снять паузу (п…
+      #   доводит текущий шаг и ждёт снятия паузы в очереди, потом продолжит со следующего шага;
+      #   остановить его совсем — POST …/runs/{id}/ca…
       #   @return [Boolean]
       required :paused, :boolean
 

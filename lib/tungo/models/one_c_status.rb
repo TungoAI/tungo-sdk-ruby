@@ -13,8 +13,8 @@ module Tungo
 
       # @!attribute [r] gateway
       #   Как Tungo достаёт данные 1С: odata — живая 1С через интернет; connector — коробочная 1С в
-      #   офисе через программу Tungo Connector; snapshot — загруженная копия базы, только чтение; fake
-      #   — только в тестах; null — не подключ…
+      #   офисе через программу Tungo Connector; module — через расширение «Tungo в 1С», пока у человека
+      #   открыта 1С; snapshot — загруженная …
       #   @return [String, nil]
       required :gateway, :OneCGateway, nullable: true
 

@@ -46,6 +46,8 @@ Metrics/ClassLength:
 
 Metrics/ModuleLength:
   Max: 200
+  Exclude:
+    - "lib/tungo/models/*.rb"
 
 Metrics/AbcSize:
   Max: 40

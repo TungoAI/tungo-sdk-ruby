@@ -8,10 +8,12 @@ module Tungo
       def cache_write_per_mtok_tiyn: () -> Integer
       def effective_from: () -> String
       def input_per_mtok_tiyn: () -> Integer
+      def long_context: () -> Tungo::Models::UsageRateLongContext?
       def model: () -> String
       def output_per_mtok_tiyn: () -> Integer
       def title: () -> String
-      def initialize: (?cache_read_per_mtok_tiyn: Integer, ?cache_write_1h_per_mtok_tiyn: Integer, ?cache_write_per_mtok_tiyn: Integer, ?effective_from: (String | Time), ?input_per_mtok_tiyn: Integer, ?model: String, ?output_per_mtok_tiyn: Integer, ?title: String, **untyped) -> void
+      def web_search_per_1k_tiyn: () -> Integer
+      def initialize: (?cache_read_per_mtok_tiyn: Integer, ?cache_write_1h_per_mtok_tiyn: Integer, ?cache_write_per_mtok_tiyn: Integer, ?effective_from: (String | Time), ?input_per_mtok_tiyn: Integer, ?long_context: Tungo::input[Tungo::Models::UsageRateLongContext]?, ?model: String, ?output_per_mtok_tiyn: Integer, ?title: String, ?web_search_per_1k_tiyn: Integer, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::UsageRate
       def with: (**untyped) -> Tungo::Models::UsageRate
     end

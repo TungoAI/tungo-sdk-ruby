@@ -54,9 +54,9 @@ module Tungo
       #
       # +POST /v1/companies/{co}/chat+
       #
-      # @param attachments [Array<Tungo::Models::ChatAttachment>] Файлы к вопросу. До 5 файлов, каждый до 10
-      #   МБ, все вместе до 14 МБ (до кодирования в base64). Картинка — до 5 МБ, PDF — до 100 страниц. Форматы
-      #   (по расширению имени): .pdf, .jpg, .jpeg, .png, .webp, .docx, .xlsx, .xls, .…
+      # @param attachments [Array<Object>] Файлы к вопросу. До 5 файлов, каждый до 10 МБ, все вместе до 14
+      #   МБ (до кодирования в base64). Картинка — до 5 МБ, PDF — до 100 страниц. Форматы (по расширению
+      #   имени): .pdf, .jpg, .jpeg, .png, .webp, .svg, .docx, .doc, .x…
       # @param capabilities [Array<String>] Что умеет клиент: ["choice"] — показывать уточняющие вопросы с
       #   вариантами (событие choice). Без него ИИ спрашивает обычным текстом
       # @param dialog_id [String, nil] Продолжить разговор с этим id. Без него — новый разговор, его id
@@ -64,6 +64,9 @@ module Tungo
       # @param effort [String, nil] Усилие ИИ на этот вопрос: low < medium < high < xhigh < max — глубже
       #   думает, дольше и дороже (больше расход лимита). Не прислано или null — усилие выбирает Tungo. Только
       #   на тарифе с выбором усилия (max_effort тарифа в GE…
+      # @param memory [Boolean] false — разговор «без памяти»: ИИ не видит, что запомнил раньше, ничего не
+      #   запоминает и не ищет по прошлым разговорам, а сам разговор не попадает в поиск. Действует только в
+      #   первом сообщении нового разговора и не меняетс…
       # @param mentions [Array<Tungo::Models::ChatMention>] Упоминания через «@» в этом вопросе, до 10: ИИ
       #   получит их вместе с вопросом. Каждое проверяется на доступ: нет объекта в этой компании или нет
       #   права его видеть — 404 (error.code = mention_not_found, error.index — номер в…
@@ -85,6 +88,7 @@ module Tungo
         capabilities: OMIT,
         dialog_id: OMIT,
         effort: OMIT,
+        memory: OMIT,
         mentions: OMIT,
         message: OMIT,
         mode: OMIT,
@@ -103,6 +107,7 @@ module Tungo
             "capabilities" => capabilities,
             "dialog_id" => dialog_id,
             "effort" => effort,
+            "memory" => memory,
             "mentions" => mentions,
             "message" => message,
             "mode" => mode,
@@ -122,9 +127,9 @@ module Tungo
       #
       # +POST /v1/companies/{co}/chat+
       #
-      # @param attachments [Array<Tungo::Models::ChatAttachment>] Файлы к вопросу. До 5 файлов, каждый до 10
-      #   МБ, все вместе до 14 МБ (до кодирования в base64). Картинка — до 5 МБ, PDF — до 100 страниц. Форматы
-      #   (по расширению имени): .pdf, .jpg, .jpeg, .png, .webp, .docx, .xlsx, .xls, .…
+      # @param attachments [Array<Object>] Файлы к вопросу. До 5 файлов, каждый до 10 МБ, все вместе до 14
+      #   МБ (до кодирования в base64). Картинка — до 5 МБ, PDF — до 100 страниц. Форматы (по расширению
+      #   имени): .pdf, .jpg, .jpeg, .png, .webp, .svg, .docx, .doc, .x…
       # @param capabilities [Array<String>] Что умеет клиент: ["choice"] — показывать уточняющие вопросы с
       #   вариантами (событие choice). Без него ИИ спрашивает обычным текстом
       # @param dialog_id [String, nil] Продолжить разговор с этим id. Без него — новый разговор, его id
@@ -132,6 +137,9 @@ module Tungo
       # @param effort [String, nil] Усилие ИИ на этот вопрос: low < medium < high < xhigh < max — глубже
       #   думает, дольше и дороже (больше расход лимита). Не прислано или null — усилие выбирает Tungo. Только
       #   на тарифе с выбором усилия (max_effort тарифа в GE…
+      # @param memory [Boolean] false — разговор «без памяти»: ИИ не видит, что запомнил раньше, ничего не
+      #   запоминает и не ищет по прошлым разговорам, а сам разговор не попадает в поиск. Действует только в
+      #   первом сообщении нового разговора и не меняетс…
       # @param mentions [Array<Tungo::Models::ChatMention>] Упоминания через «@» в этом вопросе, до 10: ИИ
       #   получит их вместе с вопросом. Каждое проверяется на доступ: нет объекта в этой компании или нет
       #   права его видеть — 404 (error.code = mention_not_found, error.index — номер в…
@@ -153,6 +161,7 @@ module Tungo
         capabilities: OMIT,
         dialog_id: OMIT,
         effort: OMIT,
+        memory: OMIT,
         mentions: OMIT,
         message: OMIT,
         mode: OMIT,
@@ -171,6 +180,7 @@ module Tungo
             "capabilities" => capabilities,
             "dialog_id" => dialog_id,
             "effort" => effort,
+            "memory" => memory,
             "mentions" => mentions,
             "message" => message,
             "mode" => mode,
@@ -190,9 +200,9 @@ module Tungo
       #
       # +POST /v1/companies/{co}/chat/count-tokens+
       #
-      # @param attachments [Array<Tungo::Models::ChatAttachment>] Файлы, как в POST …/chat. До 5 файлов,
-      #   каждый до 10 МБ, все вместе до 14 МБ (до кодирования в base64). Картинка — до 5 МБ, PDF — до 100
-      #   страниц. Форматы (по расширению имени): .pdf, .jpg, .jpeg, .png, .webp, .docx, .xlsx…
+      # @param attachments [Array<Object>] Файлы, как в POST …/chat. До 5 файлов, каждый до 10 МБ, все
+      #   вместе до 14 МБ (до кодирования в base64). Картинка — до 5 МБ, PDF — до 100 страниц. Форматы (по
+      #   расширению имени): .pdf, .jpg, .jpeg, .png, .webp, .svg, .docx,…
       # @param dialog_id [String] Разговор, чья история считается; нет — новый разговор
       # @param message [String] Текст вопроса; без него нужны файлы
       # @param mode [String] Режим хода, как в POST …/chat: от него зависят инструменты
@@ -215,6 +225,74 @@ module Tungo
           model: :ChatTokenCount,
           options: request_options
         )
+      end
+
+      # Файлы от ИИ в своих разговорах, новые сверху
+      #
+      # +GET /v1/companies/{co}/chat/files+
+      #
+      # @param cursor [String] next_cursor прошлой страницы; без него — самые новые файлы. Фильтры — те же,
+      #   что у первой страницы
+      # @param dialog_id [String] Только из этого разговора
+      # @param format [String] Только этого формата: xlsx, docx, pdf или csv
+      # @param limit [Integer] Сколько на странице: 1–200, по умолчанию 50
+      # @param q [String] Подстрока имени файла, без учёта регистра
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::Page<Tungo::Models::ChatFileItem>]
+      def list_files(
+        cursor: OMIT,
+        dialog_id: OMIT,
+        format: OMIT,
+        limit: OMIT,
+        q: OMIT,
+        company_id: nil,
+        request_options: nil
+      )
+        @client.page(
+          method: :get,
+          path: "/v1/companies/{co}/chat/files",
+          path_params: { co: @client.resolve_company_id(company_id) },
+          query: { "cursor" => cursor, "dialog_id" => dialog_id, "format" => format, "limit" => limit, "q" => q },
+          model: :ChatFileList,
+          options: request_options
+        )
+      end
+
+      # Файлы от ИИ в своих разговорах, новые сверху. Iterates over every item of every page, fetching pages
+      # lazily.
+      #
+      # +GET /v1/companies/{co}/chat/files+
+      #
+      # @param cursor [String] next_cursor прошлой страницы; без него — самые новые файлы. Фильтры — те же,
+      #   что у первой страницы
+      # @param dialog_id [String] Только из этого разговора
+      # @param format [String] Только этого формата: xlsx, docx, pdf или csv
+      # @param limit [Integer] Сколько на странице: 1–200, по умолчанию 50
+      # @param q [String] Подстрока имени файла, без учёта регистра
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Enumerator<Tungo::Models::ChatFileItem>]
+      def list_files_all(
+        cursor: OMIT,
+        dialog_id: OMIT,
+        format: OMIT,
+        limit: OMIT,
+        q: OMIT,
+        company_id: nil,
+        request_options: nil
+      )
+        Tungo::Page.auto_paging do
+          list_files(
+            cursor: cursor,
+            dialog_id: dialog_id,
+            format: format,
+            limit: limit,
+            q: q,
+            company_id: company_id,
+            request_options: request_options
+          )
+        end
       end
 
       # Что можно упомянуть через «@»
@@ -276,6 +354,62 @@ module Tungo
           path_params: { co: @client.resolve_company_id(company_id) },
           query: { "lang" => lang },
           model: :ChatSuggestions,
+          options: request_options
+        )
+      end
+
+      # Начать загрузку архива к сообщению
+      #
+      # +POST /v1/companies/{co}/chat/uploads+
+      #
+      # @param name [String] Имя архива с расширением .zip, .rar или .7z
+      # @param size [Integer] Размер файла в байтах, до 104857600
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::Models::ChatUpload]
+      def create_upload(name:, size:, company_id: nil, request_options: nil)
+        @client.request(
+          method: :post,
+          path: "/v1/companies/{co}/chat/uploads",
+          path_params: { co: @client.resolve_company_id(company_id) },
+          body: { "name" => name, "size" => size },
+          model: :ChatUpload,
+          options: request_options
+        )
+      end
+
+      # Отменить загрузку архива
+      #
+      # +DELETE /v1/companies/{co}/chat/uploads/{upload}+
+      #
+      # @param upload [String] id загрузки (upl_…)
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::APIResponse]
+      def delete_upload(upload, company_id: nil, request_options: nil)
+        @client.request(
+          method: :delete,
+          path: "/v1/companies/{co}/chat/uploads/{upload}",
+          path_params: { co: @client.resolve_company_id(company_id), upload: upload },
+          options: request_options
+        )
+      end
+
+      # Часть архива
+      #
+      # +PUT /v1/companies/{co}/chat/uploads/{upload}/parts/{n}+
+      #
+      # @param upload [String] id загрузки (upl_…)
+      # @param n [String] Номер части с 0
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::Models::ChatUploadPart]
+      def put_upload_part(upload, n, company_id: nil, request_options: nil)
+        @client.request(
+          method: :put,
+          path: "/v1/companies/{co}/chat/uploads/{upload}/parts/{n}",
+          path_params: { co: @client.resolve_company_id(company_id), upload: upload, n: n },
+          model: :ChatUploadPart,
           options: request_options
         )
       end
@@ -520,6 +654,27 @@ module Tungo
           path: "/v1/companies/{co}/chat/{id}/stop",
           path_params: { co: @client.resolve_company_id(company_id), id: id },
           model: :ChatStopResult,
+          options: request_options
+        )
+      end
+
+      # Перевести размышление на русский
+      #
+      # +POST /v1/companies/{co}/chat/{id}/thinking/{tid}/translate+
+      #
+      # @param id [String] id разговора: dialog_id из ответа (заголовок X-Dialog-Id, поле id в списке
+      #   разговоров). Обычно UUID; клиент мог задать свой (до 64 знаков A–Z, a–z, 0–9, _ и -)
+      # @param tid [String] id блока размышления не по-русски (16 hex): тот же в событии thinking и в
+      #   истории
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::Models::ChatThinkingTranslation]
+      def translate_thinking(id, tid, company_id: nil, request_options: nil)
+        @client.request(
+          method: :post,
+          path: "/v1/companies/{co}/chat/{id}/thinking/{tid}/translate",
+          path_params: { co: @client.resolve_company_id(company_id), id: id, tid: tid },
+          model: :ChatThinkingTranslation,
           options: request_options
         )
       end

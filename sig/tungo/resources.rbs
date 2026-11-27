@@ -16,6 +16,8 @@ module Tungo
       attr_reader forms: Tungo::Resources::Forms
       attr_reader onec: Tungo::Resources::Onec
       attr_reader automations: Tungo::Resources::Automations
+      attr_reader verification: Tungo::Resources::Verification
+      attr_reader releases: Tungo::Resources::Releases
 
       private
 

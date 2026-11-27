@@ -26,6 +26,10 @@ module Tungo
       #   @return [Array<Tungo::Models::ChatHistoryMention>, nil]
       optional :mentions, array_of(:ChatHistoryMention)
 
+      # @!attribute [r] onec_object
+      #   @return [Tungo::Models::ChatOnecObject, nil]
+      optional :onec_object, :ChatOnecObject
+
       # @!attribute [r] pending
       #   Вопрос идущего хода: ответа ещё нет, его дочитывают потоком (GET …/chat/{id}/events?turn=).
       #   Только у последнего сообщения

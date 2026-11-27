@@ -3,10 +3,11 @@
 module Tungo
   module Models
     class ChatEventStatus < Tungo::Model
+      def chars: () -> Integer?
       def code: () -> Tungo::Models::ChatEventStatusCode::t?
       def text: () -> String
       def type: () -> String
-      def initialize: (?code: Tungo::Models::ChatEventStatusCode::input, ?text: String, ?type: String, **untyped) -> void
+      def initialize: (?chars: Integer, ?code: Tungo::Models::ChatEventStatusCode::input, ?text: String, ?type: String, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ChatEventStatus
       def with: (**untyped) -> Tungo::Models::ChatEventStatus
     end

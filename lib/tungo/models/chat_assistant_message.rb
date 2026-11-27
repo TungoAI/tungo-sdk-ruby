@@ -59,9 +59,15 @@ module Tungo
       required :state, :ChatAssistantMessageState
 
       # @!attribute [r] thinking
-      #   Размышления модели за ход одним текстом; пусто — не было
+      #   Размышления модели за ход одним текстом; блок не по-русски без перевода — пометкой
+      #   «Обдумываю…»; пусто — не было
       #   @return [String]
       required :thinking, :string
+
+      # @!attribute [r] thinking_parts
+      #   Те же размышления по блокам: блок не по-русски без перевода — оригиналом с translate_id
+      #   @return [Array<Tungo::Models::ChatThinkingPart>]
+      required :thinking_parts, array_of(:ChatThinkingPart)
 
       # @!attribute [r] turn_no
       #   Номер ответа в разговоре (он же X-Turn-No и средняя часть id): по нему ответ оценивают — PUT

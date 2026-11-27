@@ -6,12 +6,17 @@ module Tungo
       def initialize: (Tungo::Client client) -> void
       def list: (?cursor: String, ?limit: Integer, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Page[Tungo::Models::ChatDialogSummary, Tungo::Models::ChatDialogList]
       def list_all: (?cursor: String, ?limit: Integer, ?company_id: String?, ?request_options: Tungo::request_options?) -> Enumerator[Tungo::Models::ChatDialogSummary, void]
-      def create: (?attachments: Array[Tungo::input[Tungo::Models::ChatAttachment]], ?capabilities: Array[String], ?dialog_id: String?, ?effort: Tungo::Models::ChatMessageRequestEffort::input?, ?mentions: Array[Tungo::input[Tungo::Models::ChatMention]], ?message: String, ?mode: Tungo::Models::ChatMessageRequestMode::input, ?new_dialog: bool, ?proposal_id: String?, ?turn: Integer?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatTurnResult
-      def create_stream: (?attachments: Array[Tungo::input[Tungo::Models::ChatAttachment]], ?capabilities: Array[String], ?dialog_id: String?, ?effort: Tungo::Models::ChatMessageRequestEffort::input?, ?mentions: Array[Tungo::input[Tungo::Models::ChatMention]], ?message: String, ?mode: Tungo::Models::ChatMessageRequestMode::input, ?new_dialog: bool, ?proposal_id: String?, ?turn: Integer?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::ChatStream
-      def count_tokens: (?attachments: Array[Tungo::input[Tungo::Models::ChatAttachment]], ?dialog_id: String, ?message: String, ?mode: Tungo::Models::ChatTokenCountRequestMode::input, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatTokenCount
+      def create: (?attachments: Array[Tungo::Models::ChatAttachment::input], ?capabilities: Array[String], ?dialog_id: String?, ?effort: Tungo::Models::ChatMessageRequestEffort::input?, ?memory: bool, ?mentions: Array[Tungo::input[Tungo::Models::ChatMention]], ?message: String, ?mode: Tungo::Models::ChatMessageRequestMode::input, ?new_dialog: bool, ?proposal_id: String?, ?turn: Integer?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatTurnResult
+      def create_stream: (?attachments: Array[Tungo::Models::ChatAttachment::input], ?capabilities: Array[String], ?dialog_id: String?, ?effort: Tungo::Models::ChatMessageRequestEffort::input?, ?memory: bool, ?mentions: Array[Tungo::input[Tungo::Models::ChatMention]], ?message: String, ?mode: Tungo::Models::ChatMessageRequestMode::input, ?new_dialog: bool, ?proposal_id: String?, ?turn: Integer?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::ChatStream
+      def count_tokens: (?attachments: Array[Tungo::Models::ChatAttachment::input], ?dialog_id: String, ?message: String, ?mode: Tungo::Models::ChatTokenCountRequestMode::input, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatTokenCount
+      def list_files: (?cursor: String, ?dialog_id: String, ?format: Tungo::Models::ListCompanyChatFilesFormat::input, ?limit: Integer, ?q: String, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Page[Tungo::Models::ChatFileItem, Tungo::Models::ChatFileList]
+      def list_files_all: (?cursor: String, ?dialog_id: String, ?format: Tungo::Models::ListCompanyChatFilesFormat::input, ?limit: Integer, ?q: String, ?company_id: String?, ?request_options: Tungo::request_options?) -> Enumerator[Tungo::Models::ChatFileItem, void]
       def list_mentions: (?limit: Integer, ?q: String, ?types: String, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatMentionSearch
       def get_rating_options: (?lang: Tungo::Models::ListCompanyChatRatingOptionsLang::input, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatRatingOptions
       def list_suggestions: (?lang: Tungo::Models::ListCompanyChatSuggestionsLang::input, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatSuggestions
+      def create_upload: (name: String, size: Integer, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatUpload
+      def delete_upload: (String upload, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::APIResponse
+      def put_upload_part: (String upload, String n, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatUploadPart
       def get: (String id, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatDialog
       def update: (String id, title: String, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatDialogRenamed
       def delete: (String id, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatDialogDeleted
@@ -23,6 +28,7 @@ module Tungo
       def rate: (String id, score: Integer, ?comment: String?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatDialogRated
       def dismiss_rating: (String id, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatRatingDismissed
       def stop: (String id, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatStopResult
+      def translate_thinking: (String id, String tid, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ChatThinkingTranslation
     end
   end
 end

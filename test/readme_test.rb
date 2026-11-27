@@ -73,7 +73,7 @@ class ReadmeTest < TungoTestCase
   def test_documented_operations_exist
     documented = README.scan(/^\| `client\.(\w+)` \| .*? \| (.*) \|$/)
 
-    assert_equal 13, documented.size
+    assert_equal 15, documented.size
     documented.each do |resource, methods|
       target = Tungo::Client.new(api_key: "k").public_send(resource)
       methods.scan(/[a-z_]+/).each { |name| assert_respond_to target, name, "client.#{resource}.#{name}" }

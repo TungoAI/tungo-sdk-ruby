@@ -4,12 +4,25 @@
 
 module Tungo
   module Models
-    # Размышление модели (по-русски), кусками — можно показать свёрнутым блоком
+    # Размышление модели кусками — можно показать свёрнутым блоком. Блок не по-русски приходит целиком в
+    # конце блока: original и translate_id
     class ChatEventThinking < Tungo::Model
       # @!attribute [r] delta
-      #   Новый кусок размышления
+      #   Новый кусок размышления по-русски; у блока не по-русски — пометка «Обдумываю…» (пусто, если
+      #   она уже стоит)
       #   @return [String]
       required :delta, :string
+
+      # @!attribute [r] original
+      #   Блок не по-русски целиком, как его написала модель
+      #   @return [String, nil]
+      optional :original, :string
+
+      # @!attribute [r] translate_id
+      #   id блока для перевода: POST …/chat/{id}/thinking/{translate_id}/translate — после ответа,
+      #   когда человек раскрыл шаги
+      #   @return [String, nil]
+      optional :translate_id, :string
 
       # @!attribute [r] type
       #   Вид события: thinking

@@ -7,10 +7,11 @@ module Tungo
       def attachments: () -> Array[Tungo::Models::ChatAttachmentMeta]?
       def id: () -> String
       def mentions: () -> Array[Tungo::Models::ChatHistoryMention]?
+      def onec_object: () -> Tungo::Models::ChatOnecObject?
       def pending: () -> bool?
       def role: () -> String
       def text: () -> String
-      def initialize: (?at: (String | Time), ?attachments: Array[Tungo::input[Tungo::Models::ChatAttachmentMeta]], ?id: String, ?mentions: Array[Tungo::input[Tungo::Models::ChatHistoryMention]], ?pending: bool, ?role: String, ?text: String, **untyped) -> void
+      def initialize: (?at: (String | Time), ?attachments: Array[Tungo::input[Tungo::Models::ChatAttachmentMeta]], ?id: String, ?mentions: Array[Tungo::input[Tungo::Models::ChatHistoryMention]], ?onec_object: Tungo::input[Tungo::Models::ChatOnecObject], ?pending: bool, ?role: String, ?text: String, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ChatUserMessage
       def with: (**untyped) -> Tungo::Models::ChatUserMessage
     end

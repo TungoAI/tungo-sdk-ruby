@@ -27,6 +27,11 @@ module Tungo
       #   @return [Array<Tungo::Models::ChatTurnError>]
       required :errors, array_of(:ChatTurnError)
 
+      # @!attribute [r] files
+      #   Файлы (Excel, Word, PDF, CSV), которые ИИ собрал в этом ходе
+      #   @return [Array<Tungo::Models::ChatTurnFile>]
+      required :files, array_of(:ChatTurnFile)
+
       # @!attribute [r] followups
       #   Вопросы-продолжения под ответом, до 3, на языке разговора: нажатие — обычный новый вопрос с
       #   этим текстом. Пусто — предложить нечего

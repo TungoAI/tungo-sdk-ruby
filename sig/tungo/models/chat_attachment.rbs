@@ -2,13 +2,11 @@
 
 module Tungo
   module Models
-    class ChatAttachment < Tungo::Model
-      def data: () -> String
-      def media_type: () -> String?
-      def name: () -> String
-      def initialize: (?data: String, ?media_type: String, ?name: String, **untyped) -> void
-      def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::ChatAttachment
-      def with: (**untyped) -> Tungo::Models::ChatAttachment
+    module ChatAttachment
+      extend Tungo::Internal::Union
+      type t = Tungo::Models::ChatAttachmentData | Tungo::Models::ChatAttachmentUpload | Tungo::UnknownVariant
+      type input = t | Hash[Symbol, untyped] | Hash[String, untyped]
+      def self.coerce: (untyped value) -> t
     end
   end
 end

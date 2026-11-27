@@ -35,6 +35,12 @@ module Tungo
       #   @return [Integer]
       required :input_per_mtok_tiyn, :integer
 
+      # @!attribute [r] long_context
+      #   Длинный контекст: если вход вызова вместе с кэшем длиннее above_tokens, весь вызов считается
+      #   по этим ценам (как в прайсе провайдера); null — у модели одна цена
+      #   @return [Tungo::Models::UsageRateLongContext, nil]
+      required :long_context, :UsageRateLongContext, nullable: true
+
       # @!attribute [r] model
       #   Модель ИИ: tungo-1-flash, tungo-1, tungo-1-deep (tungo-search — поиск по нормам, tungo-legacy
       #   — прежняя)
@@ -50,6 +56,12 @@ module Tungo
       #   Название модели для людей
       #   @return [String]
       required :title, :string
+
+      # @!attribute [r] web_search_per_1k_tiyn
+      #   Цена 1000 запросов поиска на официальных сайтах РК (когда нормы нет в базе знаний); 0 — модель
+      #   не ищет в интернете в тиынах (1 ₸ = 100 тиын; показывать значение / 100 ₸)
+      #   @return [Integer]
+      required :web_search_per_1k_tiyn, :integer
     end
   end
 end

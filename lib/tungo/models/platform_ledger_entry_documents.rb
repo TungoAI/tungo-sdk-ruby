@@ -8,7 +8,8 @@ module Tungo
     # компании. Файл PDF ядро не формирует: чек выпускает касса, ссылка появляется в receipt_url
     class PlatformLedgerEntryDocuments < Tungo::Model
       # @!attribute [r] act_number
-      #   Номер акта выполненных работ (ACT-…), когда платёж прошёл; null — нет
+      #   Устарело: номер акта (ACT-…) только у старых платежей; у новых — null, акт ежемесячный (GET
+      #   /v1/workspaces/{ws}/documents)
       #   @return [String, nil]
       required :act_number, :string, nullable: true
 

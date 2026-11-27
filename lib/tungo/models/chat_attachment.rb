@@ -4,22 +4,18 @@
 
 module Tungo
   module Models
-    # Файл к вопросу: PDF, скан, Excel, Word, выписка
-    class ChatAttachment < Tungo::Model
-      # @!attribute [r] data
-      #   Содержимое файла в base64 (можно с префиксом data:…;base64,)
-      #   @return [String]
-      required :data, :string
+    # Файл к вопросу: PDF, скан, Excel, Word (.docx, .doc), выписка, архив (.zip, .rar, .7z) — base64 в
+    # теле или upload_id загрузки по частям
+    #
+    # An object is matched to the variant whose required properties it carries; one that matches
+    # none is returned as a {Tungo::UnknownVariant}. Other values are returned as they are.
+    module ChatAttachment
+      extend Tungo::Internal::Union
 
-      # @!attribute [r] media_type
-      #   MIME-тип; не обязателен: тип файла определяется по расширению и содержимому
-      #   @return [String, nil]
-      optional :media_type, :string
-
-      # @!attribute [r] name
-      #   Имя файла с расширением — по нему определяется тип
-      #   @return [String]
-      required :name, :string
+      variants(
+        :ChatAttachmentData,
+        :ChatAttachmentUpload
+      )
     end
   end
 end

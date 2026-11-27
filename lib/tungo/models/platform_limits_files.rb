@@ -6,6 +6,22 @@ module Tungo
   module Models
     # Размеры файлов и тел запросов
     class PlatformLimitsFiles < Tungo::Model
+      # @!attribute [r] archive_bytes
+      #   Один архив, байт; в attachments_total_bytes не входит. Больше attachment_bytes — только
+      #   загрузкой по частям (POST …/chat/uploads)
+      #   @return [Integer]
+      required :archive_bytes, :integer
+
+      # @!attribute [r] archive_files
+      #   Файлов в архиве вместе с вложенными архивами
+      #   @return [Integer]
+      required :archive_files, :integer
+
+      # @!attribute [r] archives_per_message
+      #   Архивов (.zip, .rar, .7z) в одном сообщении
+      #   @return [Integer]
+      required :archives_per_message, :integer
+
       # @!attribute [r] attachment_bytes
       #   Один файл, байт (до кодирования в base64)
       #   @return [Integer]
@@ -51,6 +67,11 @@ module Tungo
       #   Тело остальных запросов, байт; больше — 413 payload_too_large
       #   @return [Integer]
       required :request_bytes, :integer
+
+      # @!attribute [r] upload_part_bytes
+      #   Часть загрузки архива (PUT …/chat/uploads/{upload_id}/parts/{n}), байт; последняя — остаток
+      #   @return [Integer]
+      required :upload_part_bytes, :integer
     end
   end
 end

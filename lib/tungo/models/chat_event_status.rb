@@ -6,10 +6,16 @@ module Tungo
   module Models
     # Служебное состояние хода без текста ответа
     class ChatEventStatus < Tungo::Model
+      # @!attribute [r] chars
+      #   Только у code = writing: сколько знаков ответа уже написано (не убывает в пределах одного
+      #   ответа). Текста ответа в событии нет — он придёт событием text
+      #   @return [Integer, nil]
+      optional :chars, :integer
+
       # @!attribute [r] code
       #   Что происходит: - `compacting` — сервер сжимает историю длинного разговора - `escalating` —
-      #   ответ перепроверяется более сильной моделью — ход займёт дольше - `elsewhere` — ответ
-      #   готовится на другом сервере Tungo — он поя…
+      #   ответ перепроверяется более сильной моделью — ход займёт дольше - `checking_norm` — ответ
+      #   сослался на норму, не открыв её: та же…
       #   @return [String, nil]
       optional :code, :ChatEventStatusCode
 

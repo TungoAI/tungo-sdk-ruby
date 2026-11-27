@@ -8,6 +8,8 @@ module Tungo
       type input = String
       COMPACTING: String
       ESCALATING: String
+      CHECKING_NORM: String
+      WRITING: String
       ELSEWHERE: String
     end
   end

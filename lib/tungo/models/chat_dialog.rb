@@ -32,6 +32,12 @@ module Tungo
       #   @return [Integer, BigDecimal]
       required :masked, :number
 
+      # @!attribute [r] memory
+      #   false — разговор «без памяти» (выбран при создании): без памяти ИИ и поиска по прошлым
+      #   разговорам — показать пометку в шапке
+      #   @return [Boolean]
+      required :memory, :boolean
+
       # @!attribute [r] message_count
       #   Сколько сообщений в messages
       #   @return [Integer, BigDecimal]

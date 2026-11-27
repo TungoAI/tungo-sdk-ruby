@@ -11,9 +11,10 @@ module Tungo
       optional :filter, :AutomationEventFilter
 
       # @!attribute [r] hook_id
-      #   Хук, события которого запускают сценарий (hk_…)
-      #   @return [String]
-      required :hook_id, :string
+      #   Хук, события которого запускают сценарий; null — хук удалён: событиями сценарий больше не
+      #   запускается, пока ему не назначат другой хук (PUT …/scenarios/{id}) (hk_…)
+      #   @return [String, nil]
+      required :hook_id, :string, nullable: true
 
       # @!attribute [r] kind
       #   `hook` — по событию хука

@@ -2,5 +2,5 @@
 
 module Tungo
   # The version of the gem; also sent in the User-Agent header.
-  VERSION = "0.3.1" # x-release-version
+  VERSION = "1.0.0" # x-release-version
 end

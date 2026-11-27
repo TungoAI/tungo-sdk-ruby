@@ -1274,6 +1274,14 @@
      "x_undeclared": "kept"
     }
    ],
+   "files": [
+    {
+     "file_id": "text",
+     "format": "xlsx",
+     "name": "text",
+     "size": 9007199254740993
+    }
+   ],
    "followups": [
     "text"
    ],
@@ -1531,6 +1539,14 @@
      "x_undeclared": "kept"
     }
    ],
+   "files": [
+    {
+     "file_id": "text",
+     "format": "xlsx",
+     "name": "text",
+     "size": 9007199254740993
+    }
+   ],
    "followups": [
     "text"
    ],
@@ -1754,6 +1770,16 @@
    }
   }
  },
+ "chat.create_upload": {
+  "result": {
+   "expires_at": "2026-01-02T03:04:05Z",
+   "name": "text",
+   "part_bytes": 9007199254740993,
+   "parts": 9007199254740993,
+   "size": 9007199254740993,
+   "upload_id": "text"
+  }
+ },
  "chat.delete": {
   "result": {
    "deleted": true,
@@ -1773,6 +1799,7 @@
    "turn_no": 9007199254740993
   }
  },
+ "chat.delete_upload": {},
  "chat.dismiss_rating": {
   "result": {
    "id": "text",
@@ -1805,6 +1832,7 @@
    "created_at": "2026-01-02T03:04:05Z",
    "id": "text",
    "masked": 1.5,
+   "memory": true,
    "message_count": 1.5,
    "messages": [
     {
@@ -1848,6 +1876,7 @@
    "data": [
     {
      "id": "text",
+     "memory": true,
      "message_count": 1.5,
      "running": true,
      "title": "text",
@@ -1863,6 +1892,23 @@
    "delta": "text",
    "step": 1.5,
    "type": "text"
+  }
+ },
+ "chat.list_files": {
+  "result": {
+   "data": [
+    {
+     "created_at": "2026-01-02T03:04:05Z",
+     "dialog_id": "text",
+     "dialog_title": "text",
+     "download_url": "text",
+     "file_id": "text",
+     "format": "xlsx",
+     "name": "text",
+     "size": 9007199254740993
+    }
+   ],
+   "next_cursor": "text"
   }
  },
  "chat.list_mentions": {
@@ -1905,6 +1951,15 @@
    "onec_linked": true
   }
  },
+ "chat.put_upload_part": {
+  "result": {
+   "complete": true,
+   "part": 9007199254740993,
+   "parts": 9007199254740993,
+   "received_parts": 9007199254740993,
+   "upload_id": "text"
+  }
+ },
  "chat.rate": {
   "result": {
    "id": "text",
@@ -1934,6 +1989,13 @@
    "dismissed": true,
    "id": "text",
    "stopped": true
+  }
+ },
+ "chat.translate_thinking": {
+  "result": {
+   "cached": true,
+   "id": "text",
+   "text": "text"
   }
  },
  "chat.update": {
@@ -2429,6 +2491,7 @@
    "auto_reload": {
     "amount_tiyn": 9007199254740993,
     "enabled": true,
+    "monthly_count_max": 9007199254740993,
     "monthly_limit_tiyn": 9007199254740993,
     "threshold_tiyn": 9007199254740993
    },
@@ -2571,6 +2634,9 @@
     "limit": 9007199254740993
    },
    "files": {
+    "archive_bytes": 9007199254740993,
+    "archive_files": 9007199254740993,
+    "archives_per_message": 9007199254740993,
     "attachment_bytes": 9007199254740993,
     "attachments_per_message": 9007199254740993,
     "attachments_total_bytes": 9007199254740993,
@@ -2579,7 +2645,8 @@
     "hook_event_bytes": 9007199254740993,
     "image_bytes": 9007199254740993,
     "pdf_pages": 9007199254740993,
-    "request_bytes": 9007199254740993
+    "request_bytes": 9007199254740993,
+    "upload_part_bytes": 9007199254740993
    },
    "rate": {
     "key": {
@@ -2628,9 +2695,18 @@
      "cache_write_per_mtok_tiyn": 9007199254740993,
      "effective_from": "2026-01-02T03:04:05Z",
      "input_per_mtok_tiyn": 9007199254740993,
+     "long_context": {
+      "above_tokens": 9007199254740993,
+      "cache_read_per_mtok_tiyn": 9007199254740993,
+      "cache_write_1h_per_mtok_tiyn": 9007199254740993,
+      "cache_write_per_mtok_tiyn": 9007199254740993,
+      "input_per_mtok_tiyn": 9007199254740993,
+      "output_per_mtok_tiyn": 9007199254740993
+     },
      "model": "text",
      "output_per_mtok_tiyn": 9007199254740993,
-     "title": "text"
+     "title": "text",
+     "web_search_per_1k_tiyn": 9007199254740993
     }
    ]
   }
@@ -3668,6 +3744,114 @@
     ]
    },
    "repeated": true
+  }
+ },
+ "releases.list": {
+  "result": {
+   "connector": {
+    "files": [
+     {
+      "arch": "amd64",
+      "name": "text",
+      "os": "windows",
+      "sha256": "text",
+      "size": 9007199254740993,
+      "url": "text"
+     }
+    ],
+    "notes": "text",
+    "published_at": "2026-01-02T03:04:05Z",
+    "version": "text"
+   },
+   "onec_extension": {
+    "file": {
+     "name": "text",
+     "sha256": "text",
+     "size": 9007199254740993,
+     "url": "text"
+    },
+    "notes": "text",
+    "published_at": "2026-01-02T03:04:05Z",
+    "version": "text"
+   }
+  }
+ },
+ "verification.check": {
+  "result": {
+   "match": true
+  }
+ },
+ "verification.get": {
+  "result": {
+   "code": "text",
+   "counterparty_masked": "text",
+   "date": "2026-01-02",
+   "issued_at": "2026-01-02T03:04:05Z",
+   "kind": "text",
+   "kind_title": "text",
+   "number": "text",
+   "replaced_by": {
+    "number": "text",
+    "verify_url": "text"
+   },
+   "seller": {
+    "iin": "text",
+    "name": "text"
+   },
+   "service": "documents",
+   "sha256": "text",
+   "signatures": [
+    {
+     "cert_issuer": "text",
+     "cert_serial": "text",
+     "cert_valid_from": "2026-01-02T03:04:05Z",
+     "cert_valid_to": "2026-01-02T03:04:05Z",
+     "check_mode": "live",
+     "checked_at": "2026-01-02T03:04:05Z",
+     "iin_bin": "text",
+     "live_error": "signer_not_configured",
+     "ocsp_checked_at": "2026-01-02T03:04:05Z",
+     "ocsp_status": "good",
+     "revocation_reason": "text",
+     "revoked_at": "2026-01-02T03:04:05Z",
+     "side": "tungo",
+     "signed_at": "2026-01-02T03:04:05Z",
+     "signer_name": "text",
+     "verdict": "valid"
+    }
+   ],
+   "status": "text",
+   "status_title": "text"
+  }
+ },
+ "verification.list_keys": {
+  "result": {
+   "keys": [
+    {
+     "alg": "text",
+     "crv": "P-256",
+     "kid": "text",
+     "kty": "EC",
+     "use": "text",
+     "x": "text",
+     "y": "text"
+    }
+   ]
+  }
+ },
+ "verification.verify_qr": {
+  "result": {
+   "claims": {
+    "key": {
+     "nested": [
+      "a",
+      1
+     ]
+    }
+   },
+   "kid": "text",
+   "reason": "text",
+   "valid": true
   }
  },
  "webhooks.create_endpoint": {

@@ -125,7 +125,7 @@ class ClientTest < TungoTestCase
   end
 
   def test_models_times_and_symbols_are_serialised
-    attachment = Tungo::Models::ChatAttachment.new(name: "a.pdf")
+    attachment = Tungo::Models::ChatAttachmentData.new(name: "a.pdf")
     client(company_id: "co_1").chat.create(message: "x", attachments: [attachment, { name: "b.pdf" }], mode: :ask)
 
     assert_equal [{ "name" => "a.pdf" }, { "name" => "b.pdf" }], server.requests.last.json["attachments"]

@@ -15,6 +15,8 @@ require_relative "resources/esf"
 require_relative "resources/forms"
 require_relative "resources/onec"
 require_relative "resources/automations"
+require_relative "resources/verification"
+require_relative "resources/releases"
 
 module Tungo
   # One class per group of API operations; reach them through the client (+client.chat+, ...).
@@ -66,6 +68,14 @@ module Tungo
       #   шагов, запуски и уровень автономности ИИ
       attr_reader :automations
 
+      # @return [Tungo::Resources::Verification] Публичная проверка электронной подписи документов Tungo: по
+      #   коду, по файлу, по блоку QR и ключи подписи (без ключа API)
+      attr_reader :verification
+
+      # @return [Tungo::Resources::Releases] Публичный список загрузок: расширение 1С и Tungo Connector (без
+      #   ключа API)
+      attr_reader :releases
+
       private
 
       def build_resources
@@ -82,6 +92,8 @@ module Tungo
         @forms = Forms.new(self)
         @onec = Onec.new(self)
         @automations = Automations.new(self)
+        @verification = Verification.new(self)
+        @releases = Releases.new(self)
       end
     end
   end

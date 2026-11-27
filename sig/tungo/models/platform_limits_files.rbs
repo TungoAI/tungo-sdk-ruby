@@ -3,6 +3,9 @@
 module Tungo
   module Models
     class PlatformLimitsFiles < Tungo::Model
+      def archive_bytes: () -> Integer
+      def archive_files: () -> Integer
+      def archives_per_message: () -> Integer
       def attachment_bytes: () -> Integer
       def attachments_per_message: () -> Integer
       def attachments_total_bytes: () -> Integer
@@ -12,7 +15,8 @@ module Tungo
       def image_bytes: () -> Integer
       def pdf_pages: () -> Integer
       def request_bytes: () -> Integer
-      def initialize: (?attachment_bytes: Integer, ?attachments_per_message: Integer, ?attachments_total_bytes: Integer, ?bank_statement_request_bytes: Integer, ?chat_request_bytes: Integer, ?hook_event_bytes: Integer, ?image_bytes: Integer, ?pdf_pages: Integer, ?request_bytes: Integer, **untyped) -> void
+      def upload_part_bytes: () -> Integer
+      def initialize: (?archive_bytes: Integer, ?archive_files: Integer, ?archives_per_message: Integer, ?attachment_bytes: Integer, ?attachments_per_message: Integer, ?attachments_total_bytes: Integer, ?bank_statement_request_bytes: Integer, ?chat_request_bytes: Integer, ?hook_event_bytes: Integer, ?image_bytes: Integer, ?pdf_pages: Integer, ?request_bytes: Integer, ?upload_part_bytes: Integer, **untyped) -> void
       def self.from_wire: (Hash[String, untyped] | Hash[Symbol, untyped] data, ?api_response: Tungo::APIResponse?) -> Tungo::Models::PlatformLimitsFiles
       def with: (**untyped) -> Tungo::Models::PlatformLimitsFiles
     end

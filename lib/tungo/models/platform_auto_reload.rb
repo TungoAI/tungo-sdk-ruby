@@ -16,6 +16,12 @@ module Tungo
       #   @return [Boolean]
       required :enabled, :boolean
 
+      # @!attribute [r] monthly_count_max
+      #   Автопополнений за календарный месяц по Алматы не больше этого; месячный потолок трат исчерпан
+      #   — автопополнения нет
+      #   @return [Integer]
+      required :monthly_count_max, :integer
+
       # @!attribute [r] monthly_limit_tiyn
       #   Сколько автопополнение может списать за месяц, в тиынах (1 ₸ = 100 тиын; показывать значение /
       #   100 ₸); null — предел платформы
