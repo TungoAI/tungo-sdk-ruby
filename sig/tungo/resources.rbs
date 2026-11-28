@@ -5,7 +5,6 @@ module Tungo
     module Accessors
       attr_reader workspaces: Tungo::Resources::Workspaces
       attr_reader companies: Tungo::Resources::Companies
-      attr_reader platform: Tungo::Resources::Platform
       attr_reader api_keys: Tungo::Resources::ApiKeys
       attr_reader webhooks: Tungo::Resources::Webhooks
       attr_reader chat: Tungo::Resources::Chat
@@ -17,7 +16,6 @@ module Tungo
       attr_reader onec: Tungo::Resources::Onec
       attr_reader automations: Tungo::Resources::Automations
       attr_reader verification: Tungo::Resources::Verification
-      attr_reader releases: Tungo::Resources::Releases
 
       private
 

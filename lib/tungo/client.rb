@@ -136,17 +136,28 @@ module Tungo
     # Performs a JSON request and decodes the result. Used by the generated resource methods.
     #
     # @api private
-    # @return [Tungo::Model, Tungo::APIResponse, Object] the decoded result; the response
-    #   metadata itself when the operation has no response body
-    def request(model: nil, models: nil, long_running: false, options: nil, **spec)
+    # @param download [Boolean] the successful response is a file: it is asked for with +Accept: */*+
+    #   and returned undecoded as a {Tungo::DownloadedFile}
+    # @return [Tungo::Model, Tungo::APIResponse, Tungo::DownloadedFile, Object] the decoded result; the
+    #   response metadata itself when the operation has no response body
+    def request(model: nil, models: nil, long_running: false, download: false, options: nil, **spec)
       options = RequestOptions.coerce(options)
-      call = prepare(options: options, accept: "application/json", **spec)
+      call = prepare(options: options, accept: download ? "*/*" : "application/json", **spec)
       timeout = options.timeout || (long_running ? @chat_timeout : @timeout)
       response, body = perform(call, options, timeout: timeout, streaming: false)
       api_response = APIResponse.new(status: response.status, headers: response.headers)
+      return DownloadedFile.new(content: body, api_response: api_response) if download
+
       type = (models && models[response.status]) || model
       type.nil? ? api_response : decode(type, body, api_response)
     end
+
+    # Performs a request whose successful response is a file and returns its bytes undecoded.
+    # Errors, retries and timeouts are those of {#request}. Used by the generated resource methods.
+    #
+    # @api private
+    # @return [Tungo::DownloadedFile]
+    def download(**) = request(download: true, **)
 
     # Performs a list request and wraps the result in a page that can fetch the next one.
     #

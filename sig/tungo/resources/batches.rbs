@@ -10,6 +10,7 @@ module Tungo
       def create_esf_purchases: (?from: (String | Date), ?limit: Integer, ?to: (String | Date), ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::BatchJob
       def get: (String id, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::BatchJob
       def list_events: (String id, ?last_event_id: String?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::ChatStream
+      def export: (String id, ?format: Tungo::Models::GetCompanyBatchExportFormat::input, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::DownloadedFile
       def stop: (String id, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::BatchStopResult
       def get_summary: (String id, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::BatchSummary
       def list_statements: (?cursor: String, ?limit: Integer, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Page[Tungo::Models::StatementDay, Tungo::Models::StatementDayList]

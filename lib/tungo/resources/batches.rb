@@ -146,6 +146,29 @@ module Tungo
         )
       end
 
+      # Скачать результат задания файлом
+      #
+      # +GET /v1/companies/{co}/batch/{id}/export+
+      #
+      # @param id [String] id задания пачки (bat_…) — поле id из ответа запуска задания, из GET …/batch или
+      #   batch_id из ленты
+      # @param format [String] Формат файла: xlsx — Excel (все листы); csv — первый лист (UTF-8 с BOM,
+      #   разделитель — точка с запятой); pdf — все листы разделами на A4 (application/pdf, шрифт вложен:
+      #   кириллица и казахские буквы). По умолчанию xlsx
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::DownloadedFile] the downloaded file: its bytes, its name from Content-Disposition and its
+      #   content type
+      def export(id, format: OMIT, company_id: nil, request_options: nil)
+        @client.download(
+          method: :get,
+          path: "/v1/companies/{co}/batch/{id}/export",
+          path_params: { co: @client.resolve_company_id(company_id), id: id },
+          query: { "format" => format },
+          options: request_options
+        )
+      end
+
       # Остановить задание
       #
       # +POST /v1/companies/{co}/batch/{id}/stop+

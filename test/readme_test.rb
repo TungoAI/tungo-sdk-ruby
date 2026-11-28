@@ -19,6 +19,7 @@ class ReadmeTest < TungoTestCase
     "client.ask(" => "Ответ\ndialog dlg_1\nТОО Ромашка\n",
     "dialog.api_response.request_id" => "req_hdr_1\n59\n",
     "page.next_page if page.next_page?" => "Счёт\nP-1 1,00 ₸\n1\n",
+    "client.proposals.export(" => "tungo-P-000123.pdf: 13 bytes, application/pdf, request id req_hdr_1\n",
     "stream.each_text" => "Привет\ndialog dlg_1, turn 1, stop reason end_turn\nПривет[search]\n",
     "client.verify_webhook(" => "Proposal P-000042 was written\nevt_1\n",
     "client.run_scenario_and_wait(" => "done\nfalse\n",
@@ -32,8 +33,19 @@ class ReadmeTest < TungoTestCase
   def test_the_readme_has_snippets_for_every_topic
     assert_operator SNIPPETS.size, :>=, 10
     %w[client.ask create_stream list_all verify_webhook send_hook request_options Tungo::Money
-       run_scenario_and_wait upload_bank_statement Tungo::LimitError].each do |topic|
+       run_scenario_and_wait upload_bank_statement Tungo::LimitError proposals.export].each do |topic|
       assert(SNIPPETS.any? { |snippet| snippet.include?(topic) }, "no snippet shows #{topic}")
+    end
+  end
+
+  def test_the_download_snippet_saves_the_file
+    server.respond { |request| demo_response(request) }
+    snippet = SNIPPETS.find { |text| text.include?("client.proposals.export(") }
+    env = { "TUNGO_API_KEY" => "tg_test_key", "TUNGO_BASE_URL" => server.base_url, "TUNGO_COMPANY_ID" => "co_1" }
+    Dir.mktmpdir do |dir|
+      Dir.chdir(dir) { with_env(env) { run_snippet(snippet, 0) } }
+
+      assert_equal "%PDF-1.7\n\x00\xFF\xFE\x80".b, File.binread(File.join(dir, "tungo-P-000123.pdf"))
     end
   end
 
@@ -73,7 +85,7 @@ class ReadmeTest < TungoTestCase
   def test_documented_operations_exist
     documented = README.scan(/^\| `client\.(\w+)` \| .*? \| (.*) \|$/)
 
-    assert_equal 15, documented.size
+    assert_equal 13, documented.size
     documented.each do |resource, methods|
       target = Tungo::Client.new(api_key: "k").public_send(resource)
       methods.scan(/[a-z_]+/).each { |name| assert_respond_to target, name, "client.#{resource}.#{name}" }

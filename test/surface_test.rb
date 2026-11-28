@@ -23,6 +23,18 @@ class SurfaceTest < TungoTestCase
     server.respond { |_| { status: status, headers: { "content-type" => "application/json" }, body: body } }
   end
 
+  def serve_file(body, content_type, filename)
+    headers = { "content-type" => content_type, "content-disposition" => "attachment; filename=\"#{filename}\"" }
+    server.respond { |_| { status: 200, headers: headers, body: body } }
+  end
+
+  def assert_file(body, content_type, filename, file)
+    assert_instance_of Tungo::DownloadedFile, file
+    assert_equal body, file.content
+    assert_equal Encoding::BINARY, file.content.encoding
+    assert_equal [filename, content_type, "req_hdr_1"], [file.filename, file.content_type, file.request_id]
+  end
+
   def serve_event(data)
     name = data["type"].is_a?(String) ? data["type"] : "message"
     chunk = "event: #{name}\ndata: #{Tungo::Internal::Util.generate_json(data)}\n\n"
@@ -67,6 +79,18 @@ class SurfaceTest < TungoTestCase
     check "GET", "/v1/workspaces", auth: true, idempotent: false
   end
 
+  def test_workspaces_get_balance
+    expected = sample("workspaces.get_balance")
+    serve(expected, status: 200)
+    result = surface_client.workspaces.get_balance
+
+    assert_decoded expected, result
+    assert_equal expected.fetch("balance_tiyn"), result.balance_tiyn
+    assert_same expected.fetch("enabled"), result.enabled
+    assert_equal 200, result.api_response.status
+    check "GET", "/v1/workspaces/ws_1/platform/balance", auth: true, idempotent: false
+  end
+
   def test_companies_list
     expected = sample("companies.list")
     serve(expected, status: 200)
@@ -94,104 +118,6 @@ class SurfaceTest < TungoTestCase
     assert_equal expected.fetch("workspace_id"), result.workspace_id
     assert_equal 200, result.api_response.status
     check "GET", "/v1/companies/co_1", auth: true, idempotent: false
-  end
-
-  def test_platform_list_usage_rates
-    expected = sample("platform.list_usage_rates")
-    serve(expected, status: 200)
-    result = surface_client.platform.list_usage_rates
-
-    assert_decoded expected, result
-    assert_equal expected.fetch("data").size, result.data.size
-    assert_equal 200, result.api_response.status
-    check "GET", "/v1/usage-rates", auth: false, idempotent: false
-  end
-
-  def test_platform_get_account
-    expected = sample("platform.get_account")
-    serve(expected, status: 200)
-    result = surface_client.platform.get_account
-
-    assert_decoded expected, result
-    assert_instance_of Tungo::Models::PlatformAutoReload, result.auto_reload
-    assert_equal expected.fetch("auto_reload_spent_tiyn"), result.auto_reload_spent_tiyn
-    assert_equal expected.fetch("balance_tiyn"), result.balance_tiyn
-    assert_same expected.fetch("enabled"), result.enabled
-    assert_equal expected.fetch("month"), result.month
-    assert_equal expected.fetch("monthly_cap_tiyn"), result.monthly_cap_tiyn
-    assert_instance_of Tungo::Models::PlatformAccountPurchaseLimits, result.purchase_limits
-    assert_equal expected.fetch("spent_tiyn"), result.spent_tiyn
-    assert_equal 200, result.api_response.status
-    check "GET", "/v1/workspaces/ws_1/platform/account", auth: true, idempotent: false
-  end
-
-  def test_platform_get_audit
-    expected = sample("platform.get_audit").merge("next_cursor" => nil)
-    serve(expected)
-    page = surface_client.platform.get_audit
-
-    assert_instance_of Tungo::Page, page
-    assert_instance_of Tungo::Models::GetWorkspacePlatformAuditResponse, page.body
-    assert_decoded expected, page.body
-    assert_equal expected.fetch("data"), page.data.map(&:to_wire)
-    check "GET", "/v1/workspaces/ws_1/platform/audit", auth: true, idempotent: false
-    assert_equal expected.fetch("data"), surface_client.platform.get_audit_all.map(&:to_wire)
-  end
-
-  def test_platform_get_ledger
-    expected = sample("platform.get_ledger").merge("next_cursor" => nil)
-    serve(expected)
-    page = surface_client.platform.get_ledger
-
-    assert_instance_of Tungo::Page, page
-    assert_instance_of Tungo::Models::GetWorkspacePlatformLedgerResponse, page.body
-    assert_decoded expected, page.body
-    assert_equal expected.fetch("data"), page.data.map(&:to_wire)
-    check "GET", "/v1/workspaces/ws_1/platform/ledger", auth: true, idempotent: false
-    assert_equal expected.fetch("data"), surface_client.platform.get_ledger_all.map(&:to_wire)
-  end
-
-  def test_platform_list_limits
-    expected = sample("platform.list_limits")
-    serve(expected, status: 200)
-    result = surface_client.platform.list_limits
-
-    assert_decoded expected, result
-    assert_instance_of Tungo::Models::PlatformLimitsConcurrentTurns, result.concurrent_turns
-    assert_instance_of Tungo::Models::PlatformLimitsFiles, result.files
-    assert_instance_of Tungo::Models::PlatformLimitsRate, result.rate
-    assert_equal 200, result.api_response.status
-    check "GET", "/v1/workspaces/ws_1/platform/limits", auth: true, idempotent: false
-  end
-
-  def test_platform_list_requests
-    expected = sample("platform.list_requests").merge("next_cursor" => nil)
-    serve(expected)
-    page = surface_client.platform.list_requests
-
-    assert_instance_of Tungo::Page, page
-    assert_instance_of Tungo::Models::ListWorkspacePlatformRequestsResponse, page.body
-    assert_decoded expected, page.body
-    assert_equal expected.fetch("data"), page.data.map(&:to_wire)
-    check "GET", "/v1/workspaces/ws_1/platform/requests", auth: true, idempotent: false
-    assert_equal expected.fetch("data"), surface_client.platform.list_requests_all.map(&:to_wire)
-  end
-
-  def test_platform_get_usage
-    expected = sample("platform.get_usage")
-    serve(expected, status: 200)
-    result = surface_client.platform.get_usage
-
-    assert_decoded expected, result
-    assert_equal expected.fetch("by_company").size, result.by_company.size
-    assert_equal expected.fetch("by_day").size, result.by_day.size
-    assert_equal expected.fetch("by_key").size, result.by_key.size
-    assert_equal expected.fetch("by_model").size, result.by_model.size
-    assert_equal expected.fetch("from"), result.from
-    assert_equal expected.fetch("to"), result.to
-    assert_instance_of Tungo::Models::PlatformUsageTotals, result.totals
-    assert_equal 200, result.api_response.status
-    check "GET", "/v1/workspaces/ws_1/platform/usage", auth: true, idempotent: false
   end
 
   def test_api_keys_get_current
@@ -226,42 +152,6 @@ class SurfaceTest < TungoTestCase
     assert_equal expected.fetch("write_max_amount_per_document_tiyn"), result.write_max_amount_per_document_tiyn
     assert_equal 200, result.api_response.status
     check "GET", "/v1/api-key", auth: true, idempotent: false
-  end
-
-  def test_api_keys_get_current_usage
-    expected = sample("api_keys.get_current_usage")
-    serve(expected, status: 200)
-    result = surface_client.api_keys.get_current_usage
-
-    assert_decoded expected, result
-    assert_equal expected.fetch("by_company").size, result.by_company.size
-    assert_equal expected.fetch("by_day").size, result.by_day.size
-    assert_equal expected.fetch("by_model").size, result.by_model.size
-    assert_equal expected.fetch("from"), result.from
-    assert_equal expected.fetch("key_id"), result.key_id
-    assert_instance_of Tungo::Models::ApiKeyMonth, result.month
-    assert_equal expected.fetch("to"), result.to
-    assert_instance_of Tungo::Models::ApiKeyUsageTotals, result.totals
-    assert_equal 200, result.api_response.status
-    check "GET", "/v1/api-key/usage", auth: true, idempotent: false
-  end
-
-  def test_api_keys_get_usage
-    expected = sample("api_keys.get_usage")
-    serve(expected, status: 200)
-    result = surface_client.api_keys.get_usage("id_1")
-
-    assert_decoded expected, result
-    assert_equal expected.fetch("by_company").size, result.by_company.size
-    assert_equal expected.fetch("by_day").size, result.by_day.size
-    assert_equal expected.fetch("by_model").size, result.by_model.size
-    assert_equal expected.fetch("from"), result.from
-    assert_equal expected.fetch("key_id"), result.key_id
-    assert_instance_of Tungo::Models::ApiKeyMonth, result.month
-    assert_equal expected.fetch("to"), result.to
-    assert_instance_of Tungo::Models::ApiKeyUsageTotals, result.totals
-    assert_equal 200, result.api_response.status
-    check "GET", "/v1/workspaces/ws_1/api-keys/id_1/usage", auth: true, idempotent: false
   end
 
   def test_webhooks_list_endpoints
@@ -422,20 +312,6 @@ class SurfaceTest < TungoTestCase
     check "POST", "/v1/workspaces/ws_1/webhooks/messages/id_1/resend", auth: true, idempotent: true
   end
 
-  def test_webhooks_get_usage
-    expected = sample("webhooks.get_usage")
-    serve(expected, status: 200)
-    result = surface_client.webhooks.get_usage
-
-    assert_decoded expected, result
-    assert_equal expected.fetch("month"), result.month
-    assert_equal expected.fetch("monthly_free_messages"), result.monthly_free_messages
-    assert_equal expected.fetch("over_limit"), result.over_limit
-    assert_equal expected.fetch("sent"), result.sent
-    assert_equal 200, result.api_response.status
-    check "GET", "/v1/workspaces/ws_1/webhooks/usage", auth: true, idempotent: false
-  end
-
   def test_chat_list
     expected = sample("chat.list").merge("next_cursor" => nil)
     serve(expected)
@@ -509,43 +385,6 @@ class SurfaceTest < TungoTestCase
     assert_equal expected.fetch("data"), surface_client.chat.list_files_all.map(&:to_wire)
   end
 
-  def test_chat_list_mentions
-    expected = sample("chat.list_mentions")
-    serve(expected, status: 200)
-    result = surface_client.chat.list_mentions
-
-    assert_decoded expected, result
-    assert_equal expected.fetch("data").size, result.data.size
-    assert_equal expected.fetch("unavailable").size, result.unavailable.size
-    assert_equal 200, result.api_response.status
-    check "GET", "/v1/companies/co_1/chat/mentions", auth: true, idempotent: false
-  end
-
-  def test_chat_get_rating_options
-    expected = sample("chat.get_rating_options")
-    serve(expected, status: 200)
-    result = surface_client.chat.get_rating_options
-
-    assert_decoded expected, result
-    assert_equal expected.fetch("comment_chars"), result.comment_chars
-    assert_instance_of Tungo::Models::ChatRatingOptionsDialogScores, result.dialog_scores
-    assert_equal expected.fetch("reasons").size, result.reasons.size
-    assert_equal 200, result.api_response.status
-    check "GET", "/v1/companies/co_1/chat/rating-options", auth: true, idempotent: false
-  end
-
-  def test_chat_list_suggestions
-    expected = sample("chat.list_suggestions")
-    serve(expected, status: 200)
-    result = surface_client.chat.list_suggestions
-
-    assert_decoded expected, result
-    assert_equal expected.fetch("data").size, result.data.size
-    assert_same expected.fetch("onec_linked"), result.onec_linked
-    assert_equal 200, result.api_response.status
-    check "GET", "/v1/companies/co_1/chat/suggestions", auth: true, idempotent: false
-  end
-
   def test_chat_create_upload
     expected = sample("chat.create_upload")
     serve(expected, status: 201)
@@ -608,18 +447,6 @@ class SurfaceTest < TungoTestCase
     check "GET", "/v1/companies/co_1/chat/id_1", auth: true, idempotent: false
   end
 
-  def test_chat_update
-    expected = sample("chat.update")
-    serve(expected, status: 200)
-    result = surface_client.chat.update("id_1", title: "x")
-
-    assert_decoded expected, result
-    assert_equal expected.fetch("id"), result.id
-    assert_equal expected.fetch("title"), result.title
-    assert_equal 200, result.api_response.status
-    check "PATCH", "/v1/companies/co_1/chat/id_1", auth: true, idempotent: false
-  end
-
   def test_chat_delete
     expected = sample("chat.delete")
     serve(expected, status: 200)
@@ -674,57 +501,13 @@ class SurfaceTest < TungoTestCase
     check "GET", "/v1/companies/co_1/chat/id_1/events", auth: true, idempotent: false, accept: "text/event-stream"
   end
 
-  def test_chat_rate_message
-    expected = sample("chat.rate_message")
-    serve(expected, status: 200)
-    result = surface_client.chat.rate_message("id_1", "id_1", vote: "up")
+  def test_chat_download_file
+    body = "\x00\xFF\xFE\x80 chat.download_file".b
+    serve_file(body, "application/octet-stream", "chat.download_file.bin")
+    file = surface_client.chat.download_file("id_1", "id_1")
 
-    assert_decoded expected, result
-    assert_equal expected.fetch("dialog_id"), result.dialog_id
-    assert_equal expected.fetch("message_id"), result.message_id
-    assert_instance_of Tungo::Models::ChatMessageRating, result.rating
-    assert_equal expected.fetch("turn_no"), result.turn_no
-    assert_equal 200, result.api_response.status
-    check "PUT", "/v1/companies/co_1/chat/id_1/messages/id_1/rating", auth: true, idempotent: false
-  end
-
-  def test_chat_delete_message_rating
-    expected = sample("chat.delete_message_rating")
-    serve(expected, status: 200)
-    result = surface_client.chat.delete_message_rating("id_1", "id_1")
-
-    assert_decoded expected, result
-    assert_equal expected.fetch("dialog_id"), result.dialog_id
-    assert_equal expected.fetch("message_id"), result.message_id
-    assert_instance_of Tungo::Models::ChatMessageRating, result.rating
-    assert_equal expected.fetch("turn_no"), result.turn_no
-    assert_equal 200, result.api_response.status
-    check "DELETE", "/v1/companies/co_1/chat/id_1/messages/id_1/rating", auth: true, idempotent: false
-  end
-
-  def test_chat_rate
-    expected = sample("chat.rate")
-    serve(expected, status: 200)
-    result = surface_client.chat.rate("id_1", score: 1)
-
-    assert_decoded expected, result
-    assert_equal expected.fetch("id"), result.id
-    assert_instance_of Tungo::Models::ChatDialogRating, result.rating
-    assert_same expected.fetch("rating_prompt"), result.rating_prompt
-    assert_equal 200, result.api_response.status
-    check "PUT", "/v1/companies/co_1/chat/id_1/rating", auth: true, idempotent: false
-  end
-
-  def test_chat_dismiss_rating
-    expected = sample("chat.dismiss_rating")
-    serve(expected, status: 200)
-    result = surface_client.chat.dismiss_rating("id_1")
-
-    assert_decoded expected, result
-    assert_equal expected.fetch("id"), result.id
-    assert_same expected.fetch("rating_prompt"), result.rating_prompt
-    assert_equal 200, result.api_response.status
-    check "POST", "/v1/companies/co_1/chat/id_1/rating/dismiss", auth: true, idempotent: false
+    assert_file body, "application/octet-stream", "chat.download_file.bin", file
+    check "GET", "/v1/companies/co_1/chat/id_1/files/id_1", auth: true, idempotent: false, accept: "*/*"
   end
 
   def test_chat_stop
@@ -738,19 +521,6 @@ class SurfaceTest < TungoTestCase
     assert_same expected.fetch("stopped"), result.stopped
     assert_equal 200, result.api_response.status
     check "POST", "/v1/companies/co_1/chat/id_1/stop", auth: true, idempotent: false
-  end
-
-  def test_chat_translate_thinking
-    expected = sample("chat.translate_thinking")
-    serve(expected, status: 200)
-    result = surface_client.chat.translate_thinking("id_1", "id_1")
-
-    assert_decoded expected, result
-    assert_same expected.fetch("cached"), result.cached
-    assert_equal expected.fetch("id"), result.id
-    assert_equal expected.fetch("text"), result.text
-    assert_equal 200, result.api_response.status
-    check "POST", "/v1/companies/co_1/chat/id_1/thinking/id_1/translate", auth: true, idempotent: false
   end
 
   def test_proposals_list
@@ -842,6 +612,15 @@ class SurfaceTest < TungoTestCase
     assert_same expected.fetch("repeated"), result.repeated
     assert_equal 200, result.api_response.status
     check "POST", "/v1/companies/co_1/proposals/id_1/approve", auth: true, idempotent: true
+  end
+
+  def test_proposals_export
+    body = "\x00\xFF\xFE\x80 proposals.export".b
+    serve_file(body, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "proposals.export.bin")
+    file = surface_client.proposals.export("id_1")
+
+    assert_file body, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "proposals.export.bin", file
+    check "GET", "/v1/companies/co_1/proposals/id_1/export", auth: true, idempotent: false, accept: "*/*"
   end
 
   def test_proposals_reject
@@ -973,6 +752,15 @@ class SurfaceTest < TungoTestCase
     assert_instance_of Tungo::ChatStream, stream
     assert_events expected, stream
     check "GET", "/v1/companies/co_1/batch/id_1/events", auth: true, idempotent: false, accept: "text/event-stream"
+  end
+
+  def test_batches_export
+    body = "\x00\xFF\xFE\x80 batches.export".b
+    serve_file(body, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "batches.export.bin")
+    file = surface_client.batches.export("id_1")
+
+    assert_file body, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "batches.export.bin", file
+    check "GET", "/v1/companies/co_1/batch/id_1/export", auth: true, idempotent: false, accept: "*/*"
   end
 
   def test_batches_stop
@@ -1607,26 +1395,6 @@ class SurfaceTest < TungoTestCase
     check "GET", "/v1/companies/co_1/autonomy", auth: true, idempotent: false
   end
 
-  def test_automations_put_autonomy
-    expected = sample("automations.put_autonomy")
-    serve(expected, status: 200)
-    result = surface_client.automations.put_autonomy(
-      levels: {},
-      max_amount_per_day_tiyn: 1,
-      max_amount_per_document_tiyn: 1
-    )
-
-    assert_decoded expected, result
-    assert_instance_of Tungo::Models::CompanyAutonomyCustom, result.custom
-    assert_instance_of Tungo::Models::CompanyAutonomyDefaults, result.defaults
-    assert_instance_of Tungo::Models::CompanyAutonomyLevels, result.levels
-    assert_equal expected.fetch("max_amount_per_day_tiyn"), result.max_amount_per_day_tiyn
-    assert_equal expected.fetch("max_amount_per_document_tiyn"), result.max_amount_per_document_tiyn
-    assert_equal expected.fetch("updated_at"), result.updated_at
-    assert_equal 200, result.api_response.status
-    check "PUT", "/v1/companies/co_1/autonomy", auth: true, idempotent: false
-  end
-
   def test_verification_list_keys
     expected = sample("verification.list_keys")
     serve(expected, status: 200)
@@ -1685,19 +1453,7 @@ class SurfaceTest < TungoTestCase
     check "POST", "/v1/public/verify/id_1/check", auth: false, idempotent: false
   end
 
-  def test_releases_list
-    expected = sample("releases.list")
-    serve(expected, status: 200)
-    result = surface_client.releases.list
-
-    assert_decoded expected, result
-    assert_instance_of Tungo::Models::DownloadConnector, result.connector
-    assert_instance_of Tungo::Models::DownloadOnecExtension, result.onec_extension
-    assert_equal 200, result.api_response.status
-    check "GET", "/v1/public/downloads", auth: false, idempotent: false
-  end
-
   def test_every_operation_is_covered
-    assert_equal 100, self.class.instance_methods(false).count { |name| name.start_with?("test_") } - 1
+    assert_equal 83, self.class.instance_methods(false).count { |name| name.start_with?("test_") } - 1
   end
 end

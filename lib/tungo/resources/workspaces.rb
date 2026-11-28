@@ -4,7 +4,7 @@
 
 module Tungo
   module Resources
-    # Организации (workspace), доступные ключу API
+    # Организации (workspace), доступные ключу API, и остаток баланса платформы
     class Workspaces
       # @api private
       def initialize(client)
@@ -23,6 +23,23 @@ module Tungo
           method: :get,
           path: "/v1/workspaces",
           model: :ListWorkspacesResponse,
+          options: request_options
+        )
+      end
+
+      # Остаток баланса платформы
+      #
+      # +GET /v1/workspaces/{ws}/platform/balance+
+      #
+      # @param workspace_id [String, nil] overrides the client's workspace
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::Models::PlatformBalance]
+      def get_balance(workspace_id: nil, request_options: nil)
+        @client.request(
+          method: :get,
+          path: "/v1/workspaces/{ws}/platform/balance",
+          path_params: { ws: @client.resolve_workspace_id(workspace_id) },
+          model: :PlatformBalance,
           options: request_options
         )
       end

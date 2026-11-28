@@ -5,7 +5,8 @@
 module Tungo
   module Models
     # Баланс платформы для разработчиков этим списанием опустился ниже порога (настройка платформы
-    # platform.billing). Пополнить — POST /v1/workspaces/{ws}/platform/purchases.
+    # platform.billing). Пополняет владелец или админ организации в кабинете (раздел «Платформа»); остаток
+    # — GET /v1/workspaces/{ws}/…
     class WebhookEventPlatformBalanceLow < Tungo::Model
       # @!attribute [r] company_id
       #   Компания; null — событие организации (например, оплата) (co_…)

@@ -225,6 +225,29 @@ module Tungo
         )
       end
 
+      # Скачать документ файлом
+      #
+      # +GET /v1/companies/{co}/proposals/{id}/export+
+      #
+      # @param id [String] Номер предложения внутри компании: P- и шесть цифр (P-000123). У двух компаний
+      #   номера могут совпадать
+      # @param format [String] Формат файла: xlsx — Excel (все листы); csv — первый лист (UTF-8 с BOM,
+      #   разделитель — точка с запятой); pdf — все листы разделами на A4 (application/pdf, шрифт вложен:
+      #   кириллица и казахские буквы). По умолчанию xlsx
+      # @param company_id [String, nil] overrides the client's company
+      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
+      # @return [Tungo::DownloadedFile] the downloaded file: its bytes, its name from Content-Disposition and its
+      #   content type
+      def export(id, format: OMIT, company_id: nil, request_options: nil)
+        @client.download(
+          method: :get,
+          path: "/v1/companies/{co}/proposals/{id}/export",
+          path_params: { co: @client.resolve_company_id(company_id), id: id },
+          query: { "format" => format },
+          options: request_options
+        )
+      end
+
       # Отклонить с причиной
       #
       # +POST /v1/companies/{co}/proposals/{id}/reject+

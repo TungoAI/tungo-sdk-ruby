@@ -47,7 +47,7 @@ class ClientTest < TungoTestCase
 
   def test_public_and_hook_endpoints_never_get_the_api_key
     keyed = client(default_headers: { "X-App" => "billing" })
-    keyed.platform.list_usage_rates
+    keyed.verification.list_keys
     keyed.automations.post_hook("th_token", { "id" => "evt_1" })
 
     server.requests.each do |request|
@@ -61,7 +61,7 @@ class ClientTest < TungoTestCase
   def test_public_endpoints_work_without_an_api_key
     keyless = Tungo::Client.new(base_url: server.base_url)
 
-    assert_kind_of Tungo::Model, keyless.platform.list_usage_rates
+    assert_kind_of Tungo::Model, keyless.verification.list_keys
     keyless.close
   end
 
@@ -158,9 +158,9 @@ class ClientTest < TungoTestCase
     scoped.chat.list(company_id: "co_other")
 
     assert_equal "/v1/companies/co_other/chat", server.requests.last.path
-    scoped.platform.get_account(workspace_id: "ws_other")
+    scoped.webhooks.list_event_types(workspace_id: "ws_other")
 
-    assert_equal "/v1/workspaces/ws_other/platform/account", server.requests.last.path
+    assert_equal "/v1/workspaces/ws_other/webhooks/event-types", server.requests.last.path
   end
 
   def test_request_options_headers_and_idempotency_key

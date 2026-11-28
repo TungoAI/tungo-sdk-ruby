@@ -23,8 +23,6 @@ module Tungo
     "chat.turn.completed",
     "esf.incoming.received",
     "onec.connection.changed",
-    "payment.failed",
-    "payment.succeeded",
     "ping",
     "platform.balance_exhausted",
     "platform.balance_low",

@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = "tungo-sdk"
-  spec.version = "1.0.0" # x-release-version
+  spec.version = "2.0.0" # x-release-version
   spec.authors = ["Tungo"]
   spec.summary = "Official Ruby library for the Tungo Platform API"
   spec.description = "Typed client for the Tungo Platform API: AI accountant chat with streaming, " \
@@ -13,7 +13,6 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     "source_code_uri" => spec.homepage,
     "changelog_uri" => "#{spec.homepage}/blob/main/CHANGELOG.md",
-    "bug_tracker_uri" => "#{spec.homepage}/issues",
     "rubygems_mfa_required" => "true"
   }
   spec.files = Dir["lib/**/*.rb", "sig/**/*.rbs", "sig/manifest.yaml", "README.md", "CHANGELOG.md", "LICENSE",

@@ -9,6 +9,7 @@ module Tungo
       def approve_batch: (?async: bool, ?batch_id: String, ?exclude: Array[String], ?idempotency_key: String, ?ids: Array[String], ?note: String, ?post: bool, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ApproveBatchCompanyProposalsResponse::t
       def get: (String id, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ProposalCard
       def approve: (String id, ?idempotency_key: String, ?note: String, ?post: bool, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ProposalDecision
+      def export: (String id, ?format: Tungo::Models::GetCompanyProposalExportFormat::input, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::DownloadedFile
       def reject: (String id, reason: String, ?confirm_unknown_write: bool, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ProposalDecision
       def request_approval: (String id, ?note: String?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ProposalApprovalRequestResult
     end

@@ -27,7 +27,6 @@ module Tungo
       def get_state: (?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::AutomationState
       def put_state: (paused: bool, ?reason: String?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::AutomationState
       def get_autonomy: (?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::CompanyAutonomy
-      def put_autonomy: (levels: Tungo::input[Tungo::Models::CompanyAutonomyInputLevels], max_amount_per_day_tiyn: Integer?, max_amount_per_document_tiyn: Integer?, ?company_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::CompanyAutonomy
     end
   end
 end

@@ -58,6 +58,10 @@ class TungoTestCase < Minitest::Test
     when %r{/hooks/}
       MockServer.json({ "event_id" => "evt_1", "duplicate" => false, "run_ids" => [] }, status: 202)
     when %r{/automations/} then MockServer.json({ "id" => "run_1", "state" => "done" })
+    when %r{/export\z}
+      { status: 200, body: "%PDF-1.7\n\x00\xFF\xFE\x80".b,
+        headers: { "content-type" => "application/pdf",
+                   "content-disposition" => "attachment; filename=\"tungo-P-000123.pdf\"" } }
     when %r{/batch} then MockServer.json({ "id" => "b_1", "running" => false })
     else
       MockServer.json({ "id" => "co_1", "name" => "ТОО Ромашка", "next_cursor" => nil,

@@ -401,23 +401,6 @@ module Tungo
           options: request_options
         )
       end
-
-      # Счётчик событий месяца
-      #
-      # +GET /v1/workspaces/{ws}/webhooks/usage+
-      #
-      # @param workspace_id [String, nil] overrides the client's workspace
-      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
-      # @return [Tungo::Models::WebhookUsage]
-      def get_usage(workspace_id: nil, request_options: nil)
-        @client.request(
-          method: :get,
-          path: "/v1/workspaces/{ws}/webhooks/usage",
-          path_params: { ws: @client.resolve_workspace_id(workspace_id) },
-          model: :WebhookUsage,
-          options: request_options
-        )
-      end
     end
   end
 end

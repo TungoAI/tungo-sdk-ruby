@@ -3,9 +3,9 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/TungoAI/.github/main/assets/logo02.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/TungoAI/.github/main/assets/logo03.svg" />
-  <img alt="Tungo AI" src="https://raw.githubusercontent.com/TungoAI/.github/main/assets/logo03.svg" width="240" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/TungoAI/tungo-sdk-ruby/main/.github/logo-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/TungoAI/tungo-sdk-ruby/main/.github/logo.svg" />
+  <img alt="Tungo AI" src="https://raw.githubusercontent.com/TungoAI/tungo-sdk-ruby/main/.github/logo.svg" width="240" />
 </picture>
 
 # Tungo SDK для Ruby
@@ -18,7 +18,7 @@
 
 [English](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/README.md) · **Русский** · [Қазақша](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/README.kk.md)
 
-[tungo.kz](https://tungo.kz) · [Быстрый старт](#быстрый-старт) · [Справочник API](#справочник-api) · [История изменений](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/CHANGELOG.md) · [Обращения](https://github.com/TungoAI/tungo-sdk-ruby/issues)
+[tungo.kz](https://tungo.kz) · [Быстрый старт](#быстрый-старт) · [Справочник API](#справочник-api) · [История изменений](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/CHANGELOG.md) · [Поддержка](https://app.tungo.kz)
 
 </div>
 
@@ -28,11 +28,9 @@
 
 Библиотека создаётся из OpenAPI-контракта API, поэтому её методы и модели всегда соответствуют контракту, из которого она собрана.
 
-> Полная версия с примечаниями, относящимися только к этому языку, — в [английском README](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/README.md).
-
 ## Требования
 
-Поддерживаемые версии и зависимости перечислены в [английском README](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/README.md#requirements).
+Ruby 3.2 или новее; тесты выполняются на Ruby 3.2, 3.3, 3.4, 4.0. HTTP работает через `Net::HTTP` из стандартной библиотеки с постоянными соединениями. Единственные зависимости времени выполнения — `base64` и `bigdecimal`, гемы по умолчанию, которые новые версии Ruby загружают, только если они объявлены. Сигнатуры RBS для всего публичного API поставляются в `sig/`.
 
 ## Установка
 
@@ -41,6 +39,8 @@ bundle add tungo-sdk
 # or
 gem install tungo-sdk
 ```
+
+Подключите её через `require "tungo"` (автоматический require в Bundler тоже работает; `require "tungo-sdk"` — псевдоним).
 
 ## Быстрый старт
 
@@ -96,6 +96,14 @@ puts dialog.api_response.request_id
 puts dialog.api_response.rate_limit&.remaining
 ```
 
+Параметры — именованные аргументы: идентификаторы пути передаются позиционно, всё остальное — по имени. `nil` и «не передано» — разные вещи: `nil` отправляется как JSON `null` там, где API это допускает, а опущенный аргумент не отправляется вовсе. Методы уровня компании используют `company_id` клиента, если вы не передадите `company_id:` в вызов (то же касается `workspace_id`); оба значения по умолчанию также берутся из `TUNGO_COMPANY_ID` и `TUNGO_WORKSPACE_ID`.
+
+Каждый результат предоставляет HTTP-ответ, из которого он получен, через `api_response` (статус, заголовки, идентификатор запроса, заголовки ограничения частоты именно этого ответа); операции без тела ответа возвращают его напрямую. Чтобы отменить вызов, прервите его поток выполнения (`Thread#raise`, `Thread#kill`, `Timeout.timeout`): сокеты и паузы перед повтором прерываемы, а соединение закрывается.
+
+Ключ API должен состоять из печатаемых символов ASCII без пробелов и переводов строки: ключ, прочитанный из файла вместе с завершающим переводом строки, отклоняется с `Tungo::ConfigError` при создании клиента (сам ключ при этом не выводится). `default_headers:`, несущие учётные данные (`Authorization`, `X-Api-Key`, `Proxy-Authorization`, `Cookie`), отправляются только операциям, аутентифицируемым ключом API, и никогда — в `POST /hooks/{token}` или открытые адреса; заголовок, переданный для одного вызова через `request_options: { extra_headers: ... }`, отправляется всегда.
+
+`client.close` закрывает соединения из пула. `Tungo::Client.new(transport: Tungo::Transport::NetHTTP.new(proxy: "http://proxy:8080") { |http| http.ca_file = "ca.pem" })` настраивает соединения; транспорт можно заменить любым объектом с таким же методом `execute`.
+
 ## Ошибки
 
 Любой сбой — подтип базовой ошибки SDK. Ответ с HTTP-ошибкой превращается в ошибку API, тип которой выбирается по полю `error.type` тела ответа, а если тело не является стандартной ошибкой API — по HTTP-статусу:
@@ -129,6 +137,12 @@ rescue Tungo::TimeoutError, Tungo::ConnectionError => e
 end
 ```
 
+Имена классов: `Tungo::InvalidRequestError`, `AuthenticationError`, `PaymentRequiredError`, `PermissionError`, `NotFoundError`, `ConflictError`, `GoneError`, `LimitError`, `ServerError` (`api_error`) и `UnavailableError`, все — подклассы `Tungo::APIError`. Без ответа SDK выбрасывает `Tungo::ConnectionError`, `Tungo::TimeoutError`, `Tungo::DecodeError`, `Tungo::ConfigError` или `Tungo::ValidationError`; все они наследуют от `Tungo::Error`, а исходное исключение сохраняется в `cause`.
+
+`Tungo::DecodeError` означает, что API ответил успешным статусом, но тело использовать не удалось: это не JSON, оно пустое, у объявленного свойства неверный вид JSON (строка там, где контракт требует число, объект там, где требуется массив, и т. п.), на потоковый вызов пришёл ответ не в формате `text/event-stream` или поток чата закончился до события `done`. Проверка видов намеренно поверхностная: проверяются только свойства объекта верхнего уровня, а `null`, отсутствующие свойства, неизвестные свойства и неизвестные значения перечислений принимаются всегда. Ошибка содержит `api_response` и исходное `body`. Сам запрос сервер принял, поэтому не повторяйте из-за этой ошибки запись.
+
+`client.ask` выбрасывает типизированную `Tungo::APIError`, когда ход сообщает об ошибке в списке `errors`; передайте `raise_on_error: false`, чтобы вместо этого получить результат вместе с ошибками.
+
 ## Повторы и тайм-ауты
 
 Запрос повторяется до 2 раз (всего 3 попытки) при ошибках соединения, тайм-аутах и статусах 408, 429, 500, 502, 503 и 504, но только когда повтор безопасен: запросы `GET`, `HEAD`, `PUT` и `DELETE`, а также `POST` и `PATCH` тех операций, у которых контракт объявляет заголовок `Idempotency-Key`. Для них SDK сам создаёт случайный ключ и использует его во всех попытках; можно передать свой. Другие операции ключ не отправляют, даже переданный: API его там не учитывает.
@@ -143,6 +157,8 @@ client = Tungo::Client.new(max_retries: 5, timeout: 20)
 client.companies.list(request_options: { max_retries: 0, timeout: 5 })
 client.proposals.approve("P-000042", request_options: { idempotency_key: "approve-P-000042" })
 ```
+
+`chat_timeout:` (600 s) — общий для клиента тайм-аут не потоковых ходов чата; `connect_timeout:` и `stream_idle_timeout:` действуют для потоков. `timeout:` отдельного запроса переопределяет их для одного вызова. Общий тайм-аут охватывает соединение, отправку и чтение всего тела. `Retry-After`, равный нулю, отрицательный или с датой в прошлом, считается отсутствующим: SDK выжидает обычную паузу, а не повторяет сразу.
 
 ## Постраничная выдача
 
@@ -160,6 +176,8 @@ end
 first_ten = client.proposals.list_all.first(10)
 puts first_ten.size
 ```
+
+`*_all` возвращает обычный `Enumerator`, поэтому `first`, `take_while`, `lazy` и подобные работают и запрашивают только нужные им страницы. Если API когда-либо вернёт курсор, который уже возвращал в ходе обхода (не только предыдущий), выбрасывается `Tungo::PaginationError`, а не начинается бесконечный цикл.
 
 ## Потоковая передача
 
@@ -179,6 +197,20 @@ client.chat.create_stream(message: "Привет").each do |event|
   when Tungo::Models::ChatEventDone then break
   end
 end
+```
+
+Все пять потоковых операций работают одинаково: `chat.create_stream`, `chat.answer_stream`, `chat.list_events`, `batches.list_events` (типизированные варианты `ChatEvent` в виде `Tungo::ChatStream`) и `feed.list_events` (объекты `FeedItem`). Heart-beat-события пропускаются; `each_sse` вместо этого отдаёт исходные события. `accumulate` и `each_text` выбрасывают типизированную `Tungo::APIError`, если ход сообщает об ошибке, и `Tungo::DecodeError` («stream ended before completion»), если поток заканчивается без события `done` или `error`, поэтому оборванный ответ никогда не выглядит как завершённый ход; обычный `each` просто завершается. Успешный ответ, `Content-Type` которого не `text/event-stream`, вызывает `Tungo::DecodeError` при открытии потока. Исключение — завершённый ход чата, который API воспроизводит при повторном `Idempotency-Key` (`application/json` с `Idempotent-Replayed: true`): его сохранённый результат приходит в виде событий этого хода и заканчивается событиями `next` (дальнейшие вопросы и следующее действие, если они есть) и `done`. Поток можно прочитать один раз; его можно передать в другой поток выполнения и читать или закрыть там (каждый запрос выполняется в рабочем потоке транспорта), но нельзя читать из двух потоков выполнения одновременно. Передайте `last_event_id:`, чтобы возобновить чистые потоки событий.
+
+## Скачивание файлов
+
+Операции, которые отвечают файлом (`chat.download_file` — файлы Excel, Word, PDF и CSV, собранные ИИ; `proposals.export` и `batches.export` — xlsx, csv или pdf), возвращают скачанный файл: его байты, имя файла из заголовка `Content-Disposition` (UTF-8 `filename*`, если он есть, иначе `filename`; имени нет, если сервер его не прислал) и `Content-Type`. Файл целиком читается в память. Ошибки, повторы и таймауты — такие же, как у остальных запросов. Имя файла — предложение сервера, а не безопасный путь: не стройте из него путь без проверки.
+
+```ruby
+file = client.proposals.export("P-000123", format: "pdf")
+# The name comes from the server: only its last part is used as a path.
+name = File.basename(file.filename || "proposal.pdf")
+File.binwrite(name, file.content)
+puts "#{name}: #{file.size} bytes, #{file.content_type}, request id #{file.request_id}"
 ```
 
 ## Вебхуки
@@ -203,6 +235,8 @@ accepted = client.send_hook("th_AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
 puts accepted.event_id
 ```
 
+`Tungo::Webhooks.verify_webhook(payload, headers, secret)` делает то же без клиента. Заголовки могут быть Hash, окружением Rack или любой коллекцией заголовков. `Tungo::Webhooks.verify_hook_signature(body, signature, secret)` проверяет `X-Signature` входящего хука на вашей стороне.
+
 ## Деньги
 
 API передаёт суммы в тиынах (1/100 тенге) 64-битными целыми числами. Денежные функции переводят десятичные строки и точные десятичные значения в тиыны без погрешности дробных чисел, округляя половину от нуля (`"1.005"` → `101`), и форматируют тиыны для показа (`4500000` → `45 000,00 ₸`). Некорректный ввод вызывает типизированную ошибку.
@@ -216,27 +250,55 @@ Tungo::Money.to_tenge(4_500_050) # => BigDecimal("45000.5")
 Tungo::Money.valid_bin_iin?("990140000017") # => true
 ```
 
+Дробные числа в ответах API (например, `Money#amount`) разбираются как `BigDecimal`, никогда как `Float`, а переданный вами `BigDecimal` отправляется цифра в цифру. `to_tiyn` также принимает `Integer`, `Rational` и, для удобства, `Float` (преобразуется через кратчайшее десятичное представление). Некорректный ввод вызывает `Tungo::MoneyError`.
+
+## Модели
+
+Каждая схема контракта — это класс в `Tungo::Models`: неизменяемый объект-значение с типизированными методами чтения.
+
+```ruby
+company = client.companies.get
+company.name                # typed reader
+company[:some_new_field]    # a field this SDK version does not know yet
+company.key?(:bin)          # present (even when null) or absent?
+company.to_h                # plain Ruby data with symbol keys
+company.to_json             # exactly what travels on the wire
+```
+
+Перечисления — это модули с константой для каждого известного значения (`Tungo::Models::ProposalStatus::PREVIEWED`); методы чтения возвращают обычные строки, поэтому значение, добавленное более новым API, проходит без изменений. Объединения с дискриминатором (`ChatEvent`, `WebhookEvent`, ...) разбираются в класс соответствующего варианта, а вариант, неизвестный этой версии, — в `Tungo::UnknownVariant`.
+
+## Помощники для долгих операций
+
+```ruby
+run = client.run_scenario_and_wait("scn_01h455vb4pex5vsknk084sn02q", timeout: 300)
+puts run.state
+
+job = client.upload_bank_statement(Pathname("kl_to_1c.txt"))
+job = client.wait_for_batch(job.id)
+puts job.running
+```
+
+Помощники ожидания опрашивают с паузой, растущей от 1 s до 5 s, и выбрасывают `Tungo::WaitTimeoutError` (это `Tungo::TimeoutError`), когда истекает срок (`timeout:`, по умолчанию 600 s). `send_hook` и `automations.post_hook` отправляют переданный `event_id` как `Idempotency-Key`, а если он не передан — случайный UUID.
+
 ## Справочник API
 
-Создано из контракта API платформы Tungo: **ресурсов — 15, методов — 100, типов событий вебхуков — 22**.
+Создано из контракта API платформы Tungo: **ресурсов — 13, методов — 83, типов событий вебхуков — 20**.
 
 | Ресурс | Описание | Методы |
 | --- | --- | --- |
-| `client.workspaces` | Организации (workspace), доступные ключу API | `list` |
+| `client.workspaces` | Организации (workspace), доступные ключу API, и остаток баланса платформы | `list` · `get_balance` |
 | `client.companies` | Компании организации и их карточки | `list` · `get` |
-| `client.platform` | Баланс платформы, книга движений, отчёты о расходе, лимиты, аудит и тарифы моделей | `list_usage_rates` · `get_account` · `get_audit / get_audit_all` · `get_ledger / get_ledger_all` · `list_limits` · `list_requests / list_requests_all` · `get_usage` |
-| `client.api_keys` | Сведения о текущем ключе API и статистика его расхода | `get_current` · `get_current_usage` · `get_usage` |
-| `client.webhooks` | Исходящие вебхуки организации (Svix): адреса, каталог событий, доставки и проверка подписи | `list_endpoints / list_endpoints_all` · `create_endpoint` · `get_endpoint` · `update_endpoint` · `delete_endpoint` · `list_endpoint_attempts / list_endpoint_attempts_all` · `rotate_endpoint_secret` · `test_endpoint` · `list_event_types` · `list_messages / list_messages_all` · `list_message_attempts / list_message_attempts_all` · `resend_message` · `get_usage` |
-| `client.chat` | Диалоги с ИИ-бухгалтером: вопросы, потоковый чат (SSE), подсчёт токенов и история | `list / list_all` · `create / create_stream` · `count_tokens` · `list_files / list_files_all` · `list_mentions` · `get_rating_options` · `list_suggestions` · `create_upload` · `delete_upload` · `put_upload_part` · `get` · `update` · `delete` · `answer / answer_stream` · `list_events` · `rate_message` · `delete_message_rating` · `rate` · `dismiss_rating` · `stop` · `translate_thinking` |
-| `client.proposals` | Предложения документов ИИ-бухгалтера: просмотр, одобрение записи в 1С и отклонение | `list / list_all` · `approve_batch` · `get` · `approve` · `reject` · `request_approval` |
+| `client.api_keys` | Сведения о текущем ключе API: права, срок, траты месяца и почему вызовы не пройдут | `get_current` |
+| `client.webhooks` | Исходящие вебхуки организации (Svix): адреса, каталог событий, доставки и проверка подписи | `list_endpoints / list_endpoints_all` · `create_endpoint` · `get_endpoint` · `update_endpoint` · `delete_endpoint` · `list_endpoint_attempts / list_endpoint_attempts_all` · `rotate_endpoint_secret` · `test_endpoint` · `list_event_types` · `list_messages / list_messages_all` · `list_message_attempts / list_message_attempts_all` · `resend_message` |
+| `client.chat` | Диалоги с ИИ-бухгалтером: вопросы, потоковый чат (SSE), подсчёт токенов и история | `list / list_all` · `create / create_stream` · `count_tokens` · `list_files / list_files_all` · `create_upload` · `delete_upload` · `put_upload_part` · `get` · `delete` · `answer / answer_stream` · `list_events` · `download_file` · `stop` |
+| `client.proposals` | Предложения документов ИИ-бухгалтера: просмотр, одобрение записи в 1С и отклонение | `list / list_all` · `approve_batch` · `get` · `approve` · `export` · `reject` · `request_approval` |
 | `client.feed` | Лента событий и предложений компании (страницы и живой поток SSE) | `get / get_all` · `list_events` |
-| `client.batches` | Пачки обработки банковских выписок, входящих ЭСФ и DirectBank | `list / list_all` · `create_bank_statement` · `create_esf_purchases` · `get` · `list_events` · `stop` · `get_summary` · `list_statements / list_statements_all` · `poll_directbank` |
+| `client.batches` | Пачки обработки банковских выписок, входящих ЭСФ и DirectBank | `list / list_all` · `create_bank_statement` · `create_esf_purchases` · `get` · `list_events` · `export` · `stop` · `get_summary` · `list_statements / list_statements_all` · `poll_directbank` |
 | `client.esf` | Входящие и исходящие электронные счета-фактуры (ИС ЭСФ) | `get_incoming / get_incoming_all` · `get_outgoing / get_outgoing_all` |
 | `client.forms` | Налоговые формы (ФНО 100.00 и др.): сборка, проверка ИСНА и разрывы данных | `list` · `build` · `list_data_gaps` · `get_isna` · `list_notes` |
 | `client.onec` | Состояние подключения компании к базе 1С | `get_status` |
-| `client.automations` | Автоматизации компании: входящие хуки, сценарии, цепочки шагов, запуски и уровень автономности ИИ | `post_hook` · `list_hooks` · `create_hook` · `get_hook` · `update_hook` · `delete_hook` · `rotate_hook` · `test_hook` · `list_runs / list_runs_all` · `get_run` · `cancel_run` · `retry_run` · `list_scenarios` · `create_scenario` · `get_scenario` · `put_scenario` · `update_scenario` · `delete_scenario` · `run_scenario` · `get_state` · `put_state` · `get_autonomy` · `put_autonomy` |
+| `client.automations` | Автоматизации компании: входящие хуки, сценарии, цепочки шагов, запуски и уровень автономности ИИ | `post_hook` · `list_hooks` · `create_hook` · `get_hook` · `update_hook` · `delete_hook` · `rotate_hook` · `test_hook` · `list_runs / list_runs_all` · `get_run` · `cancel_run` · `retry_run` · `list_scenarios` · `create_scenario` · `get_scenario` · `put_scenario` · `update_scenario` · `delete_scenario` · `run_scenario` · `get_state` · `put_state` · `get_autonomy` |
 | `client.verification` | Публичная проверка электронной подписи документов Tungo: по коду, по файлу, по блоку QR и ключи подписи (без ключа API) | `list_keys` · `verify_qr` · `get` · `check` |
-| `client.releases` | Публичный список загрузок: расширение 1С и Tungo Connector (без ключа API) | `list` |
 
 ## Другие SDK
 
@@ -246,7 +308,7 @@ Tungo::Money.valid_bin_iin?("990140000017") # => true
 | --- | --- | --- |
 | TypeScript | [tungo-sdk-typescript](https://github.com/TungoAI/tungo-sdk-typescript) | `@tungoai/sdk` |
 | Python | [tungo-sdk-python](https://github.com/TungoAI/tungo-sdk-python) | `tungoai` |
-| Go | [tungo-sdk-go](https://github.com/TungoAI/tungo-sdk-go) | `github.com/TungoAI/tungo-sdk-go` |
+| Go | [tungo-sdk-go](https://github.com/TungoAI/tungo-sdk-go) | `github.com/TungoAI/tungo-sdk-go/v2` |
 | Rust | [tungo-sdk-rust](https://github.com/TungoAI/tungo-sdk-rust) | `tungo-sdk` |
 | PHP | [tungo-sdk-php](https://github.com/TungoAI/tungo-sdk-php) | `tungo/sdk` |
 | Java | [tungo-sdk-java](https://github.com/TungoAI/tungo-sdk-java) | `kz.tungo:tungo-sdk` |
@@ -257,9 +319,9 @@ Tungo::Money.valid_bin_iin?("990140000017") # => true
 
 ## Версии и поддержка
 
-Библиотека следует [семантическому версионированию](https://semver.org/lang/ru/). Промежуточные и исправляющие выпуски совместимы: API растёт добавлениями, а поле или метод, которые уйдут, сначала помечаются устаревшими и живут не меньше шести месяцев. Несовместимые изменения бывают только в новой старшей версии и перечислены, с указаниями по переходу, в [истории изменений](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/CHANGELOG.md). Этот README описывает версию 1.0.0.
+Библиотека следует [семантическому версионированию](https://semver.org/lang/ru/). Промежуточные и исправляющие выпуски совместимы: API растёт добавлениями, а поле или метод, которые уйдут, сначала помечаются устаревшими и живут не меньше шести месяцев. Несовместимые изменения бывают только в новой старшей версии и перечислены, с указаниями по переходу, в [истории изменений](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/CHANGELOG.md). Этот README описывает версию 2.0.0.
 
-Код создаётся генератором: пишите о проблемах и идеях в [обращения](https://github.com/TungoAI/tungo-sdk-ruby/issues), а не присылайте правки к созданным файлам. Об уязвимости сообщайте по [политике безопасности](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/SECURITY.md).
+С вопросами и проблемами обращайтесь в поддержку в [личном кабинете Tungo](https://app.tungo.kz). Код создаётся генератором из контракта API, и правка созданного файла затирается при следующей генерации, поэтому опишите нужное изменение в обращении, а не присылайте pull request. Об уязвимости сообщайте по [политике безопасности](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/SECURITY.md).
 
 ## Лицензия
 

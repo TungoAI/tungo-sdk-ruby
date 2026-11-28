@@ -644,41 +644,6 @@ module Tungo
           options: request_options
         )
       end
-
-      # Изменить доверие ИИ в компании
-      #
-      # +PUT /v1/companies/{co}/autonomy+
-      #
-      # @param levels [Tungo::Models::CompanyAutonomyInputLevels] Уровень доверия по видам документов (ключ
-      #   — вид, как в kinds правила автоодобрения). Не указанный вид — L1. Отмены документа (revert) в списке
-      #   нет: её всегда решает человек, подпись ЭСФ и закрытие месяца не поднимаются н…
-      # @param max_amount_per_day_tiyn [Integer, nil] Потолок суммы всех записей компании без человека за
-      #   день по Алматы (все сценарии и выписка DirectBank вместе), в тиынах. null — по умолчанию платформы
-      # @param max_amount_per_document_tiyn [Integer, nil] Потолок одного документа, записанного без
-      #   человека, в тиынах (1 ₸ = 100 тиын). null — по умолчанию платформы (настройка automations.money)
-      # @param company_id [String, nil] overrides the client's company
-      # @param request_options [Tungo::RequestOptions, Hash, nil] per-request overrides
-      # @return [Tungo::Models::CompanyAutonomy]
-      def put_autonomy(
-        levels:,
-        max_amount_per_day_tiyn:,
-        max_amount_per_document_tiyn:,
-        company_id: nil,
-        request_options: nil
-      )
-        @client.request(
-          method: :put,
-          path: "/v1/companies/{co}/autonomy",
-          path_params: { co: @client.resolve_company_id(company_id) },
-          body: {
-            "levels" => levels,
-            "max_amount_per_day_tiyn" => max_amount_per_day_tiyn,
-            "max_amount_per_document_tiyn" => max_amount_per_document_tiyn
-          },
-          model: :CompanyAutonomy,
-          options: request_options
-        )
-      end
     end
   end
 end

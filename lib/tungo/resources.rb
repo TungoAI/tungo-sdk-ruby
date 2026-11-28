@@ -4,7 +4,6 @@
 
 require_relative "resources/workspaces"
 require_relative "resources/companies"
-require_relative "resources/platform"
 require_relative "resources/api_keys"
 require_relative "resources/webhooks"
 require_relative "resources/chat"
@@ -16,24 +15,21 @@ require_relative "resources/forms"
 require_relative "resources/onec"
 require_relative "resources/automations"
 require_relative "resources/verification"
-require_relative "resources/releases"
 
 module Tungo
   # One class per group of API operations; reach them through the client (+client.chat+, ...).
   module Resources
     # The resource readers of {Tungo::Client}.
     module Accessors
-      # @return [Tungo::Resources::Workspaces] Организации (workspace), доступные ключу API
+      # @return [Tungo::Resources::Workspaces] Организации (workspace), доступные ключу API, и остаток
+      #   баланса платформы
       attr_reader :workspaces
 
       # @return [Tungo::Resources::Companies] Компании организации и их карточки
       attr_reader :companies
 
-      # @return [Tungo::Resources::Platform] Баланс платформы, книга движений, отчёты о расходе, лимиты,
-      #   аудит и тарифы моделей
-      attr_reader :platform
-
-      # @return [Tungo::Resources::ApiKeys] Сведения о текущем ключе API и статистика его расхода
+      # @return [Tungo::Resources::ApiKeys] Сведения о текущем ключе API: права, срок, траты месяца и почему
+      #   вызовы не пройдут
       attr_reader :api_keys
 
       # @return [Tungo::Resources::Webhooks] Исходящие вебхуки организации (Svix): адреса, каталог событий,
@@ -72,16 +68,11 @@ module Tungo
       #   коду, по файлу, по блоку QR и ключи подписи (без ключа API)
       attr_reader :verification
 
-      # @return [Tungo::Resources::Releases] Публичный список загрузок: расширение 1С и Tungo Connector (без
-      #   ключа API)
-      attr_reader :releases
-
       private
 
       def build_resources
         @workspaces = Workspaces.new(self)
         @companies = Companies.new(self)
-        @platform = Platform.new(self)
         @api_keys = ApiKeys.new(self)
         @webhooks = Webhooks.new(self)
         @chat = Chat.new(self)
@@ -93,7 +84,6 @@ module Tungo
         @onec = Onec.new(self)
         @automations = Automations.new(self)
         @verification = Verification.new(self)
-        @releases = Releases.new(self)
       end
     end
   end

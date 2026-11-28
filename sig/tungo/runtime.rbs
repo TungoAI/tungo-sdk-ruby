@@ -131,6 +131,21 @@ module Tungo
     def idempotent_replayed?: () -> bool
   end
 
+  class DownloadedFile
+    attr_reader content: String
+    attr_reader api_response: APIResponse
+
+    def initialize: (content: String, api_response: APIResponse) -> void
+    def filename: () -> String?
+    def content_type: () -> String?
+    def request_id: () -> String?
+    def headers: () -> headers
+    def size: () -> Integer
+    def inspect: () -> String
+    def to_s: () -> String
+    def self.filename_from: (String? header) -> String?
+  end
+
   class RequestOptions < Data
     attr_reader timeout: Numeric?
     attr_reader max_retries: Integer?
@@ -306,7 +321,8 @@ module Tungo
     def resolve_company_id: (?String? explicit) -> String
     def resolve_workspace_id: (?String? explicit) -> String
     def webhook_secret: () -> String?
-    def request: (?model: untyped, ?models: Hash[Integer, untyped]?, ?long_running: bool, ?options: request_options?, **untyped spec) -> untyped
+    def request: (?model: untyped, ?models: Hash[Integer, untyped]?, ?long_running: bool, ?download: bool, ?options: request_options?, **untyped spec) -> untyped
+    def download: (?options: request_options?, **untyped spec) -> DownloadedFile
     def page: (?query: Hash[String, untyped], **untyped spec) -> Page[untyped, untyped]
     def stream: (event: Symbol, ?stream_class: singleton(Stream), ?last_event_id: String?, ?options: request_options?, **untyped spec) -> Stream[untyped]
   end

@@ -3,9 +3,9 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/TungoAI/.github/main/assets/logo02.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/TungoAI/.github/main/assets/logo03.svg" />
-  <img alt="Tungo AI" src="https://raw.githubusercontent.com/TungoAI/.github/main/assets/logo03.svg" width="240" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/TungoAI/tungo-sdk-ruby/main/.github/logo-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/TungoAI/tungo-sdk-ruby/main/.github/logo.svg" />
+  <img alt="Tungo AI" src="https://raw.githubusercontent.com/TungoAI/tungo-sdk-ruby/main/.github/logo.svg" width="240" />
 </picture>
 
 # Tungo SDK for Ruby
@@ -18,7 +18,7 @@
 
 **English** · [Русский](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/README.ru.md) · [Қазақша](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/README.kk.md)
 
-[tungo.kz](https://tungo.kz) · [Quick start](#quick-start) · [API reference](#api-reference) · [Changelog](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/CHANGELOG.md) · [Issues](https://github.com/TungoAI/tungo-sdk-ruby/issues)
+[tungo.kz](https://tungo.kz) · [Quick start](#quick-start) · [API reference](#api-reference) · [Changelog](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/CHANGELOG.md) · [Support](https://app.tungo.kz)
 
 </div>
 
@@ -201,6 +201,18 @@ end
 
 All five streaming operations work the same way: `chat.create_stream`, `chat.answer_stream`, `chat.list_events`, `batches.list_events` (typed `ChatEvent` variants, as a `Tungo::ChatStream`) and `feed.list_events` (`FeedItem` objects). Heart-beats are skipped; `each_sse` yields the raw events instead. `accumulate` and `each_text` raise the typed `Tungo::APIError` if the turn reports an error, and `Tungo::DecodeError` ("stream ended before completion") if the stream ends with neither a `done` nor an `error` event, so a cut answer never looks like a finished turn; plain `each` simply ends. A success answer whose `Content-Type` is not `text/event-stream` raises `Tungo::DecodeError` when the stream is opened. The exception is a finished chat turn that the API replays for a repeated `Idempotency-Key` (`application/json` with `Idempotent-Replayed: true`): its stored result arrives as the events of that turn, ending with `next` (follow-ups and the next action, when it has them) and `done`. A stream can be consumed once; it may be handed to another thread and read or closed there (each request runs on a worker thread of the transport), but not read by two threads at once. Pass `last_event_id:` to resume the pure event streams.
 
+## File downloads
+
+The operations that answer with a file (`chat.download_file` for the Excel, Word, PDF and CSV files the AI built, `proposals.export` and `batches.export` as xlsx, csv or pdf) return the downloaded file: its bytes, the file name from the `Content-Disposition` header (the UTF-8 `filename*` when present, otherwise `filename`; none when the server sent no name) and the `Content-Type`. The whole file is read into memory. Errors, retries and timeouts are the same as for every other request. The file name is the server's suggestion, not a safe path: do not use it to build one unchecked.
+
+```ruby
+file = client.proposals.export("P-000123", format: "pdf")
+# The name comes from the server: only its last part is used as a path.
+name = File.basename(file.filename || "proposal.pdf")
+File.binwrite(name, file.content)
+puts "#{name}: #{file.size} bytes, #{file.content_type}, request id #{file.request_id}"
+```
+
 ## Webhooks
 
 Outgoing webhooks are signed according to the Standard Webhooks specification (Svix). The verify helper takes the raw request body and the headers (`webhook-*` or `svix-*`), checks the HMAC-SHA256 signature in constant time and the timestamp within 300 s of the system clock, and returns the typed event. Any problem is reported as a webhook verification error. If no secret is passed, the client's webhook secret is used.
@@ -270,25 +282,23 @@ The wait helpers poll with a pause that grows from 1 s to 5 s and raise `Tungo::
 
 ## API reference
 
-Generated from the Tungo Platform API contract: **15 resources, 100 methods, 22 webhook event types**.
+Generated from the Tungo Platform API contract: **13 resources, 83 methods, 20 webhook event types**.
 
 | Resource | Description | Methods |
 | --- | --- | --- |
-| `client.workspaces` | Organisations (workspaces) the API key can access | `list` |
+| `client.workspaces` | Organisations (workspaces) the API key can access, and the platform balance | `list` · `get_balance` |
 | `client.companies` | Companies of an organisation and their profiles | `list` · `get` |
-| `client.platform` | Platform balance, ledger, usage reports, limits, audit log and model rates | `list_usage_rates` · `get_account` · `get_audit / get_audit_all` · `get_ledger / get_ledger_all` · `list_limits` · `list_requests / list_requests_all` · `get_usage` |
-| `client.api_keys` | The current API key and its usage statistics | `get_current` · `get_current_usage` · `get_usage` |
-| `client.webhooks` | Outgoing webhooks of an organisation (Svix): endpoints, event catalogue, deliveries and signature check | `list_endpoints / list_endpoints_all` · `create_endpoint` · `get_endpoint` · `update_endpoint` · `delete_endpoint` · `list_endpoint_attempts / list_endpoint_attempts_all` · `rotate_endpoint_secret` · `test_endpoint` · `list_event_types` · `list_messages / list_messages_all` · `list_message_attempts / list_message_attempts_all` · `resend_message` · `get_usage` |
-| `client.chat` | Conversations with the AI accountant: questions, streaming chat (SSE), token counting and history | `list / list_all` · `create / create_stream` · `count_tokens` · `list_files / list_files_all` · `list_mentions` · `get_rating_options` · `list_suggestions` · `create_upload` · `delete_upload` · `put_upload_part` · `get` · `update` · `delete` · `answer / answer_stream` · `list_events` · `rate_message` · `delete_message_rating` · `rate` · `dismiss_rating` · `stop` · `translate_thinking` |
-| `client.proposals` | Documents proposed by the AI accountant: review, approval for posting to 1C, and rejection | `list / list_all` · `approve_batch` · `get` · `approve` · `reject` · `request_approval` |
+| `client.api_keys` | The current API key: permissions, expiry, spend this month and why calls would be refused | `get_current` |
+| `client.webhooks` | Outgoing webhooks of an organisation (Svix): endpoints, event catalogue, deliveries and signature check | `list_endpoints / list_endpoints_all` · `create_endpoint` · `get_endpoint` · `update_endpoint` · `delete_endpoint` · `list_endpoint_attempts / list_endpoint_attempts_all` · `rotate_endpoint_secret` · `test_endpoint` · `list_event_types` · `list_messages / list_messages_all` · `list_message_attempts / list_message_attempts_all` · `resend_message` |
+| `client.chat` | Conversations with the AI accountant: questions, streaming chat (SSE), token counting and history | `list / list_all` · `create / create_stream` · `count_tokens` · `list_files / list_files_all` · `create_upload` · `delete_upload` · `put_upload_part` · `get` · `delete` · `answer / answer_stream` · `list_events` · `download_file` · `stop` |
+| `client.proposals` | Documents proposed by the AI accountant: review, approval for posting to 1C, and rejection | `list / list_all` · `approve_batch` · `get` · `approve` · `export` · `reject` · `request_approval` |
 | `client.feed` | The company's feed of events and proposals (pages and a live SSE stream) | `get / get_all` · `list_events` |
-| `client.batches` | Processing batches for bank statements, incoming e-invoices and DirectBank | `list / list_all` · `create_bank_statement` · `create_esf_purchases` · `get` · `list_events` · `stop` · `get_summary` · `list_statements / list_statements_all` · `poll_directbank` |
+| `client.batches` | Processing batches for bank statements, incoming e-invoices and DirectBank | `list / list_all` · `create_bank_statement` · `create_esf_purchases` · `get` · `list_events` · `export` · `stop` · `get_summary` · `list_statements / list_statements_all` · `poll_directbank` |
 | `client.esf` | Incoming and outgoing electronic invoices (the ESF system) | `get_incoming / get_incoming_all` · `get_outgoing / get_outgoing_all` |
 | `client.forms` | Tax forms (FNO 100.00 and others): building, ISNA checks and data gaps | `list` · `build` · `list_data_gaps` · `get_isna` · `list_notes` |
 | `client.onec` | Status of the company's connection to its 1C database | `get_status` |
-| `client.automations` | Company automations: incoming hooks, scenarios, step chains, runs and the AI autonomy level | `post_hook` · `list_hooks` · `create_hook` · `get_hook` · `update_hook` · `delete_hook` · `rotate_hook` · `test_hook` · `list_runs / list_runs_all` · `get_run` · `cancel_run` · `retry_run` · `list_scenarios` · `create_scenario` · `get_scenario` · `put_scenario` · `update_scenario` · `delete_scenario` · `run_scenario` · `get_state` · `put_state` · `get_autonomy` · `put_autonomy` |
+| `client.automations` | Company automations: incoming hooks, scenarios, step chains, runs and the AI autonomy level | `post_hook` · `list_hooks` · `create_hook` · `get_hook` · `update_hook` · `delete_hook` · `rotate_hook` · `test_hook` · `list_runs / list_runs_all` · `get_run` · `cancel_run` · `retry_run` · `list_scenarios` · `create_scenario` · `get_scenario` · `put_scenario` · `update_scenario` · `delete_scenario` · `run_scenario` · `get_state` · `put_state` · `get_autonomy` |
 | `client.verification` | Public verification of the electronic signature of Tungo documents: by code, by file, by QR block, and the signing keys (no API key needed) | `list_keys` · `verify_qr` · `get` · `check` |
-| `client.releases` | Public list of downloads: the 1C extension and Tungo Connector (no API key needed) | `list` |
 
 ## Other SDKs
 
@@ -298,7 +308,7 @@ The same API is available in ten languages. All SDKs are generated from one cont
 | --- | --- | --- |
 | TypeScript | [tungo-sdk-typescript](https://github.com/TungoAI/tungo-sdk-typescript) | `@tungoai/sdk` |
 | Python | [tungo-sdk-python](https://github.com/TungoAI/tungo-sdk-python) | `tungoai` |
-| Go | [tungo-sdk-go](https://github.com/TungoAI/tungo-sdk-go) | `github.com/TungoAI/tungo-sdk-go` |
+| Go | [tungo-sdk-go](https://github.com/TungoAI/tungo-sdk-go) | `github.com/TungoAI/tungo-sdk-go/v2` |
 | Rust | [tungo-sdk-rust](https://github.com/TungoAI/tungo-sdk-rust) | `tungo-sdk` |
 | PHP | [tungo-sdk-php](https://github.com/TungoAI/tungo-sdk-php) | `tungo/sdk` |
 | Java | [tungo-sdk-java](https://github.com/TungoAI/tungo-sdk-java) | `kz.tungo:tungo-sdk` |
@@ -309,9 +319,9 @@ The same API is available in ten languages. All SDKs are generated from one cont
 
 ## Versioning and support
 
-This library follows [Semantic Versioning](https://semver.org/). Minor and patch releases are backwards compatible: the API grows by additions, and a field or method that is to go away is first marked deprecated and kept for at least six months. Breaking changes come only in a new major version and are listed, with migration notes, in the [changelog](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/CHANGELOG.md). This README describes version 1.0.0.
+This library follows [Semantic Versioning](https://semver.org/). Minor and patch releases are backwards compatible: the API grows by additions, and a field or method that is to go away is first marked deprecated and kept for at least six months. Breaking changes come only in a new major version and are listed, with migration notes, in the [changelog](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/CHANGELOG.md). This README describes version 2.0.0.
 
-The code is generated: please report problems and ideas in the [issue tracker](https://github.com/TungoAI/tungo-sdk-ruby/issues) rather than opening pull requests against generated files. To report a vulnerability, follow the [security policy](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/SECURITY.md).
+Questions and problems go to support in the [Tungo personal cabinet](https://app.tungo.kz). The code is generated from the API contract and a change to a generated file is overwritten by the next generation, so describe the change you need in your request rather than opening a pull request. To report a vulnerability, follow the [security policy](https://github.com/TungoAI/tungo-sdk-ruby/blob/main/SECURITY.md).
 
 ## License
 

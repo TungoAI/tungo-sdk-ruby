@@ -124,8 +124,8 @@ module Tungo
 
       # @!attribute [r] write_max_amount_per_day_tiyn
       #   Предел записи в 1С по ключу: сумма всех документов, одобренных ключом за день по Алматы, в
-      #   тиынах. Документ с неизвестным исходом записи (1С не ответила) тоже считается. null — без
-      #   предела
+      #   тиынах. Документ с неизвестным исходом записи (1С не ответила) тоже считается. Обязателен для
+      #   ключа с proposals.approve (иначе 40…
       #   @return [Integer, nil]
       required :write_max_amount_per_day_tiyn, :integer, nullable: true
 

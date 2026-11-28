@@ -101,7 +101,7 @@ class WebhooksTest < TungoTestCase
   end
 
   def test_every_known_event_type_has_a_model
-    assert_equal 22, Tungo::WEBHOOK_EVENT_TYPES.size
+    assert_equal 20, Tungo::WEBHOOK_EVENT_TYPES.size
     assert_equal Tungo::WEBHOOK_EVENT_TYPES.sort, Tungo::Models::WebhookEvent.mapping.keys.sort
   end
 

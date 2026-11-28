@@ -5,6 +5,7 @@ module Tungo
     class Workspaces
       def initialize: (Tungo::Client client) -> void
       def list: (?request_options: Tungo::request_options?) -> Tungo::Models::ListWorkspacesResponse
+      def get_balance: (?workspace_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::PlatformBalance
     end
   end
 end

@@ -11,7 +11,7 @@ class ConformanceTest < TungoTestCase
     assert_equal 2, vectors["version"]
     sections = vectors.keys - %w[version description]
     covered = %w[webhook_verification hook_signature money bin_iin errors retry_after backoff retry_policy
-                 path_segment query sse chat_stream chat_stream_replay]
+                 path_segment query sse chat_stream chat_stream_replay content_disposition]
 
     assert_equal covered.sort, sections.sort, "a vector section has no test"
   end
@@ -162,6 +162,21 @@ class ConformanceTest < TungoTestCase
       actual = Tungo::Internal::Util.retryable?(kase["method"], kase["idempotency_key"], cause)
 
       assert_equal kase["expect"]["retry"], actual, kase["name"]
+    end
+  end
+
+  def test_content_disposition
+    vectors["content_disposition"].each do |kase|
+      expected = kase["expect"]["filename"]
+      headers = kase["header"].nil? ? {} : { "content-disposition" => kase["header"] }
+      file = Tungo::DownloadedFile.new(content: "", api_response: Tungo::APIResponse.new(status: 200, headers: headers))
+      [Tungo::DownloadedFile.filename_from(kase["header"]), file.filename].each do |got|
+        if expected.nil?
+          assert_nil got, kase["name"]
+        else
+          assert_equal expected, got, kase["name"]
+        end
+      end
     end
   end
 

@@ -49,88 +49,6 @@
    "write_max_amount_per_document_tiyn": 9007199254740993
   }
  },
- "api_keys.get_current_usage": {
-  "result": {
-   "by_company": [
-    {
-     "company_id": "text",
-     "cost_tiyn": 9007199254740993,
-     "requests": 9007199254740993
-    }
-   ],
-   "by_day": [
-    {
-     "cost_tiyn": 9007199254740993,
-     "day": "text",
-     "requests": 9007199254740993
-    }
-   ],
-   "by_model": [
-    {
-     "cost_tiyn": 9007199254740993,
-     "model": "text",
-     "requests": 9007199254740993
-    }
-   ],
-   "from": "2026-01-02T03:04:05Z",
-   "key_id": "text",
-   "month": {
-    "cap_tiyn": 9007199254740993,
-    "month": "text",
-    "spent_tiyn": 9007199254740993
-   },
-   "to": "2026-01-02T03:04:05Z",
-   "totals": {
-    "cache_read_tokens": 9007199254740993,
-    "cache_write_tokens": 9007199254740993,
-    "cost_tiyn": 9007199254740993,
-    "input_tokens": 9007199254740993,
-    "output_tokens": 9007199254740993,
-    "requests": 9007199254740993
-   }
-  }
- },
- "api_keys.get_usage": {
-  "result": {
-   "by_company": [
-    {
-     "company_id": "text",
-     "cost_tiyn": 9007199254740993,
-     "requests": 9007199254740993
-    }
-   ],
-   "by_day": [
-    {
-     "cost_tiyn": 9007199254740993,
-     "day": "text",
-     "requests": 9007199254740993
-    }
-   ],
-   "by_model": [
-    {
-     "cost_tiyn": 9007199254740993,
-     "model": "text",
-     "requests": 9007199254740993
-    }
-   ],
-   "from": "2026-01-02T03:04:05Z",
-   "key_id": "text",
-   "month": {
-    "cap_tiyn": 9007199254740993,
-    "month": "text",
-    "spent_tiyn": 9007199254740993
-   },
-   "to": "2026-01-02T03:04:05Z",
-   "totals": {
-    "cache_read_tokens": 9007199254740993,
-    "cache_write_tokens": 9007199254740993,
-    "cost_tiyn": 9007199254740993,
-    "input_tokens": 9007199254740993,
-    "output_tokens": 9007199254740993,
-    "requests": 9007199254740993
-   }
-  }
- },
  "automations.cancel_run": {
   "result": {
    "answer": "text",
@@ -597,33 +515,6 @@
    ]
   }
  },
- "automations.put_autonomy": {
-  "result": {
-   "custom": {
-    "max_amount_per_day_tiyn": true,
-    "max_amount_per_document_tiyn": true
-   },
-   "defaults": {
-    "max_amount_per_day_tiyn": 9007199254740993,
-    "max_amount_per_document_tiyn": 9007199254740993
-   },
-   "levels": {
-    "advance_report": "L1",
-    "bank_payment": "L1",
-    "bank_receipt": "L1",
-    "cash_order_in": "L1",
-    "cash_order_out": "L1",
-    "contract": "L1",
-    "counterparty": "L1",
-    "inventory_writeoff": "L1",
-    "purchase": "L1",
-    "sale": "L1"
-   },
-   "max_amount_per_day_tiyn": 9007199254740993,
-   "max_amount_per_document_tiyn": 9007199254740993,
-   "updated_at": "2026-01-02T03:04:05Z"
-  }
- },
  "automations.put_scenario": {
   "result": {
    "action": "agent",
@@ -1040,6 +931,7 @@
    "title": "text"
   }
  },
+ "batches.export": {},
  "batches.get": {
   "result": {
    "error": "text",
@@ -1786,26 +1678,8 @@
    "id": "text"
   }
  },
- "chat.delete_message_rating": {
-  "result": {
-   "dialog_id": "text",
-   "message_id": "text",
-   "rating": {
-    "at": "2026-01-02T03:04:05Z",
-    "comment": "text",
-    "reason": "text",
-    "vote": "up"
-   },
-   "turn_no": 9007199254740993
-  }
- },
  "chat.delete_upload": {},
- "chat.dismiss_rating": {
-  "result": {
-   "id": "text",
-   "rating_prompt": false
-  }
- },
+ "chat.download_file": {},
  "chat.get": {
   "result": {
    "awaiting": {
@@ -1856,21 +1730,6 @@
    "updated_at": "2026-01-02T03:04:05Z"
   }
  },
- "chat.get_rating_options": {
-  "result": {
-   "comment_chars": 9007199254740993,
-   "dialog_scores": {
-    "max": 9007199254740993,
-    "min": 9007199254740993
-   },
-   "reasons": [
-    {
-     "key": "text",
-     "title": "text"
-    }
-   ]
-  }
- },
  "chat.list": {
   "result": {
    "data": [
@@ -1911,46 +1770,6 @@
    "next_cursor": "text"
   }
  },
- "chat.list_mentions": {
-  "result": {
-   "data": [
-    {
-     "hint": "text",
-     "id": "text",
-     "title": "text",
-     "type": "proposal"
-    }
-   ],
-   "unavailable": [
-    {
-     "reason": "no_access",
-     "type": "proposal"
-    }
-   ]
-  }
- },
- "chat.list_suggestions": {
-  "result": {
-   "data": [
-    {
-     "code": "text",
-     "suggestions": [
-      {
-       "action": "ask",
-       "code": "text",
-       "hint": "text",
-       "prompt": "text",
-       "seasonal": true,
-       "title": "text"
-      }
-     ],
-     "title": "text"
-    }
-   ],
-   "locale": "ru",
-   "onec_linked": true
-  }
- },
  "chat.put_upload_part": {
   "result": {
    "complete": true,
@@ -1960,49 +1779,11 @@
    "upload_id": "text"
   }
  },
- "chat.rate": {
-  "result": {
-   "id": "text",
-   "rating": {
-    "at": "2026-01-02T03:04:05Z",
-    "comment": "text",
-    "score": 7
-   },
-   "rating_prompt": false
-  }
- },
- "chat.rate_message": {
-  "result": {
-   "dialog_id": "text",
-   "message_id": "text",
-   "rating": {
-    "at": "2026-01-02T03:04:05Z",
-    "comment": "text",
-    "reason": "text",
-    "vote": "up"
-   },
-   "turn_no": 9007199254740993
-  }
- },
  "chat.stop": {
   "result": {
    "dismissed": true,
    "id": "text",
    "stopped": true
-  }
- },
- "chat.translate_thinking": {
-  "result": {
-   "cached": true,
-   "id": "text",
-   "text": "text"
-  }
- },
- "chat.update": {
-  "result": {
-   "id": "text",
-   "title": "text",
-   "title_source": "first_message"
   }
  },
  "companies.get": {
@@ -2486,231 +2267,6 @@
    "updated_at": "2026-01-02T03:04:05Z"
   }
  },
- "platform.get_account": {
-  "result": {
-   "auto_reload": {
-    "amount_tiyn": 9007199254740993,
-    "enabled": true,
-    "monthly_count_max": 9007199254740993,
-    "monthly_limit_tiyn": 9007199254740993,
-    "threshold_tiyn": 9007199254740993
-   },
-   "auto_reload_spent_tiyn": 9007199254740993,
-   "balance_tiyn": 9007199254740993,
-   "blocked_reason": "disabled",
-   "enabled": true,
-   "month": "text",
-   "monthly_cap_tiyn": 9007199254740993,
-   "purchase_limits": {
-    "daily_max_tiyn": 9007199254740993,
-    "max_tiyn": 9007199254740993,
-    "min_tiyn": 9007199254740993,
-    "today_tiyn": 9007199254740993
-   },
-   "spent_tiyn": 9007199254740993
-  }
- },
- "platform.get_audit": {
-  "result": {
-   "data": [
-    {
-     "action": "company.created",
-     "action_title": "text",
-     "actor": {
-      "id": "text",
-      "name": "text",
-      "type": "user"
-     },
-     "at": "2026-01-02T03:04:05Z",
-     "company_id": "text",
-     "id": "text",
-     "ip": "text",
-     "object": {
-      "amount_tiyn": 9007199254740993,
-      "id": "text",
-      "name": "text",
-      "purpose": "subscription",
-      "type": "text"
-     },
-     "request_id": "text",
-     "target": {
-      "id": "text",
-      "type": "text"
-     }
-    }
-   ],
-   "next_cursor": "text",
-   "total": 9007199254740993,
-   "total_more": true
-  }
- },
- "platform.get_ledger": {
-  "result": {
-   "data": [
-    {
-     "amount_tiyn": 9007199254740993,
-     "api_key_id": "text",
-     "at": "2026-01-02T03:04:05Z",
-     "balance_after_tiyn": 9007199254740993,
-     "documents": {
-      "act_number": "text",
-      "invoice_number": "text",
-      "receipt_status": "not_required",
-      "receipt_url": "text"
-     },
-     "id": "text",
-     "kind": "purchase",
-     "model": "text",
-     "note": "text",
-     "payment_id": "text",
-     "request_id": "text"
-    }
-   ],
-   "next_cursor": "text"
-  }
- },
- "platform.get_usage": {
-  "result": {
-   "by_company": [
-    {
-     "cache_read_tokens": 9007199254740993,
-     "cache_write_tokens": 9007199254740993,
-     "company_id": "text",
-     "cost_tiyn": 9007199254740993,
-     "input_tokens": 9007199254740993,
-     "output_tokens": 9007199254740993,
-     "requests": 9007199254740993
-    }
-   ],
-   "by_day": [
-    {
-     "cache_read_tokens": 9007199254740993,
-     "cache_write_tokens": 9007199254740993,
-     "cost_tiyn": 9007199254740993,
-     "day": "text",
-     "input_tokens": 9007199254740993,
-     "output_tokens": 9007199254740993,
-     "requests": 9007199254740993
-    }
-   ],
-   "by_key": [
-    {
-     "api_key_id": "text",
-     "cache_read_tokens": 9007199254740993,
-     "cache_write_tokens": 9007199254740993,
-     "cost_tiyn": 9007199254740993,
-     "input_tokens": 9007199254740993,
-     "output_tokens": 9007199254740993,
-     "requests": 9007199254740993
-    }
-   ],
-   "by_model": [
-    {
-     "cache_read_tokens": 9007199254740993,
-     "cache_write_tokens": 9007199254740993,
-     "cost_tiyn": 9007199254740993,
-     "input_tokens": 9007199254740993,
-     "model": "text",
-     "output_tokens": 9007199254740993,
-     "requests": 9007199254740993
-    }
-   ],
-   "from": "2026-01-02T03:04:05Z",
-   "to": "2026-01-02T03:04:05Z",
-   "totals": {
-    "cache_read_tokens": 9007199254740993,
-    "cache_write_tokens": 9007199254740993,
-    "cost_tiyn": 9007199254740993,
-    "input_tokens": 9007199254740993,
-    "output_tokens": 9007199254740993,
-    "requests": 9007199254740993
-   }
-  }
- },
- "platform.list_limits": {
-  "result": {
-   "concurrent_turns": {
-    "in_use": 9007199254740993,
-    "limit": 9007199254740993
-   },
-   "files": {
-    "archive_bytes": 9007199254740993,
-    "archive_files": 9007199254740993,
-    "archives_per_message": 9007199254740993,
-    "attachment_bytes": 9007199254740993,
-    "attachments_per_message": 9007199254740993,
-    "attachments_total_bytes": 9007199254740993,
-    "bank_statement_request_bytes": 9007199254740993,
-    "chat_request_bytes": 9007199254740993,
-    "hook_event_bytes": 9007199254740993,
-    "image_bytes": 9007199254740993,
-    "pdf_pages": 9007199254740993,
-    "request_bytes": 9007199254740993,
-    "upload_part_bytes": 9007199254740993
-   },
-   "rate": {
-    "key": {
-     "limit_per_minute": 9007199254740993,
-     "remaining": 9007199254740993,
-     "reset_in_sec": 9007199254740993
-    },
-    "workspace": {
-     "limit_per_minute": 9007199254740993,
-     "remaining": 9007199254740993,
-     "reset_in_sec": 9007199254740993
-    }
-   }
-  }
- },
- "platform.list_requests": {
-  "result": {
-   "data": [
-    {
-     "api_key_id": "text",
-     "at": "2026-01-02T03:04:05Z",
-     "client_request_id": "text",
-     "company_id": "text",
-     "cost_tiyn": 9007199254740993,
-     "duration_ms": 9007199254740993,
-     "id": "text",
-     "ip": "text",
-     "method": "text",
-     "path": "text",
-     "query": "text",
-     "request_id": "text",
-     "status": 9007199254740993
-    }
-   ],
-   "next_cursor": "text",
-   "total": 9007199254740993,
-   "total_more": true
-  }
- },
- "platform.list_usage_rates": {
-  "result": {
-   "data": [
-    {
-     "cache_read_per_mtok_tiyn": 9007199254740993,
-     "cache_write_1h_per_mtok_tiyn": 9007199254740993,
-     "cache_write_per_mtok_tiyn": 9007199254740993,
-     "effective_from": "2026-01-02T03:04:05Z",
-     "input_per_mtok_tiyn": 9007199254740993,
-     "long_context": {
-      "above_tokens": 9007199254740993,
-      "cache_read_per_mtok_tiyn": 9007199254740993,
-      "cache_write_1h_per_mtok_tiyn": 9007199254740993,
-      "cache_write_per_mtok_tiyn": 9007199254740993,
-      "input_per_mtok_tiyn": 9007199254740993,
-      "output_per_mtok_tiyn": 9007199254740993
-     },
-     "model": "text",
-     "output_per_mtok_tiyn": 9007199254740993,
-     "title": "text",
-     "web_search_per_1k_tiyn": 9007199254740993
-    }
-   ]
-  }
- },
  "proposals.approve": {
   "result": {
    "document": {
@@ -2984,6 +2540,7 @@
    ]
   }
  },
+ "proposals.export": {},
  "proposals.get": {
   "result": {
    "actions": [
@@ -3746,36 +3303,6 @@
    "repeated": true
   }
  },
- "releases.list": {
-  "result": {
-   "connector": {
-    "files": [
-     {
-      "arch": "amd64",
-      "name": "text",
-      "os": "windows",
-      "sha256": "text",
-      "size": 9007199254740993,
-      "url": "text"
-     }
-    ],
-    "notes": "text",
-    "published_at": "2026-01-02T03:04:05Z",
-    "version": "text"
-   },
-   "onec_extension": {
-    "file": {
-     "name": "text",
-     "sha256": "text",
-     "size": 9007199254740993,
-     "url": "text"
-    },
-    "notes": "text",
-    "published_at": "2026-01-02T03:04:05Z",
-    "version": "text"
-   }
-  }
- },
  "verification.check": {
   "result": {
    "match": true
@@ -3887,14 +3414,6 @@
    "id": "text",
    "updated_at": "2026-01-02T03:04:05Z",
    "url": "text"
-  }
- },
- "webhooks.get_usage": {
-  "result": {
-   "month": "text",
-   "monthly_free_messages": 9007199254740993,
-   "over_limit": 9007199254740993,
-   "sent": 9007199254740993
   }
  },
  "webhooks.list_endpoint_attempts": {
@@ -4030,6 +3549,12 @@
    "id": "text",
    "updated_at": "2026-01-02T03:04:05Z",
    "url": "text"
+  }
+ },
+ "workspaces.get_balance": {
+  "result": {
+   "balance_tiyn": 9007199254740993,
+   "enabled": true
   }
  },
  "workspaces.list": {

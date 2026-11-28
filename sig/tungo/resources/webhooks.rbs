@@ -20,7 +20,6 @@ module Tungo
       def list_message_attempts: (String id, ?cursor: String, ?endpoint_id: String, ?limit: Integer, ?workspace_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Page[Tungo::Models::WebhookAttempt, Tungo::Models::ListWorkspaceWebhooksMessageAttemptsResponse]
       def list_message_attempts_all: (String id, ?cursor: String, ?endpoint_id: String, ?limit: Integer, ?workspace_id: String?, ?request_options: Tungo::request_options?) -> Enumerator[Tungo::Models::WebhookAttempt, void]
       def resend_message: (String id, endpoint_id: String, ?workspace_id: String?, ?request_options: Tungo::request_options?) -> Tungo::APIResponse
-      def get_usage: (?workspace_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::WebhookUsage
     end
   end
 end

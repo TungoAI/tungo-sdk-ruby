@@ -5,8 +5,6 @@ module Tungo
     class ApiKeys
       def initialize: (Tungo::Client client) -> void
       def get_current: (?request_options: Tungo::request_options?) -> Tungo::Models::ApiKeySelf
-      def get_current_usage: (?from: (String | Time)?, ?to: (String | Time)?, ?request_options: Tungo::request_options?) -> Tungo::Models::ApiKeyUsage
-      def get_usage: (String id, ?from: (String | Time)?, ?to: (String | Time)?, ?workspace_id: String?, ?request_options: Tungo::request_options?) -> Tungo::Models::ApiKeyUsage
     end
   end
 end
